@@ -1,19 +1,24 @@
 import { useGlowFitStore } from '../lib/store';
-import { Flame, Droplets, Moon, TrendingUp, Footprints, Target, Apple } from 'lucide-react';
+import { Flame, Droplets, Moon, TrendingUp, Footprints, Target, Apple, Brain, Bed, Heart, Zap, BarChart3, Activity, Calendar, Award } from 'lucide-react';
 
 function today() {
   return new Date().toISOString().split('T')[0] ?? '';
 }
 
-function StatCard({ icon: Icon, label, value, unit, color }: {
+function NavCard({ icon: Icon, label, value, unit, color, screen }: {
   icon: React.ElementType;
   label: string;
   value: string | number;
   unit?: string;
   color: string;
+  screen: string;
 }) {
+  const pushScreen = useGlowFitStore((s) => s.pushScreen);
   return (
-    <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-shadow">
+    <button
+      onClick={() => pushScreen(screen)}
+      className={`bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left w-full`}
+    >
       <div className="flex items-center gap-3">
         <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color}`}>
           <Icon className="w-5 h-5 text-white" />
@@ -25,7 +30,7 @@ function StatCard({ icon: Icon, label, value, unit, color }: {
           </p>
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
@@ -36,6 +41,8 @@ export default function Dashboard() {
   const waterLogs = useGlowFitStore((s) => s.waterLogs);
   const weightLogs = useGlowFitStore((s) => s.weightLogs);
   const wellnessLogs = useGlowFitStore((s) => s.wellnessLogs);
+  const habits = useGlowFitStore((s) => s.habits);
+  const pushScreen = useGlowFitStore((s) => s.pushScreen);
 
   const todayStr = today();
   const todayWorkouts = workouts.filter((w) => w.date === todayStr);
@@ -47,8 +54,9 @@ export default function Dashboard() {
     .reduce((sum, l) => sum + l.amount, 0);
   const todayWellness = wellnessLogs.find((l) => l.date === todayStr);
   const latestWeight = weightLogs[0];
-
   const caloriesBurned = todayWorkouts.reduce((sum, w) => sum + w.caloriesBurned, 0);
+
+  const completedToday = habits.filter((h) => h.completedDates.includes(todayStr)).length;
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -66,16 +74,19 @@ export default function Dashboard() {
       <div>
         <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3 px-1">Today</h2>
         <div className="grid grid-cols-2 gap-3">
-          <StatCard icon={Flame} label="Calories" value={todayCalories} unit="kcal" color="bg-rose-500" />
-          <StatCard icon={Target} label="Burned" value={caloriesBurned} unit="kcal" color="bg-violet-500" />
-          <StatCard icon={Droplets} label="Water" value={todayWater > 0 ? (todayWater / 1000).toFixed(1) : '—'} unit={todayWater > 0 ? 'L' : ''} color="bg-blue-500" />
-          <StatCard icon={Moon} label="Mood" value={todayWellness?.mood ?? '—'} unit={todayWellness ? '/5' : ''} color="bg-amber-500" />
+          <NavCard icon={Flame} label="Calories" value={todayCalories} unit="kcal" color="bg-rose-500" screen="water-tracker" />
+          <NavCard icon={Target} label="Burned" value={caloriesBurned} unit="kcal" color="bg-violet-500" screen="workout-logger" />
+          <NavCard icon={Droplets} label="Water" value={todayWater > 0 ? (todayWater / 1000).toFixed(1) : '—'} unit={todayWater > 0 ? 'L' : ''} color="bg-blue-500" screen="water-tracker" />
+          <NavCard icon={Moon} label="Mood" value={todayWellness?.mood ?? '—'} unit={todayWellness ? '/5' : ''} color="bg-amber-500" screen="wellness-tracker" />
         </div>
       </div>
 
       {/* Weight Trend */}
       {latestWeight && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+        <button
+          onClick={() => pushScreen('weight-tracker')}
+          className="w-full bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
+        >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-rose-500" />
@@ -83,7 +94,7 @@ export default function Dashboard() {
             </div>
             <span className="text-lg font-bold text-rose-600">{latestWeight.weight} kg</span>
           </div>
-        </div>
+        </button>
       )}
 
       {/* Quick Actions */}
@@ -91,12 +102,13 @@ export default function Dashboard() {
         <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3 px-1">Quick Add</h2>
         <div className="grid grid-cols-3 gap-3">
           {[
-            { icon: Footprints, label: 'Workout', color: 'bg-violet-100 text-violet-600' },
-            { icon: Apple, label: 'Food', color: 'bg-emerald-100 text-emerald-600' },
-            { icon: Droplets, label: 'Water', color: 'bg-blue-100 text-blue-600' },
+            { icon: Footprints, label: 'Workout', color: 'bg-violet-100 text-violet-600', screen: 'workout-logger' },
+            { icon: Apple, label: 'Food', color: 'bg-emerald-100 text-emerald-600', screen: 'nutrition' },
+            { icon: Droplets, label: 'Water', color: 'bg-blue-100 text-blue-600', screen: 'water-tracker' },
           ].map((action) => (
             <button
               key={action.label}
+              onClick={() => pushScreen(action.screen)}
               className={`flex flex-col items-center gap-2 p-4 rounded-2xl ${action.color} border border-white/40 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-95`}
             >
               <action.icon className="w-6 h-6" />
@@ -106,14 +118,47 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* Feature Grid */}
+      <div>
+        <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3 px-1">Features</h2>
+        <div className="grid grid-cols-2 gap-3">
+          {[
+            { icon: Bed, label: 'Sleep', screen: 'sleep-tracker', color: 'bg-indigo-100 text-indigo-600' },
+            { icon: Heart, label: 'Wellness', screen: 'mental-wellness', color: 'bg-pink-100 text-pink-600' },
+            { icon: Zap, label: 'Habits', screen: 'habit-tracker', color: 'bg-amber-100 text-amber-600' },
+            { icon: Award, label: 'Streaks', screen: 'streak-dashboard', color: 'bg-orange-100 text-orange-600' },
+            { icon: BarChart3, label: 'Trends', screen: 'trends', color: 'bg-teal-100 text-teal-600' },
+            { icon: Calendar, label: 'Weekly', screen: 'weekly-report', color: 'bg-cyan-100 text-cyan-600' },
+            { icon: Brain, label: 'AI Coach', screen: 'ai-coach', color: 'bg-violet-100 text-violet-600' },
+            { icon: Activity, label: 'Recovery', screen: 'recovery', color: 'bg-emerald-100 text-emerald-600' },
+          ].map((f) => (
+            <button
+              key={f.label}
+              onClick={() => pushScreen(f.screen)}
+              className={`flex items-center gap-3 p-4 rounded-2xl ${f.color} border border-white/40 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left`}
+            >
+              <f.icon className="w-5 h-5" />
+              <span className="text-sm font-bold">{f.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Streaks */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <button
+        onClick={() => pushScreen('streak-dashboard')}
+        className="w-full bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
+      >
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Streaks</h3>
         <div className="flex items-center gap-2 text-slate-500 text-sm">
           <span className="text-2xl">🔥</span>
-          <span>Complete your first workout to start a streak!</span>
+          <span>
+            {completedToday > 0
+              ? `${completedToday} habit${completedToday > 1 ? 's' : ''} completed today!`
+              : 'Complete your first habit to start a streak!'}
+          </span>
         </div>
-      </div>
+      </button>
     </div>
   );
 }

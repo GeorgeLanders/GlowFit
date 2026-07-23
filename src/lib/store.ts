@@ -95,6 +95,9 @@ interface JournalSlice {
 interface UISlice {
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  currentScreen: string | null;
+  pushScreen: (screen: string) => void;
+  popScreen: () => void;
   seeded: boolean;
   markSeeded: () => void;
 }
@@ -229,7 +232,10 @@ export const useGlowFitStore = create<GlowFitStore>()(
 
       // UI
       activeTab: 'dashboard',
-      setActiveTab: (tab) => set({ activeTab: tab }),
+      setActiveTab: (tab) => set({ activeTab: tab, currentScreen: null }),
+      currentScreen: null,
+      pushScreen: (screen) => set({ currentScreen: screen }),
+      popScreen: () => set({ currentScreen: null }),
       seeded: false,
       markSeeded: () => set({ seeded: true }),
     }),
