@@ -23,12 +23,14 @@ export default function Nutrition() {
         <div className="flex gap-2">
           <button
             onClick={() => pushScreen('meal-planner')}
+            aria-label="Action"
             className="flex items-center gap-1.5 bg-orange-500 text-white px-3 py-2 rounded-xl text-sm font-bold hover:bg-orange-600 transition-colors active:scale-95"
           >
             <UtensilsCrossed className="w-4 h-4" /> Meals
           </button>
           <button
             onClick={() => pushScreen('food-search')}
+            aria-label="Action"
             className="flex items-center gap-1.5 bg-emerald-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-emerald-600 transition-colors active:scale-95"
           >
             <Plus className="w-4 h-4" /> Add Food
@@ -50,7 +52,7 @@ export default function Nutrition() {
           ].map((m) => (
             <div key={m.label}>
               <p className={`text-lg font-bold ${m.color}`}>{m.value}</p>
-              <p className="text-[10px] text-slate-400">{m.label}</p>
+              <p className="text-xs text-slate-400">{m.label}</p>
             </div>
           ))}
         </div>
@@ -59,6 +61,7 @@ export default function Nutrition() {
       {/* Quick Search */}
       <button
         onClick={() => pushScreen('food-search')}
+        aria-label="Action"
         className="w-full flex items-center gap-3 bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
       >
         <Search className="w-5 h-5 text-emerald-500" />
@@ -77,7 +80,7 @@ export default function Nutrition() {
             <div key={log.id} className="bg-white/70 backdrop-blur-sm rounded-xl border border-white/40 p-3 shadow-[var(--shadow-card)] flex items-center justify-between">
               <div>
                 <p className="font-medium text-slate-700 text-sm">{log.food.name}</p>
-                <p className="text-[10px] text-slate-400 capitalize">{log.meal}</p>
+                <p className="text-xs text-slate-400 capitalize">{log.meal}</p>
               </div>
               <span className="text-emerald-500 font-bold text-sm">{Math.round(log.food.calories * log.quantity)}</span>
             </div>

@@ -23,7 +23,7 @@ function SummaryCard({ icon: Icon, label, value, unit, color }: {
           <Icon className="w-4 h-4 text-white" />
         </div>
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{label}</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-slate-400">{label}</p>
           <p className="text-base font-bold text-slate-800">{value}<span className="text-xs font-normal text-slate-400 ml-1">{unit}</span></p>
         </div>
       </div>

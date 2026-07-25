@@ -42,7 +42,7 @@ export default function WorkoutLogger() {
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-serif text-rose-900">Workouts</h1>
-        <button onClick={() => setShowForm(!showForm)} className="flex items-center gap-1.5 bg-rose-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-rose-600 active:scale-95 transition-all">
+        <button onClick={() => setShowForm(!showForm)} aria-label={showForm ? 'Cancel' : 'Log workout'} className="flex items-center gap-1.5 bg-rose-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-rose-600 active:scale-95 transition-all">
           <Plus className="w-4 h-4" /> {showForm ? 'Cancel' : 'Log'}
         </button>
       </div>
@@ -61,7 +61,7 @@ export default function WorkoutLogger() {
             <div key={ei} className="bg-slate-50 rounded-xl p-3 space-y-2">
               <div className="flex items-center gap-2">
                 <input value={ex.name} onChange={(e) => updateExName(ei, e.target.value)} placeholder="Exercise name" className="flex-1 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-sm" />
-                {exercises.length > 1 && <button onClick={() => removeExercise(ei)}><Trash2 className="w-4 h-4 text-red-400" /></button>}
+                {exercises.length > 1 && <button onClick={() => removeExercise(ei)} aria-label="Remove exercise"><Trash2 className="w-4 h-4 text-red-400" /></button>}
               </div>
               {ex.sets.map((s, si) => (
                 <div key={si} className="flex items-center gap-2 text-xs">
@@ -70,11 +70,11 @@ export default function WorkoutLogger() {
                   <input type="number" value={s.weight} onChange={(e) => updateSet(ei, si, 'weight', parseInt(e.target.value) || 0)} className="w-20 px-2 py-1 rounded-lg bg-white border border-slate-200" placeholder="kg" />
                 </div>
               ))}
-              <button onClick={() => addSet(ei)} className="text-xs text-rose-500 font-bold">+ Add Set</button>
+              <button onClick={() => addSet(ei)} aria-label="Add set" className="text-xs text-rose-500 font-bold">+ Add Set</button>
             </div>
           ))}
-          <button onClick={addExercise} className="text-xs text-rose-500 font-bold">+ Add Exercise</button>
-          <button onClick={save} className="w-full bg-rose-500 text-white py-2 rounded-xl font-bold text-sm hover:bg-rose-600">Save Workout</button>
+          <button onClick={addExercise} aria-label="Add exercise" className="text-xs text-rose-500 font-bold">+ Add Exercise</button>
+          <button onClick={save} aria-label="Save workout" className="w-full bg-rose-500 text-white py-2 rounded-xl font-bold text-sm hover:bg-rose-600">Save Workout</button>
         </div>
       )}
 
@@ -94,7 +94,7 @@ export default function WorkoutLogger() {
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-rose-500 font-bold text-sm">{w.caloriesBurned} kcal</span>
-                  <button onClick={() => deleteWorkout(w.id)}><Trash2 className="w-4 h-4 text-slate-300" /></button>
+                  <button onClick={() => deleteWorkout(w.id)} aria-label="Delete workout"><Trash2 className="w-4 h-4 text-slate-300" /></button>
                 </div>
               </div>
             </div>

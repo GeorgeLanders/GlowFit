@@ -39,7 +39,7 @@ export default function WaterTracker() {
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <Droplets className="w-6 h-6 text-blue-400 mb-1" />
             <span className="text-2xl font-bold text-slate-800">{(todayAmount / 1000).toFixed(1)}</span>
-            <span className="text-[10px] text-slate-400">of {(GOAL / 1000).toFixed(1)}L</span>
+            <span className="text-xs text-slate-400">of {(GOAL / 1000).toFixed(1)}L</span>
           </div>
         </div>
         <div className="flex gap-3 mt-4">

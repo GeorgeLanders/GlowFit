@@ -40,6 +40,7 @@ export default function JournalScreen() {
         <h1 className="text-3xl font-serif text-rose-900">Journal</h1>
         <button
           onClick={() => setShowForm(!showForm)}
+          aria-label="Action"
           className="flex items-center gap-1.5 bg-rose-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-rose-600 active:scale-95 transition-all"
         >
           <Plus className="w-4 h-4" /> {showForm ? 'Cancel' : 'Write'}
@@ -66,6 +67,7 @@ export default function JournalScreen() {
                 <button
                   key={m}
                   onClick={() => setMood(m as 1 | 2 | 3 | 4 | 5)}
+                  aria-label="Action"
                   className={`text-2xl transition-all ${mood === m ? 'scale-125' : 'opacity-40 hover:opacity-70'}`}
                 >
                   {m === 1 ? '😔' : m === 2 ? '😐' : m === 3 ? '🙂' : m === 4 ? '😊' : '🤩'}
@@ -76,6 +78,7 @@ export default function JournalScreen() {
 
           <button
             onClick={save}
+            aria-label="Action"
             className="w-full bg-rose-500 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-rose-600 active:scale-[0.98] transition-all"
           >
             Save Entry
@@ -98,6 +101,7 @@ export default function JournalScreen() {
               <div key={entry.id} className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
                 <button
                   onClick={() => setExpandedId(isExpanded ? null : entry.id)}
+                  aria-label="Action"
                   className="w-full text-left"
                 >
                   <div className="flex items-center justify-between">

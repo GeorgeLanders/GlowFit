@@ -60,7 +60,7 @@ export default function HabitTracker() {
                     const isToday = d === today();
                     return (
                       <button key={d} onClick={() => toggleHabitDate(h.id, d)}
-                        className={`flex-1 h-9 rounded-lg text-[10px] font-bold transition-all ${done ? 'text-white' : 'bg-slate-50 text-slate-300 border border-slate-200'} ${isToday ? 'ring-2 ring-rose-200' : ''}`}
+                        className={`flex-1 h-9 rounded-lg text-xs font-bold transition-all ${done ? 'text-white' : 'bg-slate-50 text-slate-300 border border-slate-200'} ${isToday ? 'ring-2 ring-rose-200' : ''}`}
                         style={done ? { backgroundColor: h.color } : {}}>
                         {done ? '✓' : new Date(d).toLocaleDateString('en-US', { weekday: 'short' }).slice(0, 2)}
                       </button>

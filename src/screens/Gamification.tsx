@@ -43,8 +43,8 @@ export default function Gamification() {
                 <Icon className={`w-6 h-6 ${unlocked ? 'text-amber-600' : 'text-slate-300'}`} />
               </div>
               <p className="text-sm font-bold text-slate-800">{a.name}</p>
-              <p className="text-[10px] text-slate-400 mt-0.5">{a.desc}</p>
-              <p className="text-[10px] font-bold text-amber-500 mt-1">{a.xp} XP</p>
+              <p className="text-xs text-slate-400 mt-0.5">{a.desc}</p>
+              <p className="text-xs font-bold text-amber-500 mt-1">{a.xp} XP</p>
             </div>
           );
         })}

@@ -11,6 +11,7 @@ export default function Workouts() {
         <h1 className="text-3xl font-serif text-rose-900">Workouts</h1>
         <button
           onClick={() => pushScreen('workout-logger')}
+          aria-label="Action"
           className="flex items-center gap-1.5 bg-rose-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-rose-600 transition-colors active:scale-95"
         >
           <Plus className="w-4 h-4" /> Log
@@ -28,6 +29,7 @@ export default function Workouts() {
           <button
             key={a.label}
             onClick={() => pushScreen(a.screen)}
+            aria-label="Action"
             className={`flex flex-col items-center gap-2 p-4 rounded-2xl ${a.color} border border-white/40 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-95`}
           >
             <a.icon className="w-5 h-5" />

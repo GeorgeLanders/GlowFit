@@ -69,7 +69,7 @@ export default function Nourishment() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-2">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -112,7 +112,7 @@ export default function Nourishment() {
       </div>
 
       {/* Quick Add */}
-      <button onClick={() => setShowDialog(true)} className="w-full py-3 rounded-2xl bg-white/70 border border-white/40 shadow-[var(--shadow-card)] text-sm font-medium text-slate-600 flex items-center justify-center gap-2">
+      <button onClick={() => setShowDialog(true)} aria-label="Add custom food" className="w-full py-3 rounded-2xl bg-white/70 border border-white/40 shadow-[var(--shadow-card)] text-sm font-medium text-slate-600 flex items-center justify-center gap-2">
         <Plus className="w-4 h-4" /> Add Custom Food
       </button>
 
@@ -121,7 +121,7 @@ export default function Nourishment() {
         <p className="text-sm font-medium text-slate-600 mb-3">Quick Add Recipes</p>
         <div className="space-y-2">
           {RECIPES.map((r, i) => (
-            <button key={i} onClick={() => addRecipe(r)} className="w-full flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-all text-left">
+            <button key={i} onClick={() => addRecipe(r)} aria-label={`Add ${r.name}`} className="w-full flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-all text-left">
               <span className="text-xl">{r.emoji}</span>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-slate-700 truncate">{r.name}</p>
@@ -147,7 +147,7 @@ export default function Nourishment() {
                   <div key={ii} className="flex items-center gap-2 text-sm">
                     <span className="flex-1 text-slate-700 truncate">{item.name}</span>
                     <span className="text-xs text-slate-400">{item.calories} cal</span>
-                    <button onClick={() => removeLog(logs.indexOf(item))} className="p-1 rounded-lg hover:bg-rose-50">
+                    <button onClick={() => removeLog(logs.indexOf(item))} aria-label="Remove food entry" className="p-1 rounded-lg hover:bg-rose-50">
                       <Trash2 className="w-3 h-3 text-rose-400" />
                     </button>
                   </div>
@@ -164,7 +164,7 @@ export default function Nourishment() {
           <div className="bg-white rounded-t-2xl w-full max-w-md p-5 space-y-3" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-center">
               <p className="font-medium text-slate-700">Add Custom Food</p>
-              <button onClick={() => setShowDialog(false)}><X className="w-5 h-5 text-slate-400" /></button>
+              <button onClick={() => setShowDialog(false)} aria-label="Close dialog"><X className="w-5 h-5 text-slate-400" /></button>
             </div>
             <input value={customName} onChange={e => setCustomName(e.target.value)} placeholder="Food name" className="w-full p-3 rounded-xl border border-slate-200 text-sm" />
             <div className="grid grid-cols-2 gap-2">
@@ -173,7 +173,7 @@ export default function Nourishment() {
               <input value={customCarbs} onChange={e => setCustomCarbs(e.target.value)} type="number" placeholder="Carbs (g)" className="p-3 rounded-xl border border-slate-200 text-sm" />
               <input value={customFat} onChange={e => setCustomFat(e.target.value)} type="number" placeholder="Fat (g)" className="p-3 rounded-xl border border-slate-200 text-sm" />
             </div>
-            <button onClick={addCustom} disabled={!customName.trim() || !customCal} className="w-full py-3 rounded-xl bg-emerald-500 text-white font-medium text-sm disabled:opacity-40">Add Food</button>
+            <button onClick={addCustom} disabled={!customName.trim() || !customCal} aria-label="Add food" className="w-full py-3 rounded-xl bg-emerald-500 text-white font-medium text-sm disabled:opacity-40">Add Food</button>
           </div>
         </div>
       )}

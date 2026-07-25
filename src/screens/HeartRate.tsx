@@ -97,7 +97,7 @@ export default function HeartRate() {
               const height = ((entry.resting - minHR) / range) * 80 + 20;
               return (
                 <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                  <span className="text-[10px] text-slate-400">{entry.resting}</span>
+                  <span className="text-xs text-slate-400">{entry.resting}</span>
                   <div className="w-full bg-gradient-to-t from-rose-500 to-pink-400 rounded-t-lg" style={{ height: `${height}%` }} />
                 </div>
               );

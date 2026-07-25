@@ -71,6 +71,7 @@ export default function FoodSearch() {
           <button
             key={m}
             onClick={() => setMealType(m)}
+            aria-label="Action"
             className={`px-3 py-1.5 rounded-xl text-xs font-bold capitalize transition-all ${
               mealType === m ? 'bg-rose-500 text-white' : 'bg-slate-100 text-slate-500'
             }`}
@@ -99,7 +100,7 @@ export default function FoodSearch() {
             ].map((n) => (
               <div key={n.label}>
                 <p className={`text-lg font-bold ${n.color}`}>{n.value}</p>
-                <p className="text-[10px] text-slate-400">{n.label}</p>
+                <p className="text-xs text-slate-400">{n.label}</p>
               </div>
             ))}
           </div>
@@ -116,6 +117,7 @@ export default function FoodSearch() {
           </div>
           <button
             onClick={() => logFood(selected)}
+            aria-label="Action"
             className="w-full bg-rose-500 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-rose-600 active:scale-[0.98] transition-all"
           >
             Log {mealType}
@@ -139,16 +141,17 @@ export default function FoodSearch() {
               <button
                 key={food.id}
                 onClick={() => setSelected(food)}
+                aria-label="Action"
                 className="w-full bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-3 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
               >
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-bold text-sm text-slate-800">{food.name}</p>
-                    <p className="text-[10px] text-slate-400">{food.servingSize}</p>
+                    <p className="text-xs text-slate-400">{food.servingSize}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-bold text-rose-500">{food.calories} cal</p>
-                    <p className="text-[10px] text-slate-400">P{food.protein}g C{food.carbs}g F{food.fat}g</p>
+                    <p className="text-xs text-slate-400">P{food.protein}g C{food.carbs}g F{food.fat}g</p>
                   </div>
                 </div>
               </button>

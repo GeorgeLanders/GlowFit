@@ -69,7 +69,7 @@ export default function BodyNeutralProgress() {
                       )}
                     </div>
                     {showMeasurements && photo.notes && (
-                      <p className="text-[10px] text-slate-400 italic mt-1">"{photo.notes}"</p>
+                      <p className="text-xs text-slate-400 italic mt-1">"{photo.notes}"</p>
                     )}
                   </div>
                 ))}
@@ -93,9 +93,9 @@ export default function BodyNeutralProgress() {
                     <div className="w-full h-full flex items-center justify-center text-slate-300"><Camera className="w-8 h-8" /></div>
                   )}
                 </div>
-                {photo.date && <p className="text-[10px] text-slate-400 mt-1.5 text-center">{new Date(photo.date).toLocaleDateString()}</p>}
+                {photo.date && <p className="text-xs text-slate-400 mt-1.5 text-center">{new Date(photo.date).toLocaleDateString()}</p>}
                 {showMeasurements && photo.notes && (
-                  <p className="text-[10px] text-slate-400 mt-1 text-center truncate">{photo.notes}</p>
+                  <p className="text-xs text-slate-400 mt-1 text-center truncate">{photo.notes}</p>
                 )}
               </div>
             ))}

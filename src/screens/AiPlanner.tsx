@@ -90,7 +90,7 @@ export default function AiPlanner() {
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center gap-3 mb-2">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -126,10 +126,10 @@ export default function AiPlanner() {
 
       {/* Tab Toggle */}
       <div className="flex gap-2">
-        <button onClick={() => setActiveTab('setup')} className={`flex-1 py-2.5 rounded-xl font-medium text-sm transition-all ${activeTab === 'setup' ? 'bg-violet-500 text-white shadow-md' : 'bg-white/70 text-slate-600 border border-white/40'}`}>
+        <button onClick={() => setActiveTab('setup')} aria-label="Setup tab" className={`flex-1 py-2.5 rounded-xl font-medium text-sm transition-all ${activeTab === 'setup' ? 'bg-violet-500 text-white shadow-md' : 'bg-white/70 text-slate-600 border border-white/40'}`}>
           Setup
         </button>
-        <button onClick={() => plan && setActiveTab('plan')} className={`flex-1 py-2.5 rounded-xl font-medium text-sm transition-all ${activeTab === 'plan' ? 'bg-violet-500 text-white shadow-md' : 'bg-white/70 text-slate-600 border border-white/40'} ${!plan ? 'opacity-50' : ''}`}>
+        <button onClick={() => plan && setActiveTab('plan')} aria-label="My Plan tab" className={`flex-1 py-2.5 rounded-xl font-medium text-sm transition-all ${activeTab === 'plan' ? 'bg-violet-500 text-white shadow-md' : 'bg-white/70 text-slate-600 border border-white/40'} ${!plan ? 'opacity-50' : ''}`}>
           My Plan
         </button>
       </div>
@@ -155,7 +155,7 @@ export default function AiPlanner() {
                       <p className="text-[9px] text-slate-400">BMI</p>
                     </div>
                   </div>
-                  <p className={`text-[10px] mt-1 font-medium ${bmiCategory.color}`}>{bmiCategory.label}</p>
+                  <p className={`text-xs mt-1 font-medium ${bmiCategory.color}`}>{bmiCategory.label}</p>
                 </div>
               </div>
             </div>
@@ -184,7 +184,7 @@ export default function AiPlanner() {
             </div>
             <div className="flex gap-2">
               {(['female', 'male', 'other'] as const).map(g => (
-                <button key={g} onClick={() => setGender(g)} className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${gender === g ? 'bg-violet-500 text-white' : 'bg-slate-100 text-slate-600'}`}>
+                <button key={g} onClick={() => setGender(g)} aria-label={`Select ${g} gender`} className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${gender === g ? 'bg-violet-500 text-white' : 'bg-slate-100 text-slate-600'}`}>
                   {g === 'female' ? '♀' : g === 'male' ? '♂' : '⚧'} {g}
                 </button>
               ))}
@@ -196,7 +196,7 @@ export default function AiPlanner() {
             <p className="text-sm font-medium text-slate-600 mb-3 flex items-center gap-1.5"><Flame className="w-4 h-4" /> Activity Level</p>
             <div className="space-y-2">
               {ACTIVITY_OPTIONS.map(opt => (
-                <button key={opt.key} onClick={() => setActivity(opt.key)} className={`w-full p-3 rounded-xl text-left transition-all ${activity === opt.key ? 'bg-violet-100 border-2 border-violet-400' : 'bg-slate-50 border-2 border-transparent'}`}>
+                <button key={opt.key} onClick={() => setActivity(opt.key)} aria-label={opt.label} className={`w-full p-3 rounded-xl text-left transition-all ${activity === opt.key ? 'bg-violet-100 border-2 border-violet-400' : 'bg-slate-50 border-2 border-transparent'}`}>
                   <p className="font-medium text-sm text-slate-800">{opt.label}</p>
                   <p className="text-xs text-slate-500">{opt.desc}</p>
                 </button>
@@ -209,7 +209,7 @@ export default function AiPlanner() {
             <p className="text-sm font-medium text-slate-600 mb-3 flex items-center gap-1.5"><Utensils className="w-4 h-4" /> Diet Preference</p>
             <div className="grid grid-cols-3 gap-2">
               {DIET_OPTIONS.map(opt => (
-                <button key={opt.key} onClick={() => setDiet(opt.key)} className={`p-3 rounded-xl text-center transition-all ${diet === opt.key ? 'bg-violet-100 border-2 border-violet-400' : 'bg-slate-50 border-2 border-transparent'}`}>
+                <button key={opt.key} onClick={() => setDiet(opt.key)} aria-label={opt.label} className={`p-3 rounded-xl text-center transition-all ${diet === opt.key ? 'bg-violet-100 border-2 border-violet-400' : 'bg-slate-50 border-2 border-transparent'}`}>
                   <p className="text-xl mb-1">{opt.emoji}</p>
                   <p className="text-xs font-medium text-slate-700">{opt.label}</p>
                 </button>

@@ -39,12 +39,12 @@ export default function WeightTracker() {
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] text-center">
           <TrendingUp className="w-5 h-5 text-rose-400 mx-auto mb-1" />
           <p className="text-xl font-bold text-slate-800">{latest?.weight ?? '—'} <span className="text-xs text-slate-400">kg</span></p>
-          <p className="text-[10px] text-slate-400">Current</p>
+          <p className="text-xs text-slate-400">Current</p>
         </div>
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] text-center">
           <Target className="w-5 h-5 text-violet-400 mx-auto mb-1" />
           <p className="text-xl font-bold text-slate-800">{bmi}</p>
-          <p className="text-[10px] text-slate-400">BMI</p>
+          <p className="text-xs text-slate-400">BMI</p>
         </div>
       </div>
 

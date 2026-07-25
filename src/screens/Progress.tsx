@@ -14,6 +14,7 @@ export default function Progress() {
       {/* Weight Chart */}
       <button
         onClick={() => pushScreen('weight-tracker')}
+        aria-label="Action"
         className="w-full bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
       >
         <div className="flex items-center justify-between">
@@ -36,6 +37,7 @@ export default function Progress() {
       {/* Body Measurements */}
       <button
         onClick={() => pushScreen('body-measurements')}
+        aria-label="Action"
         className="w-full bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
       >
         <div className="flex items-center justify-between mb-2">
@@ -60,6 +62,7 @@ export default function Progress() {
       {/* Progress Photos */}
       <button
         onClick={() => pushScreen('progress-photos')}
+        aria-label="Action"
         className="w-full bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
       >
         <div className="flex items-center justify-between">

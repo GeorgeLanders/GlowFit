@@ -91,7 +91,7 @@ export default function SettingsScreen() {
           <label className="text-xs text-slate-500 mb-1 block">Activity Level</label>
           <div className="flex gap-1.5 flex-wrap">
             {ACTIVITY_LEVELS.map((a) => (
-              <button key={a} onClick={() => setActivity(a)} className={`px-3 py-1.5 rounded-lg text-[10px] font-bold capitalize transition-all ${activity === a ? 'bg-rose-500 text-white' : 'bg-slate-100 text-slate-500'}`}>{a.replace('_', ' ')}</button>
+              <button key={a} onClick={() => setActivity(a)} className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize transition-all ${activity === a ? 'bg-rose-500 text-white' : 'bg-slate-100 text-slate-500'}`}>{a.replace('_', ' ')}</button>
             ))}
           </div>
         </div>
@@ -107,6 +107,7 @@ export default function SettingsScreen() {
 
         <button
           onClick={save}
+          aria-label="Action"
           className="w-full flex items-center justify-center gap-2 bg-rose-500 text-white py-3 rounded-xl font-bold text-sm hover:bg-rose-600 active:scale-[0.98] transition-all"
         >
           {saved ? '✓ Saved!' : <><Save className="w-4 h-4" /> Save Profile</>}
@@ -121,11 +122,12 @@ export default function SettingsScreen() {
         </div>
         <button
           onClick={clearAllData}
+          aria-label="Action"
           className="w-full flex items-center justify-center gap-2 bg-red-50 text-red-500 py-3 rounded-xl font-bold text-sm hover:bg-red-100 active:scale-[0.98] transition-all"
         >
           <Trash2 className="w-4 h-4" /> Delete All Data
         </button>
-        <p className="text-[10px] text-slate-400 text-center">All data is stored locally on your device</p>
+        <p className="text-xs text-slate-400 text-center">All data is stored locally on your device</p>
       </div>
     </div>
   );

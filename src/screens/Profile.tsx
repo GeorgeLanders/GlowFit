@@ -38,6 +38,7 @@ export default function Profile() {
       <div className="space-y-2">
         <button
           onClick={() => pushScreen('settings')}
+          aria-label="Action"
           className="w-full flex items-center justify-between bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] text-left hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98]"
         >
           <div className="flex items-center gap-3">
@@ -48,6 +49,7 @@ export default function Profile() {
         </button>
         <button
           onClick={() => pushScreen('journal')}
+          aria-label="Action"
           className="w-full flex items-center justify-between bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] text-left hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98]"
         >
           <div className="flex items-center gap-3">

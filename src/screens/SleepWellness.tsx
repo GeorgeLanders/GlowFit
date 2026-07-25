@@ -48,12 +48,12 @@ export default function SleepWellness() {
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] text-center">
           <Moon className="w-5 h-5 text-indigo-400 mx-auto mb-1" />
           <p className="text-2xl font-bold text-slate-800">{avgHours}h</p>
-          <p className="text-[10px] text-slate-400">Avg Sleep</p>
+          <p className="text-xs text-slate-400">Avg Sleep</p>
         </div>
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] text-center">
           <Star className="w-5 h-5 text-amber-400 mx-auto mb-1" />
           <p className="text-2xl font-bold text-slate-800">{avgQuality}</p>
-          <p className="text-[10px] text-slate-400">Avg Quality</p>
+          <p className="text-xs text-slate-400">Avg Quality</p>
         </div>
       </div>
 
@@ -135,7 +135,7 @@ export default function SleepWellness() {
                 </div>
                 <div className="flex-1 min-w-0">
                   {l.notes && <p className="text-xs text-slate-500 truncate">{l.notes}</p>}
-                  <p className="text-[10px] text-slate-400">{new Date(l.timestamp).toLocaleDateString()}</p>
+                  <p className="text-xs text-slate-400">{new Date(l.timestamp).toLocaleDateString()}</p>
                 </div>
                 <button onClick={() => removeLog(i)} className="p-1 rounded-lg hover:bg-rose-50">
                   <Trash2 className="w-3 h-3 text-rose-400" />

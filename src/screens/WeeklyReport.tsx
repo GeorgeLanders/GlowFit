@@ -51,7 +51,7 @@ export default function WeeklyReport() {
         ].map((s) => (
           <div key={s.label} className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-3 shadow-[var(--shadow-card)] text-center">
             <p className="text-lg font-bold text-slate-800">{s.value}</p>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{s.label}</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-400">{s.label}</p>
           </div>
         ))}
       </div>

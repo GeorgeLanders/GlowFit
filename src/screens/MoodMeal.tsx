@@ -62,7 +62,7 @@ export default function MoodMeal() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-2">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -84,7 +84,7 @@ export default function MoodMeal() {
           {MOODS.map(m => (
             <button key={m.value} onClick={() => setMood(m.value)} className={`flex flex-col items-center p-3 rounded-xl transition-all ${mood === m.value ? 'bg-rose-100 border-2 border-rose-400 scale-110' : 'bg-slate-50 border-2 border-transparent'}`}>
               <span className="text-2xl">{m.emoji}</span>
-              <span className="text-[10px] text-slate-500 mt-1">{m.label}</span>
+              <span className="text-xs text-slate-500 mt-1">{m.label}</span>
             </button>
           ))}
         </div>
@@ -97,7 +97,7 @@ export default function MoodMeal() {
           {MEAL_TYPES.map(mt => (
             <button key={mt.key} onClick={() => setMealType(mt.key)} className={`flex flex-col items-center gap-1 p-2.5 rounded-xl transition-all ${mealType === mt.key ? `${mt.color} border-2 border-current` : 'bg-slate-50 border-2 border-transparent'}`}>
               {mt.icon}
-              <span className="text-[10px] font-medium">{mt.label}</span>
+              <span className="text-xs font-medium">{mt.label}</span>
             </button>
           ))}
         </div>
@@ -155,9 +155,9 @@ export default function MoodMeal() {
                 <span className="text-lg">{MOODS[e.mood - 1]?.emoji}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-slate-700 truncate">{e.food}</p>
-                  <p className="text-[10px] text-slate-400">{e.mealType} • {e.beforeMeal ? 'before' : 'after'}</p>
+                  <p className="text-xs text-slate-400">{e.mealType} • {e.beforeMeal ? 'before' : 'after'}</p>
                 </div>
-                <span className="text-[10px] text-slate-400">{new Date(e.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                <span className="text-xs text-slate-400">{new Date(e.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
               </div>
             ))}
           </div>

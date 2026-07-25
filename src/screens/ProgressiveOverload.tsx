@@ -93,7 +93,7 @@ export default function ProgressiveOverload() {
                   return (
                     <div key={i} className="flex-1 flex flex-col items-center gap-1">
                       <div className="w-full bg-gradient-to-t from-emerald-500 to-teal-400 rounded-t-lg transition-all" style={{ height: `${Math.max(height, 4)}%` }} />
-                      <span className="text-[10px] text-slate-400">{new Date(point.date).toLocaleDateString('en', { month: 'short', day: 'numeric' })}</span>
+                      <span className="text-xs text-slate-400">{new Date(point.date).toLocaleDateString('en', { month: 'short', day: 'numeric' })}</span>
                     </div>
                   );
                 })}

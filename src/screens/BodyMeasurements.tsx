@@ -51,6 +51,7 @@ export default function BodyMeasurements() {
         <h1 className="text-3xl font-serif text-rose-900">Measurements</h1>
         <button
           onClick={() => setShowForm(!showForm)}
+          aria-label="Action"
           className="flex items-center gap-1.5 bg-rose-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-rose-600 active:scale-95 transition-all"
         >
           <Plus className="w-4 h-4" /> Log

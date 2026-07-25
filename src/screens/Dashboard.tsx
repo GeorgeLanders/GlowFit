@@ -17,6 +17,7 @@ function NavCard({ icon: Icon, label, value, unit, color, screen }: {
   return (
     <button
       onClick={() => pushScreen(screen)}
+      aria-label="Action"
       className={`bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left w-full`}
     >
       <div className="flex items-center gap-3">
@@ -24,7 +25,7 @@ function NavCard({ icon: Icon, label, value, unit, color, screen }: {
           <Icon className="w-5 h-5 text-white" />
         </div>
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{label}</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-slate-400">{label}</p>
           <p className="text-lg font-bold text-slate-800">
             {value}{unit && <span className="text-xs font-normal text-slate-400 ml-1">{unit}</span>}
           </p>
@@ -85,6 +86,7 @@ export default function Dashboard() {
       {latestWeight && (
         <button
           onClick={() => pushScreen('weight-tracker')}
+          aria-label="Action"
           className="w-full bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
         >
           <div className="flex items-center justify-between">
@@ -109,6 +111,7 @@ export default function Dashboard() {
             <button
               key={action.label}
               onClick={() => pushScreen(action.screen)}
+              aria-label="Action"
               className={`flex flex-col items-center gap-2 p-4 rounded-2xl ${action.color} border border-white/40 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-95`}
             >
               <action.icon className="w-6 h-6" />
@@ -138,6 +141,7 @@ export default function Dashboard() {
             <button
               key={f.label}
               onClick={() => pushScreen(f.screen)}
+              aria-label="Action"
               className={`flex items-center gap-3 p-4 rounded-2xl ${f.color} border border-white/40 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left`}
             >
               <f.icon className="w-5 h-5" />
@@ -150,6 +154,7 @@ export default function Dashboard() {
       {/* Streaks */}
       <button
         onClick={() => pushScreen('streak-dashboard')}
+        aria-label="Action"
         className="w-full bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
       >
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Streaks</h3>

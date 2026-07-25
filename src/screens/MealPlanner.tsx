@@ -132,6 +132,7 @@ export function MealPlanner() {
             <button
               key={d}
               onClick={() => setSelectedDay(i)}
+              aria-label="Action"
               className={`flex-shrink-0 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
                 selectedDay === i
                   ? 'bg-rose-500 text-white shadow-md'
@@ -139,7 +140,7 @@ export function MealPlanner() {
               }`}
             >
               <div>{d}</div>
-              <div className={`text-[10px] font-normal mt-0.5 ${selectedDay === i ? 'text-rose-100' : 'text-slate-400'}`}>
+              <div className={`text-xs font-normal mt-0.5 ${selectedDay === i ? 'text-rose-100' : 'text-slate-400'}`}>
                 {totals.cal} cal
               </div>
             </button>
@@ -176,10 +177,11 @@ export function MealPlanner() {
             <div className="px-4 pt-4 pb-2 flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-slate-800 text-sm">{mt.label}</h3>
-                <p className="text-[10px] text-slate-400">{totals.totalCalories} cal • P:{totals.protein.toFixed(0)}g C:{totals.carbs.toFixed(0)}g F:{totals.fat.toFixed(0)}g</p>
+                <p className="text-xs text-slate-400">{totals.totalCalories} cal • P:{totals.protein.toFixed(0)}g C:{totals.carbs.toFixed(0)}g F:{totals.fat.toFixed(0)}g</p>
               </div>
               <button
                 onClick={() => setAddingMeal(addingMeal === mealIdx ? null : mealIdx)}
+                aria-label="Action"
                 className="w-7 h-7 rounded-lg bg-rose-500 flex items-center justify-center hover:bg-rose-600 transition-colors"
               >
                 <Plus className="w-4 h-4 text-white" />
@@ -211,7 +213,8 @@ export function MealPlanner() {
                     <button
                       key={f.name}
                       onClick={() => addFoodToMeal(mealIdx, f)}
-                      className="text-[10px] font-medium px-2 py-1 rounded-lg bg-white border border-slate-200 text-slate-600 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 transition-all"
+                      aria-label="Action"
+                      className="text-xs font-medium px-2 py-1 rounded-lg bg-white border border-slate-200 text-slate-600 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 transition-all"
                     >
                       {f.name} ({f.calories}cal)
                     </button>

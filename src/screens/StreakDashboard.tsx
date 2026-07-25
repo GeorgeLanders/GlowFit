@@ -31,12 +31,12 @@ export default function StreakDashboard() {
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] text-center">
           <Flame className="w-6 h-6 text-amber-500 mx-auto mb-1" />
           <p className="text-2xl font-bold text-slate-800">{totalDays}</p>
-          <p className="text-[10px] text-slate-400">Active Days</p>
+          <p className="text-xs text-slate-400">Active Days</p>
         </div>
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] text-center">
           <Trophy className="w-6 h-6 text-violet-500 mx-auto mb-1" />
           <p className="text-2xl font-bold text-slate-800">{habits.length}</p>
-          <p className="text-[10px] text-slate-400">Active Habits</p>
+          <p className="text-xs text-slate-400">Active Habits</p>
         </div>
       </div>
 

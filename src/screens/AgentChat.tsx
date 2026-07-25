@@ -153,6 +153,7 @@ export default function AgentChat() {
                 <button
                   key={i}
                   onClick={() => sendMessage(action.prompt)}
+                  aria-label="Action"
                   className={`flex items-center gap-2 p-3 rounded-xl border border-white/40 shadow-sm text-left transition-all hover:scale-[1.02] active:scale-[0.98] ${action.color}`}
                 >
                   {action.icon}
@@ -207,6 +208,7 @@ export default function AgentChat() {
           />
           <button
             onClick={() => sendMessage(input)}
+            aria-label="Action"
             disabled={!input.trim() || isLoading}
             className="p-2 rounded-xl bg-gradient-to-r from-violet-500 to-rose-500 text-white disabled:opacity-40 transition-all"
           >

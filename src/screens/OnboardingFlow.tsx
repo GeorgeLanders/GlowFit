@@ -255,6 +255,7 @@ export function OnboardingFlow({
         </p>
         <button
           onClick={goNext}
+          aria-label="Get started"
           className="w-full max-w-xs py-4 px-8 bg-rose-500 hover:bg-rose-600 active:bg-rose-700 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg"
         >
           Get Started
@@ -320,6 +321,7 @@ export function OnboardingFlow({
                 <button
                   key={opt.value}
                   onClick={() => setGender(opt.value)}
+                  aria-label={`Select ${opt.label}`}
                   className={`flex-1 py-2.5 px-1 text-xs font-medium rounded-lg transition-all duration-200 ${
                     gender === opt.value
                       ? 'bg-rose-500 text-white shadow-md'
@@ -399,6 +401,7 @@ export function OnboardingFlow({
         <button
           onClick={goNext}
           disabled={!isStep2Valid}
+          aria-label="Continue to next step"
           className={`w-full py-4 px-6 font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-lg ${
             isStep2Valid
               ? 'bg-rose-500 hover:bg-rose-600 active:bg-rose-700 text-white shadow-lg hover:shadow-xl'
@@ -438,6 +441,7 @@ export function OnboardingFlow({
                 <button
                   key={opt.value}
                   onClick={() => setGoal(opt.value)}
+                  aria-label={opt.label}
                   className={`${glassCard} p-4 flex flex-col items-center gap-2 transition-all duration-200 ${
                     goal === opt.value
                       ? '!bg-rose-500 !border-rose-500 text-white shadow-lg'
@@ -473,6 +477,7 @@ export function OnboardingFlow({
                 <button
                   key={level}
                   onClick={() => setActivityLevel(level)}
+                  aria-label={ACTIVITY_LABELS[level]}
                   className={`w-full ${glassCard} p-4 flex items-center gap-4 transition-all duration-200 ${
                     activityLevel === level
                       ? '!bg-rose-500 !border-rose-500 text-white shadow-lg'
@@ -535,6 +540,7 @@ export function OnboardingFlow({
             </div>
             <button
               onClick={() => setGlp1User(!glp1User)}
+              aria-label={glp1User ? 'Disable GLP-1 medication' : 'Enable GLP-1 medication'}
               className={`relative w-14 h-8 rounded-full transition-all duration-300 ${
                 glp1User ? 'bg-rose-500' : 'bg-rose-200'
               }`}
@@ -551,6 +557,7 @@ export function OnboardingFlow({
         {/* Continue button */}
         <button
           onClick={goNext}
+          aria-label="Continue to next step"
           className="w-full py-4 px-6 bg-rose-500 hover:bg-rose-600 active:bg-rose-700 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg"
         >
           Continue
@@ -656,6 +663,7 @@ export function OnboardingFlow({
         {/* Start button */}
         <button
           onClick={handleComplete}
+          aria-label="Complete onboarding"
           className="w-full py-4 px-6 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 active:from-rose-700 active:to-pink-700 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg"
         >
           <Sparkles className="w-5 h-5" />
@@ -697,6 +705,7 @@ export function OnboardingFlow({
         <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
           <button
             onClick={goBack}
+            aria-label="Go back"
             className="flex items-center gap-1 text-sm text-rose-500 hover:text-rose-700 transition-colors bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-rose-200 shadow-sm"
           >
             <ChevronLeft className="w-4 h-4" />
