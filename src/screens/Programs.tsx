@@ -37,7 +37,7 @@ export default function Programs() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -62,6 +62,8 @@ export default function Programs() {
       <div className="space-y-3">
         {programs.map(program => (
           <button key={program.id} onClick={() => setSelected(selected === program.id ? null : program.id)}
+            aria-label={`${program.name} program`}
+            aria-expanded={selected === program.id}
             className={`w-full text-left bg-white/70 backdrop-blur-sm rounded-2xl p-4 border transition-all ${program.isActive ? 'border-emerald-400 ring-2 ring-emerald-200' : 'border-white/40'} shadow-[var(--shadow-card)]`}>
             <div className="flex items-center gap-3">
               <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${program.color} flex items-center justify-center`}>
@@ -86,6 +88,7 @@ export default function Programs() {
                 </div>
                 {!program.isActive && (
                   <button onClick={(e) => { e.stopPropagation(); startProgram(program.id); }}
+                    aria-label={`Start ${program.name} program`}
                     className={`w-full py-3 rounded-xl bg-gradient-to-r ${program.color} text-white font-semibold active:scale-95 transition-all`}>
                     Start Program
                   </button>

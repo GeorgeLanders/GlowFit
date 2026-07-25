@@ -38,7 +38,7 @@ export default function ProgressiveOverload() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -50,7 +50,7 @@ export default function ProgressiveOverload() {
       {/* Exercise Selector */}
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] relative">
         <p className="text-sm font-medium text-slate-600 mb-2">Select Exercise</p>
-        <button onClick={() => setShowDropdown(!showDropdown)} className="w-full p-3 rounded-xl border border-slate-200 text-left flex items-center justify-between">
+        <button onClick={() => setShowDropdown(!showDropdown)} aria-label="Select exercise" aria-expanded={showDropdown} className="w-full p-3 rounded-xl border border-slate-200 text-left flex items-center justify-between">
           <span className={selectedExercise ? 'text-slate-800' : 'text-slate-400'}>{selectedExercise || 'Choose an exercise...'}</span>
           <ChevronDown className="w-5 h-5 text-slate-400" />
         </button>
@@ -58,6 +58,7 @@ export default function ProgressiveOverload() {
           <div className="absolute z-10 w-full mt-1 bg-white rounded-xl border border-slate-200 shadow-lg max-h-48 overflow-y-auto">
             {exerciseNames.map(name => (
               <button key={name} onClick={() => { setSelectedExercise(name); setShowDropdown(false); }}
+                aria-label={`Select ${name}`}
                 className="w-full p-3 text-left hover:bg-rose-50 text-slate-700 text-sm border-b border-slate-100 last:border-0">
                 {name}
               </button>

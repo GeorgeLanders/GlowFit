@@ -54,7 +54,7 @@ export default function BodyComposition() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -101,7 +101,7 @@ export default function BodyComposition() {
       )}
 
       {/* Log Button */}
-      <button onClick={() => setShowLog(!showLog)} className="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg">
+      <button onClick={() => setShowLog(!showLog)} aria-label={showLog ? 'Cancel' : 'Log Measurements'} className="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg">
         {showLog ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
         {showLog ? 'Cancel' : 'Log Measurements'}
       </button>
@@ -120,7 +120,7 @@ export default function BodyComposition() {
             <input key={f.label} type="number" placeholder={f.label} value={f.value} onChange={e => f.set(e.target.value)}
               className="w-full p-3 rounded-xl border border-slate-200 text-slate-800" />
           ))}
-          <button onClick={handleLog} className="w-full py-3 rounded-xl bg-emerald-500 text-white font-semibold active:scale-95 transition-all">Save Measurements</button>
+          <button onClick={handleLog} aria-label="Save measurements" className="w-full py-3 rounded-xl bg-emerald-500 text-white font-semibold active:scale-95 transition-all">Save Measurements</button>
         </div>
       )}
 

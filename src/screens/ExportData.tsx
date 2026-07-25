@@ -44,7 +44,7 @@ export default function ExportData() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -56,10 +56,10 @@ export default function ExportData() {
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
         <p className="text-sm font-medium text-slate-600 mb-3">Export Format</p>
         <div className="flex gap-3">
-          <button onClick={() => setFormat('json')} className={`flex-1 p-3 rounded-xl border-2 transition-all flex items-center gap-2 justify-center ${format === 'json' ? 'border-rose-400 bg-rose-50 text-rose-700' : 'border-slate-200 text-slate-500'}`}>
+          <button onClick={() => setFormat('json')} aria-label="Select JSON format" className={`flex-1 p-3 rounded-xl border-2 transition-all flex items-center gap-2 justify-center ${format === 'json' ? 'border-rose-400 bg-rose-50 text-rose-700' : 'border-slate-200 text-slate-500'}`}>
             <FileJson className="w-5 h-5" /><span className="font-medium">JSON</span>
           </button>
-          <button onClick={() => setFormat('csv')} className={`flex-1 p-3 rounded-xl border-2 transition-all flex items-center gap-2 justify-center ${format === 'csv' ? 'border-rose-400 bg-rose-50 text-rose-700' : 'border-slate-200 text-slate-500'}`}>
+          <button onClick={() => setFormat('csv')} aria-label="Select CSV format" className={`flex-1 p-3 rounded-xl border-2 transition-all flex items-center gap-2 justify-center ${format === 'csv' ? 'border-rose-400 bg-rose-50 text-rose-700' : 'border-slate-200 text-slate-500'}`}>
             <FileText className="w-5 h-5" /><span className="font-medium">CSV</span>
           </button>
         </div>
@@ -80,7 +80,7 @@ export default function ExportData() {
         </div>
       </div>
 
-      <button onClick={handleExport} disabled={exporting} className={`w-full py-4 rounded-2xl font-semibold text-white transition-all shadow-lg ${exported ? 'bg-emerald-500' : exporting ? 'bg-slate-400 cursor-not-allowed' : 'bg-gradient-to-r from-rose-500 to-pink-500 active:scale-95'}`}>
+      <button onClick={handleExport} aria-label="Export all data" disabled={exporting} className={`w-full py-4 rounded-2xl font-semibold text-white transition-all shadow-lg ${exported ? 'bg-emerald-500' : exporting ? 'bg-slate-400 cursor-not-allowed' : 'bg-gradient-to-r from-rose-500 to-pink-500 active:scale-95'}`}>
         {exported ? <span className="flex items-center justify-center gap-2"><Check className="w-5 h-5" /> Downloaded!</span> : exporting ? 'Exporting...' : <span className="flex items-center justify-center gap-2"><Download className="w-5 h-5" /> Export All Data</span>}
       </button>
       <p className="text-xs text-slate-400 text-center">All data is stored locally on your device.</p>

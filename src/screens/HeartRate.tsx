@@ -47,7 +47,7 @@ export default function HeartRate() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -107,7 +107,7 @@ export default function HeartRate() {
       )}
 
       {/* Add Button */}
-      <button onClick={() => setShowAdd(!showAdd)} className="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg">
+      <button onClick={() => setShowAdd(!showAdd)} aria-label={showAdd ? 'Cancel log heart rate' : 'Log heart rate'} className="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg">
         {showAdd ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
         {showAdd ? 'Cancel' : 'Log Heart Rate'}
       </button>
@@ -117,7 +117,7 @@ export default function HeartRate() {
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-3">
           <input type="number" placeholder="Resting BPM" value={resting} onChange={e => setResting(e.target.value)} className="w-full p-3 rounded-xl border border-slate-200 text-slate-800" />
           <input type="number" placeholder="Active/Peak BPM" value={active} onChange={e => setActive(e.target.value)} className="w-full p-3 rounded-xl border border-slate-200 text-slate-800" />
-          <button onClick={addEntry} className="w-full py-3 rounded-xl bg-emerald-500 text-white font-semibold active:scale-95 transition-all">Save Reading</button>
+          <button onClick={addEntry} aria-label="Save heart rate reading" className="w-full py-3 rounded-xl bg-emerald-500 text-white font-semibold active:scale-95 transition-all">Save Reading</button>
         </div>
       )}
 

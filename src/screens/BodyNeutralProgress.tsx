@@ -21,7 +21,7 @@ export default function BodyNeutralProgress() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-2">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -44,7 +44,7 @@ export default function BodyNeutralProgress() {
             <p className="font-medium text-slate-700">Show Details</p>
             <p className="text-xs text-slate-400">Hidden by default for body neutrality</p>
           </div>
-          <button onClick={() => setShowMeasurements(!showMeasurements)} className={`w-12 h-7 rounded-full transition-all relative ${showMeasurements ? 'bg-violet-500' : 'bg-slate-300'}`}>
+          <button onClick={() => setShowMeasurements(!showMeasurements)} aria-label={showMeasurements ? 'Hide details' : 'Show details'} className={`w-12 h-7 rounded-full transition-all relative ${showMeasurements ? 'bg-violet-500' : 'bg-slate-300'}`}>
             <div className={`w-5 h-5 bg-white rounded-full absolute top-1 transition-all shadow ${showMeasurements ? 'left-6' : 'left-1'}`} />
           </button>
         </div>

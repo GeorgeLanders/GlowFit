@@ -18,9 +18,9 @@ export default function TermsOfService() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
-          <ArrowLeft className="w-5 h-5 text-slate-600" />
-        </button>
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+                  <ArrowLeft className="w-5 h-5 text-slate-600" />
+                </button>
         <div className="flex items-center gap-2">
           <FileText className="w-5 h-5 text-slate-500" />
           <h1 className="text-xl font-serif text-rose-900">Terms of Service</h1>

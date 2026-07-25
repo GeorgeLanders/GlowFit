@@ -30,7 +30,7 @@ export default function WeightTracker() {
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
         <div className="flex gap-2">
           <input type="number" step="0.1" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder="Today's weight (kg)" className="flex-1 px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm" />
-          <button onClick={save} className="bg-rose-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-rose-600 active:scale-95">Log</button>
+          <button onClick={save} aria-label="Log weight entry" className="bg-rose-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-rose-600 active:scale-95">Log</button>
         </div>
       </div>
 

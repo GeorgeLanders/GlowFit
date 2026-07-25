@@ -28,9 +28,9 @@ export default function SmartNotifications() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
-          <ArrowLeft className="w-5 h-5 text-slate-600" />
-        </button>
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+                  <ArrowLeft className="w-5 h-5 text-slate-600" />
+                </button>
         <div className="flex items-center gap-2">
           <Bell className="w-5 h-5 text-rose-500" />
           <h1 className="text-xl font-serif text-rose-900">Smart Notifications</h1>
@@ -52,7 +52,7 @@ export default function SmartNotifications() {
                 <p className="text-sm text-slate-500">{setting.description}</p>
                 {setting.time && <p className="text-xs text-slate-400 mt-1">⏰ {setting.time}</p>}
               </div>
-              <button onClick={() => toggle(setting.id)} className={`w-12 h-7 rounded-full transition-all relative ${setting.enabled ? 'bg-emerald-500' : 'bg-slate-300'}`}>
+              <button onClick={() => toggle(setting.id)} aria-label={`${setting.enabled ? "Disable" : "Enable"} ${setting.title}`} className={`w-12 h-7 rounded-full transition-all relative ${setting.enabled ? 'bg-emerald-500' : 'bg-slate-300'}`}>
                 <div className={`w-5 h-5 bg-white rounded-full absolute top-1 transition-all shadow ${setting.enabled ? 'left-6' : 'left-1'}`} />
               </button>
             </div>

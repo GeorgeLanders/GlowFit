@@ -51,7 +51,7 @@ export default function GLP1Settings() {
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center gap-3 mb-2">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div>
@@ -72,7 +72,7 @@ export default function GLP1Settings() {
               {enabled ? 'Tracking active — protein & hydration guardrails ON' : 'Enable to track medication, nutrition floors & symptoms'}
             </p>
           </div>
-          <button onClick={toggleEnabled} className={`w-12 h-7 rounded-full transition-all relative ${enabled ? 'bg-emerald-500' : 'bg-slate-300'}`}>
+          <button onClick={toggleEnabled} aria-label={enabled ? 'Disable GLP-1 mode' : 'Enable GLP-1 mode'} className={`w-12 h-7 rounded-full transition-all relative ${enabled ? 'bg-emerald-500' : 'bg-slate-300'}`}>
             <div className={`w-5 h-5 bg-white rounded-full absolute top-1 transition-all shadow ${enabled ? 'left-6' : 'left-1'}`} />
           </button>
         </div>
@@ -87,6 +87,8 @@ export default function GLP1Settings() {
             <div className="relative">
               <button
                 onClick={() => setShowMedDropdown(!showMedDropdown)}
+                aria-label="Select medication"
+                aria-expanded={showMedDropdown}
                 className="w-full flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200"
               >
                 <span className="font-medium text-slate-700">{medication}</span>
@@ -98,6 +100,7 @@ export default function GLP1Settings() {
                     <button
                       key={med}
                       onClick={() => { setMedication(med); setShowMedDropdown(false); persist({ medication: med }); }}
+                      aria-label={`Select ${med}`}
                       className={`w-full flex items-center justify-between px-4 py-3 text-sm hover:bg-slate-50 ${med === medication ? 'font-bold text-violet-600' : 'text-slate-700'}`}
                     >
                       {med}
@@ -134,6 +137,8 @@ export default function GLP1Settings() {
                 <button
                   key={site.key}
                   onClick={() => { setInjectionSite(site.key); persist({ injectionSite: site.key }); }}
+                  aria-label={`Select injection site: ${site.label.replace('\n', ' ')}`}
+                  aria-pressed={injectionSite === site.key}
                   className={`p-3 rounded-xl text-center transition-all ${injectionSite === site.key ? 'bg-violet-100 border-2 border-violet-400' : 'bg-slate-50 border-2 border-transparent'}`}
                 >
                   <p className="text-lg mb-0.5">{site.emoji}</p>

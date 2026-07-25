@@ -34,9 +34,9 @@ export default function SleepWellness() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-2">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
-          <ArrowLeft className="w-5 h-5 text-slate-600" />
-        </button>
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+                  <ArrowLeft className="w-5 h-5 text-slate-600" />
+                </button>
         <div className="flex items-center gap-2">
           <Moon className="w-5 h-5 text-indigo-500" />
           <h1 className="text-xl font-serif text-rose-900">Sleep & Wellness</h1>
@@ -59,7 +59,7 @@ export default function SleepWellness() {
 
       {/* Log Sleep */}
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
-        <button onClick={() => setIsExpanded(!isExpanded)} className="w-full flex items-center justify-between">
+        <button onClick={() => setIsExpanded(!isExpanded)} aria-label={isExpanded ? "Collapse sleep log form" : "Expand sleep log form"} className="w-full flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Plus className="w-5 h-5 text-indigo-500" />
             <span className="font-medium text-slate-700">Log Sleep</span>
@@ -78,7 +78,7 @@ export default function SleepWellness() {
               <label className="text-xs text-slate-500 mb-2 block">Quality: {QUALITY_LABELS[quality]}</label>
               <div className="flex justify-center gap-2">
                 {[1, 2, 3, 4, 5].map(s => (
-                  <button key={s} onClick={() => setQuality(s)} className="transition-all">
+                  <button key={s} onClick={() => setQuality(s)} aria-label={`Rate quality ${s} out of 5`} className="transition-all">
                     <Star className={`w-8 h-8 ${s <= quality ? 'text-amber-400 fill-amber-400' : 'text-slate-200'}`} />
                   </button>
                 ))}
@@ -87,7 +87,7 @@ export default function SleepWellness() {
 
             <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Notes (optional)..." className="w-full p-3 rounded-xl border border-slate-200 text-sm resize-none h-16" />
 
-            <button onClick={saveLog} className="w-full py-3 rounded-xl bg-indigo-500 text-white font-medium text-sm">Save Sleep Log</button>
+            <button onClick={saveLog} aria-label="Save sleep log" className="w-full py-3 rounded-xl bg-indigo-500 text-white font-medium text-sm">Save Sleep Log</button>
           </div>
         )}
       </div>
@@ -137,7 +137,7 @@ export default function SleepWellness() {
                   {l.notes && <p className="text-xs text-slate-500 truncate">{l.notes}</p>}
                   <p className="text-xs text-slate-400">{new Date(l.timestamp).toLocaleDateString()}</p>
                 </div>
-                <button onClick={() => removeLog(i)} className="p-1 rounded-lg hover:bg-rose-50">
+                <button onClick={() => removeLog(i)} aria-label="Delete sleep log" className="p-1 rounded-lg hover:bg-rose-50">
                   <Trash2 className="w-3 h-3 text-rose-400" />
                 </button>
               </div>

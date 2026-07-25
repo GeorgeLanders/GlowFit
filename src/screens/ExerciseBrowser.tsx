@@ -47,7 +47,7 @@ export default function ExerciseBrowser() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -64,7 +64,7 @@ export default function ExerciseBrowser() {
 
       <div className="flex gap-2 overflow-x-auto pb-2">
         {categories.map(cat => (
-          <button key={cat} onClick={() => setSelectedCategory(cat)}
+          <button key={cat} onClick={() => setSelectedCategory(cat)} aria-label={`Filter by ${cat}`}
             className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${selectedCategory === cat ? 'bg-rose-500 text-white' : 'bg-white/70 text-slate-600 border border-slate-200'}`}>
             {cat}
           </button>
@@ -76,7 +76,7 @@ export default function ExerciseBrowser() {
       <div className="space-y-2">
         {filtered.map(ex => (
           <div key={ex.id} className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 shadow-[var(--shadow-card)] overflow-hidden">
-            <button onClick={() => setExpanded(expanded === ex.id ? null : ex.id)} className="w-full p-4 flex items-center gap-3 text-left">
+            <button onClick={() => setExpanded(expanded === ex.id ? null : ex.id)} aria-label={expanded === ex.id ? `Collapse ${ex.name}` : `Expand ${ex.name}`} className="w-full p-4 flex items-center gap-3 text-left">
               <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center">
                 <Dumbbell className="w-5 h-5 text-rose-500" />
               </div>

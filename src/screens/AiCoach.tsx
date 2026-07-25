@@ -185,6 +185,7 @@ export function AiCoach() {
         </div>
         <button
           onClick={() => { abortRef.current?.abort(); clearChat(); }}
+          aria-label="Clear chat"
           className="p-2 rounded-xl text-slate-400 hover:text-rose-500 hover:bg-rose-50 transition-all"
         >
           <Trash2 className="w-4 h-4" />
@@ -265,6 +266,7 @@ export function AiCoach() {
             <button
               key={a.label}
               onClick={() => handleSend(a.prompt)}
+              aria-label={a.label}
               className="text-left text-xs font-medium px-3 py-2.5 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 text-slate-600 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 transition-all shadow-sm"
             >
               {a.label}
@@ -285,6 +287,7 @@ export function AiCoach() {
         <button
           onClick={() => handleSend(input)}
           disabled={!input.trim() || typing}
+          aria-label="Send message"
           className="w-9 h-9 rounded-xl bg-rose-500 flex items-center justify-center disabled:opacity-40 hover:bg-rose-600 transition-colors"
         >
           <Send className="w-4 h-4 text-white" />

@@ -52,7 +52,7 @@ export default function AccountabilityCircle() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -69,11 +69,11 @@ export default function AccountabilityCircle() {
 
       {/* Action Buttons */}
       <div className="flex gap-3">
-        <button onClick={() => { setShowCreate(!showCreate); setShowJoin(false); }}
+        <button onClick={() => { setShowCreate(!showCreate); setShowJoin(false); }} aria-label="Create Circle"
           className="flex-1 py-3 rounded-2xl bg-gradient-to-r from-purple-500 to-violet-500 text-white font-semibold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg">
           <Plus className="w-5 h-5" /> Create Circle
         </button>
-        <button onClick={() => { setShowJoin(!showJoin); setShowCreate(false); }}
+        <button onClick={() => { setShowJoin(!showJoin); setShowCreate(false); }} aria-label="Join Circle"
           className="flex-1 py-3 rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg">
           <Link className="w-5 h-5" /> Join Circle
         </button>
@@ -84,7 +84,7 @@ export default function AccountabilityCircle() {
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-3">
           <input type="text" placeholder="Circle name" value={newName} onChange={e => setNewName(e.target.value)}
             className="w-full p-3 rounded-xl border border-slate-200 text-slate-800" />
-          <button onClick={createCircle} className="w-full py-3 rounded-xl bg-purple-500 text-white font-semibold active:scale-95 transition-all">Create</button>
+          <button onClick={createCircle} aria-label="Create circle" className="w-full py-3 rounded-xl bg-purple-500 text-white font-semibold active:scale-95 transition-all">Create</button>
         </div>
       )}
 
@@ -93,7 +93,7 @@ export default function AccountabilityCircle() {
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-3">
           <input type="text" placeholder="Enter invite code" value={joinCode} onChange={e => setJoinCode(e.target.value)}
             className="w-full p-3 rounded-xl border border-slate-200 text-slate-800 uppercase tracking-widest text-center text-lg font-mono" maxLength={6} />
-          <button onClick={joinCircle} className="w-full py-3 rounded-xl bg-emerald-500 text-white font-semibold active:scale-95 transition-all">Join</button>
+          <button onClick={joinCircle} aria-label="Join circle" className="w-full py-3 rounded-xl bg-emerald-500 text-white font-semibold active:scale-95 transition-all">Join</button>
         </div>
       )}
 

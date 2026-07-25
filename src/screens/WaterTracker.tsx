@@ -43,8 +43,8 @@ export default function WaterTracker() {
           </div>
         </div>
         <div className="flex gap-3 mt-4">
-          <button onClick={() => addAmount(250)} className="bg-blue-100 text-blue-600 px-4 py-2 rounded-xl text-sm font-bold hover:bg-blue-200 active:scale-95">+250ml</button>
-          <button onClick={() => addAmount(500)} className="bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-blue-600 active:scale-95">+500ml</button>
+          <button onClick={() => addAmount(250)} aria-label="Add 250 milliliters of water" className="bg-blue-100 text-blue-600 px-4 py-2 rounded-xl text-sm font-bold hover:bg-blue-200 active:scale-95">+250ml</button>
+          <button onClick={() => addAmount(500)} aria-label="Add 500 milliliters of water" className="bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-blue-600 active:scale-95">+500ml</button>
         </div>
       </div>
 

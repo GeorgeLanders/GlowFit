@@ -28,7 +28,7 @@ export default function CycleTracker() {
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400">Current Phase</h3>
         <div className="grid grid-cols-2 gap-2">
           {PHASES.map((p) => (
-            <button key={p} onClick={() => setPhase(p)}
+            <button key={p} onClick={() => setPhase(p)} aria-label={`Set phase to ${p}`}
               className={`p-3 rounded-xl text-sm font-bold capitalize transition-all ${phase === p ? 'bg-rose-500 text-white' : 'bg-slate-50 text-slate-500 border border-slate-200'}`}>
               {p}
             </button>
@@ -38,7 +38,7 @@ export default function CycleTracker() {
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400">Flow</h3>
         <div className="flex gap-2">
           {FLOWS.map((f) => (
-            <button key={f} onClick={() => setFlow(f)}
+            <button key={f} onClick={() => setFlow(f)} aria-label={`Set flow to ${f}`}
               className={`flex-1 py-2 rounded-xl text-xs font-bold capitalize transition-all ${flow === f ? 'bg-rose-500 text-white' : 'bg-slate-50 text-slate-500 border border-slate-200'}`}>
               {f}
             </button>
@@ -48,7 +48,7 @@ export default function CycleTracker() {
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400">Symptoms</h3>
         <div className="flex flex-wrap gap-2">
           {SYMPTOMS.map((s) => (
-            <button key={s} onClick={() => toggle(s)}
+            <button key={s} onClick={() => toggle(s)} aria-label={`Toggle ${s} symptom`}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${symptoms.includes(s) ? 'bg-rose-100 text-rose-700 border border-rose-200' : 'bg-slate-50 text-slate-400 border border-slate-200'}`}>
               {s}
             </button>
@@ -56,7 +56,7 @@ export default function CycleTracker() {
         </div>
 
         <input value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Notes" className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm" />
-        <button onClick={save} className="w-full bg-rose-500 text-white py-2 rounded-xl font-bold text-sm hover:bg-rose-600 active:scale-95">Log</button>
+        <button onClick={save} aria-label="Log cycle data" className="w-full bg-rose-500 text-white py-2 rounded-xl font-bold text-sm hover:bg-rose-600 active:scale-95">Log</button>
       </div>
 
       {/* Recent Logs */}

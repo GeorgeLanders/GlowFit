@@ -107,10 +107,10 @@ export default function BreathingExercises() {
             </div>
             <p className="text-slate-400 text-xs mt-4">Breaths: {totalBreaths}</p>
             <div className="flex gap-3 mt-4">
-              <button onClick={toggle} className="p-3 rounded-full bg-rose-500 text-white hover:bg-rose-600 transition-colors">
+              <button onClick={toggle} aria-label={isActive ? 'Pause breathing exercise' : 'Start breathing exercise'} className="p-3 rounded-full bg-rose-500 text-white hover:bg-rose-600 transition-colors">
                 {isActive ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
               </button>
-              <button onClick={reset} className="p-3 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors">
+              <button onClick={reset} aria-label="Reset breathing exercise" className="p-3 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors">
                 <RotateCcw className="w-5 h-5" />
               </button>
             </div>
@@ -129,6 +129,7 @@ export default function BreathingExercises() {
           <button
             key={p.name}
             onClick={() => { setSelected(p); reset(); }}
+            aria-label={`Select ${p.name} breathing pattern`}
             className={`w-full text-left bg-white/70 backdrop-blur-sm rounded-2xl border p-4 shadow-[var(--shadow-card)] transition-all ${
               selected?.name === p.name ? 'border-rose-300 ring-2 ring-rose-200' : 'border-white/40'
             }`}

@@ -23,7 +23,7 @@ export default function HabitTracker() {
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-serif text-rose-900">Habits</h1>
-        <button onClick={() => setShowForm(!showForm)} className="flex items-center gap-1.5 bg-emerald-500 text-white px-4 py-2 rounded-xl text-sm font-bold active:scale-95">
+        <button onClick={() => setShowForm(!showForm)} aria-label={showForm ? 'Cancel add habit' : 'Add habit'} className="flex items-center gap-1.5 bg-emerald-500 text-white px-4 py-2 rounded-xl text-sm font-bold active:scale-95">
           <Plus className="w-4 h-4" /> {showForm ? 'Cancel' : 'Add'}
         </button>
       </div>
@@ -31,8 +31,8 @@ export default function HabitTracker() {
       {showForm && (
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] space-y-3">
           <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Habit name" className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm" />
-          <div className="flex gap-2">{COLORS.map((c) => <button key={c} onClick={() => setColor(c)} className={`w-8 h-8 rounded-full transition-all ${color === c ? 'ring-2 ring-offset-2 ring-slate-400' : ''}`} style={{ backgroundColor: c }} />)}</div>
-          <button onClick={save} className="w-full bg-emerald-500 text-white py-2 rounded-xl font-bold text-sm">Save</button>
+          <div className="flex gap-2">{COLORS.map((c) => <button key={c} onClick={() => setColor(c)} aria-label={`Select color ${c}`} aria-pressed={color === c} className={`w-8 h-8 rounded-full transition-all ${color === c ? 'ring-2 ring-offset-2 ring-slate-400' : ''}`} style={{ backgroundColor: c }} />)}</div>
+          <button onClick={save} aria-label="Save habit" className="w-full bg-emerald-500 text-white py-2 rounded-xl font-bold text-sm">Save</button>
         </div>
       )}
 
@@ -60,6 +60,7 @@ export default function HabitTracker() {
                     const isToday = d === today();
                     return (
                       <button key={d} onClick={() => toggleHabitDate(h.id, d)}
+                        aria-label={`${done ? 'Unmark' : 'Mark'} habit ${h.name} for ${new Date(d).toLocaleDateString('en-US', { weekday: 'long' })}`}
                         className={`flex-1 h-9 rounded-lg text-xs font-bold transition-all ${done ? 'text-white' : 'bg-slate-50 text-slate-300 border border-slate-200'} ${isToday ? 'ring-2 ring-rose-200' : ''}`}
                         style={done ? { backgroundColor: h.color } : {}}>
                         {done ? '✓' : new Date(d).toLocaleDateString('en-US', { weekday: 'short' }).slice(0, 2)}

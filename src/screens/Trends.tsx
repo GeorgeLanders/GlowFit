@@ -75,10 +75,10 @@ export default function Trends() {
       {/* Range Selector */}
       <div className="flex gap-2">
         {ranges.map((r) => (
-          <button key={r.key} onClick={() => setRange(r.key)}
-            className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${range === r.key ? 'bg-rose-500 text-white shadow-md' : 'bg-white/70 border border-white/40 text-slate-500 hover:bg-white'}`}>
-            {r.label}
-          </button>
+          <button key={r.key} onClick={() => setRange(r.key)} aria-label={`Show ${r.label} trends`}
+                      className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${range === r.key ? 'bg-rose-500 text-white shadow-md' : 'bg-white/70 border border-white/40 text-slate-500 hover:bg-white'}`}>
+                      {r.label}
+                    </button>
         ))}
       </div>
 

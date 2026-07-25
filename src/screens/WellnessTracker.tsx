@@ -35,11 +35,11 @@ export default function WellnessTracker() {
       </div>
       <div className="flex gap-2">
         {[1, 2, 3, 4, 5].map((v) => (
-          <button key={v} onClick={() => onChange(v as 1 | 2 | 3 | 4 | 5)}
-            className={`flex-1 h-8 rounded-lg text-sm font-bold transition-all ${v <= value ? `${color} bg-current text-white` : 'bg-slate-100 text-slate-300'}`}
-            style={v <= value ? { backgroundColor: 'currentColor' } : {}}>
-            {v}
-          </button>
+          <button key={v} onClick={() => onChange(v as 1 | 2 | 3 | 4 | 5)} aria-label={`Set ${label} to ${v}`}
+                      className={`flex-1 h-8 rounded-lg text-sm font-bold transition-all ${v <= value ? `${color} bg-current text-white` : 'bg-slate-100 text-slate-300'}`}
+                      style={v <= value ? { backgroundColor: 'currentColor' } : {}}>
+                      {v}
+                    </button>
         ))}
       </div>
     </div>
@@ -54,7 +54,7 @@ export default function WellnessTracker() {
         <ScalePicker label="Energy" value={energy} onChange={setEnergy} icon={Zap} color="text-amber-500" />
         <ScalePicker label="Stress" value={stress} onChange={setStress} icon={Cloud} color="text-blue-500" />
         <input value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Notes (optional)" className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm" />
-        <button onClick={save} className="w-full bg-rose-500 text-white py-2 rounded-xl font-bold text-sm hover:bg-rose-600 active:scale-95">Log Wellness</button>
+        <button onClick={save} aria-label="Log wellness entry" className="w-full bg-rose-500 text-white py-2 rounded-xl font-bold text-sm hover:bg-rose-600 active:scale-95">Log Wellness</button>
       </div>
 
       {todayLog && (

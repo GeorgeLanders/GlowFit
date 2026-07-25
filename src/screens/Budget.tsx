@@ -25,7 +25,7 @@ export default function Budget() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -38,7 +38,7 @@ export default function Budget() {
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-center gap-3">
           <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0" />
           <p className="text-sm text-amber-700 flex-1">You've used {usagePercent}% of your monthly budget.</p>
-          <button onClick={() => setWarningDismissed(true)}><X className="w-4 h-4 text-amber-500" /></button>
+          <button onClick={() => setWarningDismissed(true)} aria-label="Dismiss warning"><X className="w-4 h-4 text-amber-500" /></button>
         </div>
       )}
 

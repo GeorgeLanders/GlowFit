@@ -62,7 +62,7 @@ export default function SleepTracker() {
           <label className="text-xs font-bold text-slate-400 mb-1 block">Quality</label>
           <div className="flex gap-2">
             {stars.map((s) => (
-              <button key={s} onClick={() => setQuality(s)} className="p-1">
+              <button key={s} onClick={() => setQuality(s)} aria-label={`Rate quality ${s} out of 5`} className="p-1">
                 <Star className={`w-6 h-6 ${s <= quality ? 'fill-amber-400 text-amber-400' : 'text-slate-200'}`} />
               </button>
             ))}
@@ -71,7 +71,7 @@ export default function SleepTracker() {
         <input value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Notes (optional)" className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm" />
         <div className="flex items-center justify-between">
           <span className="text-sm text-slate-500">{calcHours()} hours</span>
-          <button onClick={save} className="bg-violet-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-violet-600 active:scale-95">Log Sleep</button>
+          <button onClick={save} aria-label="Log sleep entry" className="bg-violet-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-violet-600 active:scale-95">Log Sleep</button>
         </div>
       </div>
 
