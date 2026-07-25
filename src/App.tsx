@@ -18,7 +18,7 @@ import HabitTracker from './screens/HabitTracker';
 import StreakDashboard from './screens/StreakDashboard';
 import WeeklyReport from './screens/WeeklyReport';
 import Trends from './screens/Trends';
-import AiCoach from './screens/AiCoach';
+import { AiCoach } from './screens/AiCoach';
 import WorkoutLogger from './screens/WorkoutLogger';
 import WorkoutTimer from './screens/WorkoutTimer';
 import WorkoutTemplates from './screens/WorkoutTemplates';
@@ -31,6 +31,34 @@ import RecoveryScreen from './screens/RecoveryScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import JournalScreen from './screens/JournalScreen';
 import BodyMeasurements from './screens/BodyMeasurements';
+import { GLP1Dashboard } from './screens/GLP1Dashboard';
+import { ProgressPhotos } from './screens/ProgressPhotos';
+import { OnboardingFlow } from './screens/OnboardingFlow';
+import { MealPlanner } from './screens/MealPlanner';
+import AiInsights from './screens/AiInsights';
+import Budget from './screens/Budget';
+import ExportData from './screens/ExportData';
+import SmartNotifications from './screens/SmartNotifications';
+import TDEECalculator from './screens/TDEECalculator';
+import ExerciseBrowser from './screens/ExerciseBrowser';
+import BodyComposition from './screens/BodyComposition';
+import ProgressiveOverload from './screens/ProgressiveOverload';
+import FoodPhotoJournal from './screens/FoodPhotoJournal';
+import HeartRate from './screens/HeartRate';
+import CrisisResources from './screens/CrisisResources';
+import PrivacyPolicy from './screens/PrivacyPolicy';
+import TermsOfService from './screens/TermsOfService';
+import AccountabilityCircle from './screens/AccountabilityCircle';
+import Programs from './screens/Programs';
+import MemoryInsights from './screens/MemoryInsights';
+import AgentChat from './screens/AgentChat';
+import AiPlanner from './screens/AiPlanner';
+import BodyNeutralProgress from './screens/BodyNeutralProgress';
+import GLP1Settings from './screens/GLP1Settings';
+import MoodMeal from './screens/MoodMeal';
+import Nourishment from './screens/Nourishment';
+import SleepWellness from './screens/SleepWellness';
+import SosGrounding from './screens/SosGrounding';
 
 import './index.css';
 
@@ -73,6 +101,36 @@ const SUB_SCREENS: Record<string, { title: string; component: React.ReactNode }>
   // Profile sub-screens
   'settings': { title: 'Settings', component: <SettingsScreen /> },
   'journal': { title: 'Journal', component: <JournalScreen /> },
+  // New screens
+  'glp1-tracker': { title: 'GLP-1 Tracker', component: <GLP1Dashboard /> },
+  'progress-photos': { title: 'Progress Photos', component: <ProgressPhotos /> },
+  'meal-planner': { title: 'Meal Planner', component: <MealPlanner /> },
+  // Phase 3 screens
+  'ai-insights': { title: 'AI Insights', component: <AiInsights /> },
+  'budget': { title: 'Budget', component: <Budget /> },
+  'export-data': { title: 'Export Data', component: <ExportData /> },
+  'smart-notifications': { title: 'Notifications', component: <SmartNotifications /> },
+  'tdee-calculator': { title: 'TDEE Calculator', component: <TDEECalculator /> },
+  'exercise-browser': { title: 'Exercise Library', component: <ExerciseBrowser /> },
+  'body-composition': { title: 'Body Composition', component: <BodyComposition /> },
+  'progressive-overload': { title: 'Progressive Overload', component: <ProgressiveOverload /> },
+  'food-photo-journal': { title: 'Food Photo Journal', component: <FoodPhotoJournal /> },
+  'heart-rate': { title: 'Heart Rate', component: <HeartRate /> },
+  'crisis-resources': { title: 'Crisis Resources', component: <CrisisResources /> },
+  'privacy-policy': { title: 'Privacy Policy', component: <PrivacyPolicy /> },
+  'terms-of-service': { title: 'Terms of Service', component: <TermsOfService /> },
+  'accountability-circle': { title: 'Accountability Circle', component: <AccountabilityCircle /> },
+  'programs': { title: 'Workout Programs', component: <Programs /> },
+  'memory-insights': { title: 'Memory Insights', component: <MemoryInsights /> },
+  // Phase 3b screens
+  'agent-chat': { title: 'AI Agent Chat', component: <AgentChat /> },
+  'ai-planner': { title: 'AI Planner', component: <AiPlanner /> },
+  'body-neutral-progress': { title: 'Body Neutral Progress', component: <BodyNeutralProgress /> },
+  'glp1-settings': { title: 'GLP-1 Settings', component: <GLP1Settings /> },
+  'mood-meal': { title: 'Mood & Meal', component: <MoodMeal /> },
+  'nourishment': { title: 'Nourishment', component: <Nourishment /> },
+  'sleep-wellness': { title: 'Sleep Wellness', component: <SleepWellness /> },
+  'sos-grounding': { title: 'SOS Grounding', component: <SosGrounding /> },
 };
 
 // ═══════════════════════════════════════════════════════════════════
@@ -83,6 +141,19 @@ function AppContent() {
   const activeTab = useGlowFitStore((s) => s.activeTab);
   const currentScreen = useGlowFitStore((s) => s.currentScreen);
   const popScreen = useGlowFitStore((s) => s.popScreen);
+  const onboardingCompleted = useGlowFitStore((s) => s.profile.onboardingCompleted);
+  const updateProfile = useGlowFitStore((s) => s.updateProfile);
+
+  // Onboarding gate
+  if (!onboardingCompleted && !currentScreen) {
+    return (
+      <div className="min-h-screen bg-[var(--bg-page)]">
+        <main className="max-w-lg mx-auto px-4 pt-4">
+          <OnboardingFlow onComplete={() => updateProfile({ onboardingCompleted: true })} />
+        </main>
+      </div>
+    );
+  }
 
   // Sub-screen view
   if (currentScreen && SUB_SCREENS[currentScreen]) {

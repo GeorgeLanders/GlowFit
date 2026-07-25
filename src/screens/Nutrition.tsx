@@ -1,4 +1,4 @@
-import { Apple, Plus, Search } from 'lucide-react';
+import { Apple, Plus, Search, UtensilsCrossed } from 'lucide-react';
 import { useGlowFitStore } from '../lib/store';
 
 function today() {
@@ -20,12 +20,20 @@ export default function Nutrition() {
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-serif text-rose-900">Nutrition</h1>
-        <button
-          onClick={() => pushScreen('food-search')}
-          className="flex items-center gap-1.5 bg-emerald-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-emerald-600 transition-colors active:scale-95"
-        >
-          <Plus className="w-4 h-4" /> Add Food
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => pushScreen('meal-planner')}
+            className="flex items-center gap-1.5 bg-orange-500 text-white px-3 py-2 rounded-xl text-sm font-bold hover:bg-orange-600 transition-colors active:scale-95"
+          >
+            <UtensilsCrossed className="w-4 h-4" /> Meals
+          </button>
+          <button
+            onClick={() => pushScreen('food-search')}
+            className="flex items-center gap-1.5 bg-emerald-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-emerald-600 transition-colors active:scale-95"
+          >
+            <Plus className="w-4 h-4" /> Add Food
+          </button>
+        </div>
       </div>
 
       {/* Calorie Summary */}

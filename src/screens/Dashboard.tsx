@@ -1,5 +1,5 @@
 import { useGlowFitStore } from '../lib/store';
-import { Flame, Droplets, Moon, TrendingUp, Footprints, Target, Apple, Brain, Bed, Heart, Zap, BarChart3, Activity, Calendar, Award } from 'lucide-react';
+import { Flame, Droplets, Moon, TrendingUp, Footprints, Target, Apple, Brain, Bed, Heart, Zap, BarChart3, Activity, Calendar, Award, Syringe, Camera, UtensilsCrossed } from 'lucide-react';
 
 function today() {
   return new Date().toISOString().split('T')[0] ?? '';
@@ -131,6 +131,9 @@ export default function Dashboard() {
             { icon: Calendar, label: 'Weekly', screen: 'weekly-report', color: 'bg-cyan-100 text-cyan-600' },
             { icon: Brain, label: 'AI Coach', screen: 'ai-coach', color: 'bg-violet-100 text-violet-600' },
             { icon: Activity, label: 'Recovery', screen: 'recovery', color: 'bg-emerald-100 text-emerald-600' },
+            { icon: Syringe, label: 'GLP-1', screen: 'glp1-tracker', color: 'bg-rose-100 text-rose-600' },
+            { icon: Camera, label: 'Photos', screen: 'progress-photos', color: 'bg-pink-100 text-pink-600' },
+            { icon: UtensilsCrossed, label: 'Meals', screen: 'meal-planner', color: 'bg-orange-100 text-orange-600' },
           ].map((f) => (
             <button
               key={f.label}

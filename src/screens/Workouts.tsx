@@ -1,5 +1,5 @@
 import { useGlowFitStore } from '../lib/store';
-import { Dumbbell, Plus, Timer, BookOpen, Wind } from 'lucide-react';
+import { Dumbbell, Plus, Timer, BookOpen, Wind, Syringe } from 'lucide-react';
 
 export default function Workouts() {
   const workouts = useGlowFitStore((s) => s.workouts);
@@ -23,6 +23,7 @@ export default function Workouts() {
           { icon: Timer, label: 'Timer', screen: 'workout-timer', color: 'bg-emerald-100 text-emerald-600' },
           { icon: BookOpen, label: 'Templates', screen: 'workout-templates', color: 'bg-violet-100 text-violet-600' },
           { icon: Wind, label: 'Breathing', screen: 'breathing-exercises', color: 'bg-blue-100 text-blue-600' },
+          { icon: Syringe, label: 'GLP-1', screen: 'glp1-tracker', color: 'bg-rose-100 text-rose-600' },
         ].map((a) => (
           <button
             key={a.label}
