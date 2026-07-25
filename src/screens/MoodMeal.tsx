@@ -82,7 +82,7 @@ export default function MoodMeal() {
         <p className="text-sm font-medium text-slate-600 mb-3">How are you feeling?</p>
         <div className="flex justify-center gap-3">
           {MOODS.map(m => (
-            <button key={m.value} onClick={() => setMood(m.value)} className={`flex flex-col items-center p-3 rounded-xl transition-all ${mood === m.value ? 'bg-rose-100 border-2 border-rose-400 scale-110' : 'bg-slate-50 border-2 border-transparent'}`}>
+            <button key={m.value} onClick={() => setMood(m.value)} aria-label={`Mood: ${m.label}`} className={`flex flex-col items-center p-3 rounded-xl transition-all ${mood === m.value ? 'bg-rose-100 border-2 border-rose-400 scale-110' : 'bg-slate-50 border-2 border-transparent'}`}>
               <span className="text-2xl">{m.emoji}</span>
               <span className="text-xs text-slate-500 mt-1">{m.label}</span>
             </button>
@@ -95,7 +95,7 @@ export default function MoodMeal() {
         <p className="text-sm font-medium text-slate-600 mb-3">What did you eat?</p>
         <div className="grid grid-cols-4 gap-2 mb-3">
           {MEAL_TYPES.map(mt => (
-            <button key={mt.key} onClick={() => setMealType(mt.key)} className={`flex flex-col items-center gap-1 p-2.5 rounded-xl transition-all ${mealType === mt.key ? `${mt.color} border-2 border-current` : 'bg-slate-50 border-2 border-transparent'}`}>
+            <button key={mt.key} onClick={() => setMealType(mt.key)} aria-label={`Select ${mt.label}`} className={`flex flex-col items-center gap-1 p-2.5 rounded-xl transition-all ${mealType === mt.key ? `${mt.color} border-2 border-current` : 'bg-slate-50 border-2 border-transparent'}`}>
               {mt.icon}
               <span className="text-xs font-medium">{mt.label}</span>
             </button>
@@ -107,13 +107,13 @@ export default function MoodMeal() {
       {/* Before/After + Notes */}
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-3">
         <div className="flex gap-2">
-          <button onClick={() => setBeforeMeal(true)} className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${beforeMeal ? 'bg-violet-500 text-white' : 'bg-slate-100 text-slate-600'}`}>Before Meal</button>
-          <button onClick={() => setBeforeMeal(false)} className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${!beforeMeal ? 'bg-violet-500 text-white' : 'bg-slate-100 text-slate-600'}`}>After Meal</button>
+          <button onClick={() => setBeforeMeal(true)} aria-label="Before meal" className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${beforeMeal ? 'bg-violet-500 text-white' : 'bg-slate-100 text-slate-600'}`}>Before Meal</button>
+          <button onClick={() => setBeforeMeal(false)} aria-label="After meal" className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${!beforeMeal ? 'bg-violet-500 text-white' : 'bg-slate-100 text-slate-600'}`}>After Meal</button>
         </div>
         <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Any notes? (optional)" className="w-full p-3 rounded-xl border border-slate-200 text-sm resize-none h-16" />
       </div>
 
-      <button onClick={save} disabled={mood === 0 || !food.trim()} className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-bold text-sm shadow-lg disabled:opacity-40 transition-all active:scale-[0.98]">
+      <button onClick={save} disabled={mood === 0 || !food.trim()} aria-label="Save entry" className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-bold text-sm shadow-lg disabled:opacity-40 transition-all active:scale-[0.98]">
         <span className="flex items-center justify-center gap-2"><Plus className="w-5 h-5" /> Save Entry</span>
       </button>
 

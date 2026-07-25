@@ -72,15 +72,17 @@ export default function WorkoutTimer() {
       <div className="flex items-center justify-center gap-4">
         {!running ? (
           <button
-            onClick={start}
-            className="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-lg hover:bg-emerald-600 active:scale-95 transition-all"
+                      onClick={start}
+                      aria-label="Start timer"
+                      className="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-lg hover:bg-emerald-600 active:scale-95 transition-all"
           >
             <Play className="w-7 h-7 ml-1" />
           </button>
         ) : (
           <button
-            onClick={pause}
-            className="w-16 h-16 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-lg hover:bg-amber-600 active:scale-95 transition-all"
+                      onClick={pause}
+                      aria-label="Pause timer"
+                      className="w-16 h-16 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-lg hover:bg-amber-600 active:scale-95 transition-all"
           >
             <Pause className="w-7 h-7" />
           </button>
@@ -88,8 +90,9 @@ export default function WorkoutTimer() {
 
         {elapsed > 0 && !running && (
           <button
-            onClick={reset}
-            className="w-12 h-12 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center hover:bg-slate-300 active:scale-95 transition-all"
+                      onClick={reset}
+                      aria-label="Reset timer"
+                      className="w-12 h-12 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center hover:bg-slate-300 active:scale-95 transition-all"
           >
             <RotateCcw className="w-5 h-5" />
           </button>
@@ -97,8 +100,9 @@ export default function WorkoutTimer() {
 
         {running && (
           <button
-            onClick={lap}
-            className="w-12 h-12 rounded-full bg-violet-500 text-white flex items-center justify-center shadow-lg hover:bg-violet-600 active:scale-95 transition-all"
+                      onClick={lap}
+                      aria-label="Record lap"
+                      className="w-12 h-12 rounded-full bg-violet-500 text-white flex items-center justify-center shadow-lg hover:bg-violet-600 active:scale-95 transition-all"
           >
             <Flag className="w-5 h-5" />
           </button>
@@ -137,8 +141,9 @@ export default function WorkoutTimer() {
             className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm"
           />
           <button
-            onClick={saveWorkout}
-            className="w-full flex items-center justify-center gap-2 bg-rose-500 text-white py-3 rounded-xl font-bold text-sm hover:bg-rose-600 active:scale-[0.98] transition-all"
+                      onClick={saveWorkout}
+                      aria-label="Save workout"
+                      className="w-full flex items-center justify-center gap-2 bg-rose-500 text-white py-3 rounded-xl font-bold text-sm hover:bg-rose-600 active:scale-[0.98] transition-all"
           >
             <Save className="w-4 h-4" />
             Save Workout ({formatTime(elapsed)})

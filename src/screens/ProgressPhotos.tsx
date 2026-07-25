@@ -79,6 +79,7 @@ function PhotoSlot({ label, value, onChange, onClear }: PhotoSlotProps) {
           />
           <button
             onClick={onClear}
+            aria-label="Remove photo"
             className="absolute top-2 right-2 p-1 rounded-full bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity"
           >
             <X className="w-3 h-3" />
@@ -87,6 +88,7 @@ function PhotoSlot({ label, value, onChange, onClear }: PhotoSlotProps) {
       ) : (
         <button
           onClick={() => inputRef.current?.click()}
+          aria-label="Upload photo"
           className="w-full aspect-[3/4] border-2 border-dashed border-slate-300 rounded-xl p-4 text-center hover:border-rose-400 transition-colors flex flex-col items-center justify-center gap-2"
         >
           <ImagePlus className="w-6 h-6 text-slate-300" />
@@ -115,6 +117,7 @@ function PhotoCard({ photo, selected, onSelect }: PhotoCardProps) {
   return (
     <button
       onClick={onSelect}
+      aria-label={`Select photo from ${photo.date}`}
       className={`relative rounded-2xl overflow-hidden border-2 transition-all active:scale-[0.97] ${
         selected
           ? 'border-rose-500 shadow-lg shadow-rose-200'
@@ -170,6 +173,7 @@ function CompareView({ before, after, onExit }: CompareViewProps) {
       <div className="flex items-center justify-between">
         <button
           onClick={onExit}
+          aria-label="Back to progress photos"
           className="flex items-center gap-1 text-sm text-rose-500 font-medium"
         >
           <ArrowLeftRight className="w-4 h-4" /> Back
@@ -184,6 +188,7 @@ function CompareView({ before, after, onExit }: CompareViewProps) {
             <button
               key={v}
               onClick={() => setActiveView(v)}
+              aria-label={`View ${v}`}
               className={`flex-1 py-2 rounded-xl text-xs font-bold capitalize transition-all ${
                 activeView === v
                   ? 'bg-rose-500 text-white'
@@ -388,6 +393,7 @@ export function ProgressPhotos() {
             setShowForm(!showForm);
           }}
           className="flex items-center gap-1.5 bg-rose-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-rose-600 active:scale-95 transition-all"
+          aria-label="Add photos"
         >
           <Plus className="w-4 h-4" /> Add Photos
         </button>
@@ -445,6 +451,7 @@ export function ProgressPhotos() {
                 resetForm();
               }}
               className="flex-1 py-2.5 rounded-xl text-sm font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 active:scale-[0.98] transition-all"
+              aria-label="Cancel"
             >
               Cancel
             </button>
@@ -452,6 +459,7 @@ export function ProgressPhotos() {
               onClick={handleSave}
               disabled={!front && !side && !back}
               className="flex-1 bg-rose-500 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-rose-600 active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+              aria-label="Save photos"
             >
               Save Photos
             </button>
@@ -466,6 +474,7 @@ export function ProgressPhotos() {
             onClick={startCompare}
             disabled={selectedPhotos.length !== 2}
             className="flex items-center gap-1.5 text-sm font-medium text-rose-500 disabled:opacity-40 disabled:cursor-not-allowed"
+            aria-label="Compare selected photos"
           >
             <ArrowLeftRight className="w-4 h-4" />
             Compare{selectedPhotos.length === 2 ? ' ✓' : ''}
@@ -517,6 +526,7 @@ export function ProgressPhotos() {
                 setShowForm(true);
               }}
               className="mt-4 mx-auto flex items-center gap-1.5 bg-rose-500 text-white px-5 py-2 rounded-xl text-sm font-bold hover:bg-rose-600 active:scale-95 transition-all"
+              aria-label="Add your first photos"
             >
               <Camera className="w-4 h-4" /> Add Your First Photos
             </button>

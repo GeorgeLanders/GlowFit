@@ -49,7 +49,7 @@ export default function FoodPhotoJournal() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -75,7 +75,7 @@ export default function FoodPhotoJournal() {
       {/* Filters */}
       <div className="flex gap-2 overflow-x-auto pb-2">
         {(['all', 'breakfast', 'lunch', 'dinner', 'snack'] as const).map(f => (
-          <button key={f} onClick={() => setFilterMeal(f)}
+          <button key={f} onClick={() => setFilterMeal(f)} aria-label={`Filter by ${f}`}
             className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${filterMeal === f ? 'bg-amber-500 text-white' : 'bg-white/70 text-slate-600 border border-slate-200'}`}>
             {f === 'all' ? '🍽️ All' : `${mealEmojis[f]} ${f.charAt(0).toUpperCase() + f.slice(1)}`}
           </button>
@@ -83,7 +83,7 @@ export default function FoodPhotoJournal() {
       </div>
 
       {/* Add Button */}
-      <button onClick={() => setShowAdd(!showAdd)} className="w-full py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg">
+      <button onClick={() => setShowAdd(!showAdd)} aria-label={showAdd ? "Cancel" : "Add food photo"} className="w-full py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg">
         {showAdd ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
         {showAdd ? 'Cancel' : 'Add Food Photo'}
       </button>
@@ -102,7 +102,7 @@ export default function FoodPhotoJournal() {
             <p className="text-sm font-medium text-slate-600 mb-2">Meal Type</p>
             <div className="flex gap-2">
               {(['breakfast', 'lunch', 'dinner', 'snack'] as const).map(meal => (
-                <button key={meal} onClick={() => setSelectedMeal(meal)}
+                <button key={meal} onClick={() => setSelectedMeal(meal)} aria-label={`Select ${meal}`}
                   className={`flex-1 py-2 rounded-xl text-sm font-medium transition-all ${selectedMeal === meal ? 'bg-amber-500 text-white' : 'bg-slate-100 text-slate-600'}`}>
                   {mealEmojis[meal]} {meal.charAt(0).toUpperCase() + meal.slice(1)}
                 </button>
@@ -114,7 +114,7 @@ export default function FoodPhotoJournal() {
             <p className="text-sm font-medium text-slate-600 mb-2">How did it feel?</p>
             <div className="flex gap-2">
               {(['great', 'good', 'okay', 'bad'] as const).map(mood => (
-                <button key={mood} onClick={() => setSelectedMood(mood)}
+                <button key={mood} onClick={() => setSelectedMood(mood)} aria-label={`Mood: ${mood}`}
                   className={`flex-1 py-2 rounded-xl text-lg transition-all ${selectedMood === mood ? 'bg-amber-100 ring-2 ring-amber-400' : 'bg-slate-100'}`}>
                   {moodEmojis[mood]}
                 </button>
@@ -125,7 +125,7 @@ export default function FoodPhotoJournal() {
           <input type="text" placeholder="Notes (optional)" value={notes} onChange={e => setNotes(e.target.value)}
             className="w-full p-3 rounded-xl border border-slate-200 text-slate-800" />
 
-          <button onClick={addEntry} className="w-full py-3 rounded-xl bg-emerald-500 text-white font-semibold active:scale-95 transition-all">Save Entry</button>
+          <button onClick={addEntry} aria-label="Save entry" className="w-full py-3 rounded-xl bg-emerald-500 text-white font-semibold active:scale-95 transition-all">Save Entry</button>
         </div>
       )}
 

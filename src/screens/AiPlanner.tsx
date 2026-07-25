@@ -218,7 +218,7 @@ export default function AiPlanner() {
           </div>
 
           {/* Generate Button */}
-          <button onClick={generatePlan} disabled={isGenerating} className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-violet-500 to-rose-500 text-white font-bold text-sm shadow-lg disabled:opacity-50 transition-all active:scale-[0.98]">
+          <button onClick={generatePlan} disabled={isGenerating} aria-label="Generate AI plan" className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-violet-500 to-rose-500 text-white font-bold text-sm shadow-lg disabled:opacity-50 transition-all active:scale-[0.98]">
             {isGenerating ? (
               <span className="flex items-center justify-center gap-2">
                 <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -270,7 +270,7 @@ export default function AiPlanner() {
             </div>
           </div>
 
-          <button onClick={() => setActiveTab('setup')} className="w-full py-3 rounded-2xl bg-white/70 border border-white/40 shadow-[var(--shadow-card)] text-sm font-medium text-slate-600">
+          <button onClick={() => setActiveTab('setup')} aria-label="Edit profile and regenerate" className="w-full py-3 rounded-2xl bg-white/70 border border-white/40 shadow-[var(--shadow-card)] text-sm font-medium text-slate-600">
             ← Edit Profile & Regenerate
           </button>
         </div>

@@ -74,8 +74,8 @@ export default function TDEECalculator() {
 
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-4">
         <div className="flex gap-3">
-          <button onClick={() => setGender('female')} className={`flex-1 py-3 rounded-xl font-medium transition-all ${gender === 'female' ? 'bg-rose-500 text-white' : 'bg-slate-100 text-slate-600'}`}>♀ Female</button>
-          <button onClick={() => setGender('male')} className={`flex-1 py-3 rounded-xl font-medium transition-all ${gender === 'male' ? 'bg-blue-500 text-white' : 'bg-slate-100 text-slate-600'}`}>♂ Male</button>
+          <button onClick={() => setGender('female')} aria-label="Select female" className={`flex-1 py-3 rounded-xl font-medium transition-all ${gender === 'female' ? 'bg-rose-500 text-white' : 'bg-slate-100 text-slate-600'}`}>♀ Female</button>
+          <button onClick={() => setGender('male')} aria-label="Select male" className={`flex-1 py-3 rounded-xl font-medium transition-all ${gender === 'male' ? 'bg-blue-500 text-white' : 'bg-slate-100 text-slate-600'}`}>♂ Male</button>
         </div>
         <div className="grid grid-cols-3 gap-3">
           <div>
@@ -97,7 +97,7 @@ export default function TDEECalculator() {
         <p className="text-sm font-medium text-slate-600 mb-3">Activity Level</p>
         <div className="space-y-2">
           {(Object.entries(activityMultipliers) as [ActivityLevel, { label: string; value: number; desc: string }][]).map(([key, val]) => (
-            <button key={key} onClick={() => setActivity(key)} className={`w-full p-3 rounded-xl text-left transition-all ${activity === key ? 'bg-orange-100 border-2 border-orange-400' : 'bg-slate-50 border-2 border-transparent'}`}>
+            <button key={key} onClick={() => setActivity(key)} aria-label={val.label} className={`w-full p-3 rounded-xl text-left transition-all ${activity === key ? 'bg-orange-100 border-2 border-orange-400' : 'bg-slate-50 border-2 border-transparent'}`}>
               <p className="font-medium text-slate-800">{val.label}</p>
               <p className="text-xs text-slate-500">{val.desc}</p>
             </button>
@@ -109,7 +109,7 @@ export default function TDEECalculator() {
         <p className="text-sm font-medium text-slate-600 mb-3">Goal</p>
         <div className="flex gap-3">
           {([['lose', 'Lose Weight', 'bg-blue-500'], ['maintain', 'Maintain', 'bg-emerald-500'], ['gain', 'Gain Muscle', 'bg-rose-500']] as const).map(([key, label, color]) => (
-            <button key={key} onClick={() => setGoal(key)} className={`flex-1 py-3 rounded-xl font-medium text-sm transition-all ${goal === key ? `${color} text-white` : 'bg-slate-100 text-slate-600'}`}>{label}</button>
+            <button key={key} onClick={() => setGoal(key)} aria-label={label} className={`flex-1 py-3 rounded-xl font-medium text-sm transition-all ${goal === key ? `${color} text-white` : 'bg-slate-100 text-slate-600'}`}>{label}</button>
           ))}
         </div>
       </div>

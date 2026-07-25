@@ -94,7 +94,7 @@ export default function SosGrounding() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-2">
-        <button onClick={popScreen} className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -107,8 +107,9 @@ export default function SosGrounding() {
       <div className="bg-gradient-to-br from-indigo-500 to-violet-500 rounded-2xl p-6 text-white shadow-lg flex flex-col items-center">
         <p className="text-sm text-white/70 mb-4">4-7-8 Breathing Technique</p>
         <button
-          onClick={() => setBreathActive(!breathActive)}
-          className="relative w-32 h-32 rounded-full flex items-center justify-center transition-transform"
+                  onClick={() => setBreathActive(!breathActive)}
+                  aria-label="Toggle breathing exercise"
+                  className="relative w-32 h-32 rounded-full flex items-center justify-center transition-transform"
           style={{ transform: `scale(${breathScale})`, background: 'rgba(255,255,255,0.15)' }}
         >
           <div className="text-center">
@@ -122,7 +123,7 @@ export default function SosGrounding() {
       {/* Category Selector */}
       <div className="flex gap-2 overflow-x-auto pb-1">
         {CATEGORIES.map(cat => (
-          <button key={cat} onClick={() => { setCategory(cat); setCurrentStep(0); }} className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${category === cat ? 'bg-rose-500 text-white shadow-md' : 'bg-white/70 text-slate-600 border border-white/40'}`}>
+          <button key={cat} onClick={() => { setCategory(cat); setCurrentStep(0); }} aria-label={`Select ${cat} category`} className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${category === cat ? 'bg-rose-500 text-white shadow-md' : 'bg-white/70 text-slate-600 border border-white/40'}`}>
             {cat}
           </button>
         ))}
@@ -132,7 +133,7 @@ export default function SosGrounding() {
       <div className="space-y-3">
         {steps.map((step, i) => (
           <div key={i} className={`bg-white/70 backdrop-blur-sm rounded-2xl p-4 border shadow-[var(--shadow-card)] transition-all ${i === currentStep ? 'border-rose-400 shadow-md' : 'border-white/40'}`}>
-            <button onClick={() => setCurrentStep(i)} className="w-full text-left">
+            <button onClick={() => setCurrentStep(i)} aria-label={step.title} className="w-full text-left">
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${i === currentStep ? 'bg-rose-100 text-rose-500' : 'bg-slate-100 text-slate-400'}`}>
                   {step.icon}
@@ -151,10 +152,10 @@ export default function SosGrounding() {
 
       {/* Step Navigation */}
       <div className="flex gap-2">
-        <button onClick={() => setCurrentStep(Math.max(0, currentStep - 1))} disabled={currentStep === 0} className="flex-1 py-3 rounded-xl bg-white/70 border border-white/40 shadow-[var(--shadow-card)] text-sm font-medium text-slate-600 disabled:opacity-40">
+        <button onClick={() => setCurrentStep(Math.max(0, currentStep - 1))} disabled={currentStep === 0} aria-label="Previous step" className="flex-1 py-3 rounded-xl bg-white/70 border border-white/40 shadow-[var(--shadow-card)] text-sm font-medium text-slate-600 disabled:opacity-40">
           ← Previous
         </button>
-        <button onClick={() => setCurrentStep(Math.min(steps.length - 1, currentStep + 1))} disabled={currentStep === steps.length - 1} className="flex-1 py-3 rounded-xl bg-rose-500 text-white text-sm font-medium disabled:opacity-40">
+        <button onClick={() => setCurrentStep(Math.min(steps.length - 1, currentStep + 1))} disabled={currentStep === steps.length - 1} aria-label="Next step" className="flex-1 py-3 rounded-xl bg-rose-500 text-white text-sm font-medium disabled:opacity-40">
           Next →
         </button>
       </div>
