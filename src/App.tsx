@@ -1,6 +1,12 @@
+import { useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useGlowFitStore } from './lib/store';
 import { ArrowLeft } from 'lucide-react';
+import { useDarkMode } from './lib/useDarkMode';
+import { initErrorTracking } from './lib/error-tracking';
+import { track } from './lib/analytics';
 import BottomNav from './components/BottomNav';
+import { OfflineBanner } from './components/OfflineBanner';
 
 // Main tab screens
 import Dashboard from './screens/Dashboard';
@@ -134,6 +140,22 @@ const SUB_SCREENS: Record<string, { title: string; component: React.ReactNode }>
 };
 
 // ═══════════════════════════════════════════════════════════════════
+// Page transition variants
+// ═══════════════════════════════════════════════════════════════════
+
+const pageVariants = {
+  initial: { opacity: 0, x: 20 },
+  animate: { opacity: 1, x: 0 },
+  exit: { opacity: 0, x: -20 },
+};
+
+const pageTransition = {
+  type: 'tween' as const,
+  ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
+  duration: 0.3,
+};
+
+// ═══════════════════════════════════════════════════════════════════
 // App
 // ═══════════════════════════════════════════════════════════════════
 
@@ -144,10 +166,22 @@ function AppContent() {
   const onboardingCompleted = useGlowFitStore((s) => s.profile.onboardingCompleted);
   const updateProfile = useGlowFitStore((s) => s.updateProfile);
 
+  // Initialize dark mode, error tracking, analytics
+  useDarkMode();
+  useEffect(() => { initErrorTracking(); }, []);
+  useEffect(() => { track('app_open'); }, []);
+
+  // Track screen changes
+  useEffect(() => {
+    if (currentScreen) track('screen_view', { screen: currentScreen });
+    else track('screen_view', { screen: activeTab });
+  }, [currentScreen, activeTab]);
+
   // Onboarding gate
   if (!onboardingCompleted && !currentScreen) {
     return (
       <div className="min-h-screen bg-[var(--bg-page)]">
+        <OfflineBanner />
         <main className="max-w-lg mx-auto px-4 pt-4">
           <OnboardingFlow onComplete={() => updateProfile({ onboardingCompleted: true })} />
         </main>
@@ -160,19 +194,30 @@ function AppContent() {
     const { title, component } = SUB_SCREENS[currentScreen];
     return (
       <div className="min-h-screen bg-[var(--bg-page)]">
-        <main className="max-w-lg mx-auto px-4 pb-20 pt-4">
-          {/* Back Header */}
-          <div className="flex items-center gap-3 mb-6">
-            <button
-              onClick={popScreen}
-              className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)] hover:bg-white/90 active:scale-95 transition-all"
-            >
-              <ArrowLeft className="w-5 h-5 text-slate-600" />
-            </button>
-            <h1 className="text-xl font-serif text-rose-900">{title}</h1>
-          </div>
-          {component}
-        </main>
+        <OfflineBanner />
+        <AnimatePresence mode="wait">
+          <motion.main
+            key={currentScreen}
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={pageTransition}
+            className="max-w-lg mx-auto px-4 pb-20 pt-4"
+          >
+            {/* Back Header */}
+            <div className="flex items-center gap-3 mb-6">
+              <button
+                onClick={() => { popScreen(); track('navigate_back'); }}
+                className="p-2 rounded-xl bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)] hover:bg-white/90 dark:hover:bg-slate-700/90 active:scale-95 transition-all"
+              >
+                <ArrowLeft className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+              </button>
+              <h1 className="text-xl font-serif text-rose-900 dark:text-rose-300">{title}</h1>
+            </div>
+            {component}
+          </motion.main>
+        </AnimatePresence>
         <BottomNav />
       </div>
     );
@@ -181,9 +226,20 @@ function AppContent() {
   // Main tab view
   return (
     <div className="min-h-screen bg-[var(--bg-page)]">
-      <main className="max-w-lg mx-auto px-4 pb-20 pt-4">
-        {MAIN_SCREENS[activeTab] ?? <Dashboard />}
-      </main>
+      <OfflineBanner />
+      <AnimatePresence mode="wait">
+        <motion.main
+          key={activeTab}
+          variants={pageVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          transition={pageTransition}
+          className="max-w-lg mx-auto px-4 pb-20 pt-4"
+        >
+          {MAIN_SCREENS[activeTab] ?? <Dashboard />}
+        </motion.main>
+      </AnimatePresence>
       <BottomNav />
     </div>
   );

@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useGlowFitStore } from '../lib/store';
-import { Download, FileJson, FileText, ArrowLeft, Check, Activity, Utensils, Moon, Scale, Droplets, Heart } from 'lucide-react';
+import { Download, FileJson, FileText, ArrowLeft, Check, Activity, Utensils, Moon, Scale, Droplets, Heart, Share2 } from 'lucide-react';
+import { shareText } from '../lib/share';
+import { haptics } from '../lib/haptics';
+import { track } from '../lib/analytics';
 
 export default function ExportData() {
   const popScreen = useGlowFitStore((s) => s.popScreen);
@@ -82,6 +85,27 @@ export default function ExportData() {
 
       <button onClick={handleExport} aria-label="Export all data" disabled={exporting} className={`w-full py-4 rounded-2xl font-semibold text-white transition-all shadow-lg ${exported ? 'bg-emerald-500' : exporting ? 'bg-slate-400 cursor-not-allowed' : 'bg-gradient-to-r from-rose-500 to-pink-500 active:scale-95'}`}>
         {exported ? <span className="flex items-center justify-center gap-2"><Check className="w-5 h-5" /> Downloaded!</span> : exporting ? 'Exporting...' : <span className="flex items-center justify-center gap-2"><Download className="w-5 h-5" /> Export All Data</span>}
+      </button>
+      <button
+        onClick={async () => {
+          haptics.medium();
+          track('export_share');
+          const data = {
+            profile: store.profile,
+            workoutCount: store.workouts.length,
+            nutritionCount: store.calorieLogs.length,
+          };
+          await shareText(
+            `My GlowFit Summary:\nWorkouts: ${data.workoutCount}\nMeals logged: ${data.nutritionCount}\nGoal: ${data.profile.goalWeight}kg`,
+            'GlowFit Progress'
+          );
+          haptics.success();
+        }}
+        aria-label="Share progress summary"
+        className="w-full py-3 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-500 text-white font-semibold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg"
+      >
+        <Share2 className="w-5 h-5" />
+        Share Progress Summary
       </button>
       <p className="text-xs text-slate-400 text-center">All data is stored locally on your device.</p>
     </div>

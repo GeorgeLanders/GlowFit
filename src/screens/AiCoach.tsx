@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useGlowFitStore } from '../lib/store';
-import { Send, Sparkles, User, MessageSquare, Trash2 } from 'lucide-react';
+import { Send, Sparkles, User, MessageSquare, Trash2, Mic, MicOff } from 'lucide-react';
+import { isVoiceSupported, startListening } from '../lib/voice-input';
+import { haptics } from '../lib/haptics';
 import type { ChatMessage } from '../types';
 
 const LLM_BASE_URL = (import.meta as any).env?.VITE_LLM_BASE_URL || 'https://everbloom-lyla-proxy.georgelanders2.workers.dev';
@@ -78,8 +81,10 @@ export function AiCoach() {
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
   const [streaming, setStreaming] = useState('');
+  const [listening, setListening] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const stopVoiceRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -170,6 +175,27 @@ export function AiCoach() {
     }
   };
 
+  const toggleVoice = () => {
+    if (listening) {
+      stopVoiceRef.current?.();
+      setListening(false);
+      return;
+    }
+    setListening(true);
+    haptics.medium();
+    const stop = startListening(
+      (result) => {
+        setListening(false);
+        setInput(result.transcript);
+        haptics.success();
+        // Auto-send after voice input
+        setTimeout(() => handleSend(result.transcript), 300);
+      },
+      () => setListening(false),
+    );
+    stopVoiceRef.current = stop;
+  };
+
   return (
     <div className="flex flex-col h-[calc(100vh-100px)] animate-fade-in">
       {/* Header */}
@@ -179,8 +205,8 @@ export function AiCoach() {
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-slate-800">Coach Glow</h1>
-            <p className="text-[10px] text-slate-400 uppercase tracking-widest">AI Fitness Coach</p>
+            <h1 className="text-lg font-bold text-slate-800 dark:text-slate-100">Coach Glow</h1>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-widest">AI Fitness Coach</p>
           </div>
         </div>
         <button
@@ -196,16 +222,21 @@ export function AiCoach() {
       <div className="flex-1 overflow-y-auto space-y-3 pb-4 scrollbar-thin">
         {chatMessages.length === 0 && !typing && (
           <div className="flex flex-col items-center justify-center h-full text-center px-4">
-            <div className="w-16 h-16 rounded-2xl bg-rose-100 flex items-center justify-center mb-4">
+            <div className="w-16 h-16 rounded-2xl bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center mb-4">
               <MessageSquare className="w-8 h-8 text-rose-400" />
             </div>
-            <p className="text-slate-500 text-sm font-medium mb-1">Hi there! I'm Coach Glow ✨</p>
-            <p className="text-slate-400 text-xs">Ask me about nutrition, workouts, or your GLP-1 journey</p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1">Hi there! I'm Coach Glow ✨</p>
+            <p className="text-slate-400 dark:text-slate-500 text-xs">Ask me about nutrition, workouts, or your GLP-1 journey</p>
           </div>
         )}
 
         {chatMessages.map((msg) => (
-          <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+          <motion.div
+            key={msg.id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
             <div className={`max-w-[80%] flex items-end gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
               <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${msg.role === 'user' ? 'bg-rose-100' : 'bg-slate-100'}`}>
                 {msg.role === 'user' ? <User className="w-3.5 h-3.5 text-rose-600" /> : <Sparkles className="w-3.5 h-3.5 text-rose-500" />}
@@ -214,26 +245,26 @@ export function AiCoach() {
                 <div className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed whitespace-pre-line ${
                   msg.role === 'user'
                     ? 'bg-rose-500 text-white rounded-br-sm'
-                    : 'bg-white/70 backdrop-blur-sm border border-white/40 text-slate-700 shadow-[var(--shadow-card)] rounded-bl-sm'
+                    : 'bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/40 dark:border-slate-700/40 text-slate-700 dark:text-slate-200 shadow-[var(--shadow-card)] rounded-bl-sm'
                 }`}>
                   {msg.content}
                 </div>
-                <p className={`text-[10px] text-slate-300 mt-1 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
+                <p className={`text-[10px] text-slate-300 dark:text-slate-500 mt-1 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
                   {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
 
         {typing && streaming && (
           <div className="flex justify-start">
             <div className="flex items-end gap-2">
-              <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center">
+              <div className="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
                 <Sparkles className="w-3.5 h-3.5 text-rose-500" />
               </div>
-              <div className="bg-white/70 backdrop-blur-sm border border-white/40 rounded-2xl rounded-bl-sm px-4 py-2.5 shadow-[var(--shadow-card)]">
-                <p className="text-sm text-slate-700 whitespace-pre-line leading-relaxed">{streaming}</p>
+              <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/40 dark:border-slate-700/40 rounded-2xl rounded-bl-sm px-4 py-2.5 shadow-[var(--shadow-card)]">
+                <p className="text-sm text-slate-700 dark:text-slate-200 whitespace-pre-line leading-relaxed">{streaming}</p>
                 <span className="inline-block w-1.5 h-4 bg-rose-400 animate-pulse ml-0.5 rounded-sm" />
               </div>
             </div>
@@ -243,10 +274,10 @@ export function AiCoach() {
         {typing && !streaming && (
           <div className="flex justify-start">
             <div className="flex items-end gap-2">
-              <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center">
+              <div className="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
                 <Sparkles className="w-3.5 h-3.5 text-rose-500" />
               </div>
-              <div className="bg-white/70 backdrop-blur-sm border border-white/40 rounded-2xl rounded-bl-sm px-4 py-3 shadow-[var(--shadow-card)]">
+              <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/40 dark:border-slate-700/40 rounded-2xl rounded-bl-sm px-4 py-3 shadow-[var(--shadow-card)]">
                 <div className="flex gap-1.5">
                   <span className="w-2 h-2 bg-rose-300 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                   <span className="w-2 h-2 bg-rose-300 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -267,7 +298,7 @@ export function AiCoach() {
               key={a.label}
               onClick={() => handleSend(a.prompt)}
               aria-label={a.label}
-              className="text-left text-xs font-medium px-3 py-2.5 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 text-slate-600 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 transition-all shadow-sm"
+              className="text-left text-xs font-medium px-3 py-2.5 rounded-xl bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/40 dark:border-slate-700/40 text-slate-600 dark:text-slate-300 hover:bg-rose-50 dark:hover:bg-rose-900/30 hover:text-rose-600 hover:border-rose-200 transition-all shadow-sm"
             >
               {a.label}
             </button>
@@ -276,16 +307,29 @@ export function AiCoach() {
       )}
 
       {/* Input Bar */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 shadow-[var(--shadow-card)] flex items-center gap-2 p-2">
+      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)] flex items-center gap-2 p-2">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(input); } }}
           placeholder="Ask Coach Glow..."
-          className="flex-1 text-sm text-slate-700 placeholder-slate-400 bg-transparent px-3 py-2 outline-none"
+          className="flex-1 text-sm text-slate-700 dark:text-slate-200 placeholder-slate-400 bg-transparent px-3 py-2 outline-none"
         />
+        {isVoiceSupported() && (
+          <button
+            onClick={toggleVoice}
+            aria-label={listening ? 'Stop listening' : 'Voice input'}
+            className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all ${
+              listening
+                ? 'bg-red-500 animate-pulse text-white'
+                : 'text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30'
+            }`}
+          >
+            {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+          </button>
+        )}
         <button
-          onClick={() => handleSend(input)}
+          onClick={() => { haptics.light(); handleSend(input); }}
           disabled={!input.trim() || typing}
           aria-label="Send message"
           className="w-9 h-9 rounded-xl bg-rose-500 flex items-center justify-center disabled:opacity-40 hover:bg-rose-600 transition-colors"

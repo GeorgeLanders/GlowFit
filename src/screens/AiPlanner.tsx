@@ -1,6 +1,8 @@
 import { useState, useMemo } from 'react';
 import { useGlowFitStore } from '../lib/store';
-import { Sparkles, ArrowLeft, Flame, User, Activity, Utensils, ChevronRight, Dumbbell, Lightbulb } from 'lucide-react';
+import { Sparkles, ArrowLeft, Flame, User, Activity, Utensils, ChevronRight, Dumbbell, Lightbulb, Zap } from 'lucide-react';
+import { haptics } from '../lib/haptics';
+import { track } from '../lib/analytics';
 
 type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'active' | 'very_active';
 type DietPref = 'balanced' | 'keto' | 'vegan' | 'paleo' | 'high_protein';
@@ -51,6 +53,38 @@ export default function AiPlanner() {
   }, [bmi]);
 
   const [plan, setPlan] = useState<{ workouts: string[]; nutrition: string[]; tips: string[] } | null>(null);
+  const [aiPlan, setAiPlan] = useState('');
+  const [aiPlanLoading, setAiPlanLoading] = useState(false);
+
+  const generateAiPlan = async () => {
+    haptics.medium();
+    setAiPlanLoading(true);
+    track('ai_planner_generate');
+    try {
+      const LLM_BASE_URL = (import.meta as any).env?.VITE_LLM_BASE_URL || 'https://everbloom-lyla-proxy.georgelanders2.workers.dev';
+      const LLM_MODEL = ((import.meta as any).env?.VITE_LLM_MODEL || 'big-pickle').toLowerCase().replace(/\s+/g, '-');
+      const response = await fetch(`${LLM_BASE_URL}/chat/completions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: LLM_MODEL,
+          messages: [
+            { role: 'system', content: 'You are a fitness planner. Create a personalized weekly workout and meal plan. Be specific with exercises, sets, reps, and meal ideas. Format with clear sections.' },
+            { role: 'user', content: `Age: ${age}, Height: ${height}cm, Weight: ${weight}kg, Target: ${target}kg, Activity: ${activity}, Diet: ${diet}, Gender: ${gender}, BMI: ${bmi}. Create a detailed weekly plan.` },
+          ],
+        }),
+      });
+      const data = await response.json();
+      const content = data.choices?.[0]?.message?.content || data.choices?.[0]?.delta?.content || '';
+      setAiPlan(content);
+      setActiveTab('plan');
+      haptics.success();
+    } catch {
+      setAiPlan('Unable to generate AI plan right now. Try again later.');
+    } finally {
+      setAiPlanLoading(false);
+    }
+  };
 
   const generatePlan = () => {
     setIsGenerating(true);
@@ -225,7 +259,17 @@ export default function AiPlanner() {
                 Generating Plan...
               </span>
             ) : (
-              <span className="flex items-center justify-center gap-2"><Sparkles className="w-5 h-5" /> Generate AI Plan</span>
+              <span className="flex items-center justify-center gap-2"><Sparkles className="w-5 h-5" /> Generate Smart Plan</span>
+            )}
+          </button>
+          <button onClick={generateAiPlan} disabled={aiPlanLoading} aria-label="Generate AI-powered plan" className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-500 text-white font-bold text-sm shadow-lg disabled:opacity-50 transition-all active:scale-[0.98]">
+            {aiPlanLoading ? (
+              <span className="flex items-center justify-center gap-2">
+                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                AI is creating your plan...
+              </span>
+            ) : (
+              <span className="flex items-center justify-center gap-2"><Zap className="w-5 h-5" /> AI-Powered Deep Plan</span>
             )}
           </button>
         </div>
@@ -269,6 +313,14 @@ export default function AiPlanner() {
               ))}
             </div>
           </div>
+
+          {/* AI Plan */}
+          {aiPlan && (
+            <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-indigo-200 dark:border-indigo-800/40 shadow-[var(--shadow-card)]">
+              <p className="text-sm font-medium text-indigo-600 mb-3 flex items-center gap-1.5"><Zap className="w-4 h-4" /> AI-Powered Plan</p>
+              <p className="text-sm text-slate-700 dark:text-slate-300 whitespace-pre-line leading-relaxed">{aiPlan}</p>
+            </div>
+          )}
 
           <button onClick={() => setActiveTab('setup')} aria-label="Edit profile and regenerate" className="w-full py-3 rounded-2xl bg-white/70 border border-white/40 shadow-[var(--shadow-card)] text-sm font-medium text-slate-600">
             ← Edit Profile & Regenerate

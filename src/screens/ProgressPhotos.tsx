@@ -8,6 +8,9 @@ import {
   X,
   ImagePlus,
 } from 'lucide-react';
+import { takePhoto } from '../lib/camera';
+import { haptics } from '../lib/haptics';
+import { track } from '../lib/analytics';
 
 // ═══════════════════════════════════════════════════════════════════
 // Helpers
@@ -86,14 +89,27 @@ function PhotoSlot({ label, value, onChange, onClear }: PhotoSlotProps) {
           </button>
         </div>
       ) : (
-        <button
-          onClick={() => inputRef.current?.click()}
-          aria-label="Upload photo"
-          className="w-full aspect-[3/4] border-2 border-dashed border-slate-300 rounded-xl p-4 text-center hover:border-rose-400 transition-colors flex flex-col items-center justify-center gap-2"
-        >
-          <ImagePlus className="w-6 h-6 text-slate-300" />
-          <span className="text-xs text-slate-400">{label}</span>
-        </button>
+        <div className="space-y-2">
+          <button
+            onClick={() => inputRef.current?.click()}
+            aria-label="Upload photo"
+            className="w-full aspect-[3/4] border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-4 text-center hover:border-rose-400 transition-colors flex flex-col items-center justify-center gap-2"
+          >
+            <ImagePlus className="w-6 h-6 text-slate-300 dark:text-slate-500" />
+            <span className="text-xs text-slate-400 dark:text-slate-500">{label}</span>
+          </button>
+          <button
+            onClick={async () => {
+              haptics.medium();
+              const url = await takePhoto();
+              if (url) { onChange(url); haptics.success(); track('progress_photo_captured'); }
+            }}
+            className="w-full py-2 rounded-xl bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 text-xs font-medium flex items-center justify-center gap-2 hover:bg-rose-100 dark:hover:bg-rose-900/50 transition-colors"
+          >
+            <Camera className="w-3.5 h-3.5" />
+            Take Photo
+          </button>
+        </div>
       )}
       <input
         ref={inputRef}

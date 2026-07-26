@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useGlowFitStore } from '../lib/store';
 import { ArrowLeft, Camera, Plus, X, Image } from 'lucide-react';
+import { takePhoto, pickPhoto } from '../lib/camera';
+import { haptics } from '../lib/haptics';
+import { track } from '../lib/analytics';
 
 type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
 type MoodTag = 'great' | 'good' | 'okay' | 'bad';
@@ -26,11 +29,24 @@ export default function FoodPhotoJournal() {
   const [selectedMood, setSelectedMood] = useState<MoodTag>('good');
   const [notes, setNotes] = useState('');
   const [filterMeal, setFilterMeal] = useState<MealType | 'all'>('all');
+  const [photoUrl, setPhotoUrl] = useState('');
+
+  const handleTakePhoto = async () => {
+    haptics.medium();
+    const url = await takePhoto();
+    if (url) { setPhotoUrl(url); haptics.success(); track('food_photo_captured'); }
+  };
+
+  const handlePickPhoto = async () => {
+    haptics.light();
+    const url = await pickPhoto();
+    if (url) { setPhotoUrl(url); haptics.success(); track('food_photo_picked'); }
+  };
 
   const addEntry = () => {
     const newEntry: FoodPhotoEntry = {
       id: Date.now().toString(),
-      imageUrl: '',
+      imageUrl: photoUrl,
       mealType: selectedMeal,
       mood: selectedMood,
       notes,
@@ -38,7 +54,10 @@ export default function FoodPhotoJournal() {
     };
     setEntries(prev => [newEntry, ...prev]);
     setNotes('');
+    setPhotoUrl('');
     setShowAdd(false);
+    haptics.success();
+    track('food_photo_entry_added');
   };
 
   const filtered = filterMeal === 'all' ? entries : entries.filter(e => e.mealType === filterMeal);
@@ -91,12 +110,25 @@ export default function FoodPhotoJournal() {
       {/* Add Form */}
       {showAdd && (
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-3">
-          <div className="w-full h-32 bg-slate-100 rounded-xl flex items-center justify-center border-2 border-dashed border-slate-300">
-            <div className="text-center text-slate-400">
-              <Camera className="w-8 h-8 mx-auto mb-1" />
-              <p className="text-sm">Tap to add photo</p>
+          {photoUrl ? (
+            <div className="relative">
+              <img src={photoUrl} alt="Food" className="w-full h-32 object-cover rounded-xl" />
+              <button onClick={() => setPhotoUrl('')} className="absolute top-2 right-2 p-1 rounded-full bg-black/50 text-white">
+                <X className="w-3 h-3" />
+              </button>
             </div>
-          </div>
+          ) : (
+            <div className="flex gap-2">
+              <button onClick={handleTakePhoto} className="flex-1 h-32 bg-slate-100 rounded-xl flex flex-col items-center justify-center border-2 border-dashed border-slate-300 hover:border-amber-400 transition-colors">
+                <Camera className="w-8 h-8 text-slate-400 mb-1" />
+                <p className="text-sm text-slate-500">Take Photo</p>
+              </button>
+              <button onClick={handlePickPhoto} className="flex-1 h-32 bg-slate-100 rounded-xl flex flex-col items-center justify-center border-2 border-dashed border-slate-300 hover:border-amber-400 transition-colors">
+                <Image className="w-8 h-8 text-slate-400 mb-1" />
+                <p className="text-sm text-slate-500">Choose from Gallery</p>
+              </button>
+            </div>
+          )}
 
           <div>
             <p className="text-sm font-medium text-slate-600 mb-2">Meal Type</p>

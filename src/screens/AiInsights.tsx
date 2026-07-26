@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useGlowFitStore } from '../lib/store';
-import { Sparkles, ArrowLeft } from 'lucide-react';
+import { Sparkles, ArrowLeft, Zap } from 'lucide-react';
+import { haptics } from '../lib/haptics';
+import { track } from '../lib/analytics';
 
 interface Insight {
   id: string;
@@ -93,12 +95,44 @@ function generateInsights(state: any): Insight[] {
 
 export default function AiInsights() {
   const store = useGlowFitStore();
-  const [insights, setInsights] = useState<Insight[]>([]);
   const popScreen = useGlowFitStore((s) => s.popScreen);
+  const [insights, setInsights] = useState<Insight[]>([]);
+  const [aiInsight, setAiInsight] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
 
   useEffect(() => {
     setInsights(generateInsights(store));
   }, [store.workouts, store.waterLogs, store.calorieLogs, store.sleepLogs, store.weightLogs]);
+
+  const generateAiInsight = async () => {
+    haptics.medium();
+    setAiLoading(true);
+    track('ai_insights_generate');
+    try {
+      const LLM_BASE_URL = (import.meta as any).env?.VITE_LLM_BASE_URL || 'https://everbloom-lyla-proxy.georgelanders2.workers.dev';
+      const LLM_MODEL = ((import.meta as any).env?.VITE_LLM_MODEL || 'big-pickle').toLowerCase().replace(/\s+/g, '-');
+      const summary = `Workouts this week: ${store.workouts.length}, Water: ${store.waterLogs.reduce((s: number, w: any) => s + w.amountMl, 0)}ml, Calories logged: ${store.calorieLogs.length}, Sleep entries: ${store.sleepLogs.length}, Weight entries: ${store.weightLogs.length}`;
+      const response = await fetch(`${LLM_BASE_URL}/chat/completions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: LLM_MODEL,
+          messages: [
+            { role: 'system', content: 'You are a fitness data analyst. Given the user\'s recent activity data, provide 2-3 personalized, actionable insights in 2-3 short paragraphs. Be encouraging and specific.' },
+            { role: 'user', content: `Here's my recent data: ${summary}. Generate personalized insights.` },
+          ],
+        }),
+      });
+      const data = await response.json();
+      const content = data.choices?.[0]?.message?.content || data.choices?.[0]?.delta?.content || '';
+      setAiInsight(content);
+      haptics.success();
+    } catch {
+      setAiInsight('Unable to generate AI insights right now. Try again later.');
+    } finally {
+      setAiLoading(false);
+    }
+  };
 
   const priorityColors: Record<string, string> = {
     high: 'bg-red-50 border-red-200 text-red-700',
@@ -128,6 +162,29 @@ export default function AiInsights() {
         </div>
         <p className="text-sm text-white/80">{insights.length} insights from your data</p>
       </div>
+
+      {/* AI Deep Analysis */}
+      <button
+        onClick={generateAiInsight}
+        disabled={aiLoading}
+        className="w-full py-3 rounded-2xl bg-gradient-to-r from-violet-500 to-purple-500 text-white font-semibold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg disabled:opacity-50"
+      >
+        {aiLoading ? (
+          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+        ) : (
+          <Zap className="w-5 h-5" />
+        )}
+        {aiLoading ? 'Analyzing your data...' : 'AI Deep Analysis'}
+      </button>
+      {aiInsight && (
+        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-violet-200 dark:border-violet-800/40 p-4 shadow-[var(--shadow-card)]">
+          <div className="flex items-center gap-2 mb-2">
+            <Sparkles className="w-4 h-4 text-violet-500" />
+            <h3 className="font-semibold text-slate-800 dark:text-slate-100">AI Analysis</h3>
+          </div>
+          <p className="text-sm text-slate-600 dark:text-slate-300 whitespace-pre-line leading-relaxed">{aiInsight}</p>
+        </div>
+      )}
 
       <div className="space-y-3">
         {insights.map((insight) => (
