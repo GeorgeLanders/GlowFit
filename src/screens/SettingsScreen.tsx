@@ -26,7 +26,7 @@ export default function SettingsScreen() {
   const [biometricEnabled, setBiometricEnabled] = useState(false);
 
   useEffect(() => {
-    biometric.check().then(setBiometricInfo);
+    biometric.check().then(setBiometricInfo).catch(() => {});
   }, []);
 
   const save = () => {

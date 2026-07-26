@@ -86,8 +86,27 @@ export default {
       'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-User-Id',
     };
     
+    // Auth: require API key for write operations (upload, delete, sync push, cache set)
     const userId = request.headers.get('X-User-Id') || 'default';
-    
+    const authHeader = request.headers.get('Authorization');
+    const apiKey = env.API_KEY; // Set via wrangler secret put API_KEY
+
+    // Write endpoints require valid API key
+    const isWrite = request.method === 'POST' || request.method === 'PUT' || request.method === 'DELETE';
+    const isPublicRead = url.pathname.startsWith('/api/photos/file/') || url.pathname === '/api/health';
+
+    if (isWrite && !isPublicRead) {
+      const token = authHeader?.replace('Bearer ', '');
+      if (!apiKey) {
+        // No API_KEY secret set — skip auth (dev mode)
+      } else if (token !== apiKey) {
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+    }
+
     try {
       // ═══════════════════════════════════════════
       // GitHub Photo Storage

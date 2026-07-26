@@ -3,6 +3,7 @@ import { useGlowFitStore } from '../lib/store';
 import { Sparkles, ArrowLeft, Zap } from 'lucide-react';
 import { haptics } from '../lib/haptics';
 import { track } from '../lib/analytics';
+import { LLM_BASE_URL, LLM_MODEL } from '../lib/llm-config';
 
 interface Insight {
   id: string;
@@ -109,8 +110,6 @@ export default function AiInsights() {
     setAiLoading(true);
     track('ai_insights_generate');
     try {
-      const LLM_BASE_URL = (import.meta as any).env?.VITE_LLM_BASE_URL || 'https://everbloom-lyla-proxy.georgelanders2.workers.dev';
-      const LLM_MODEL = ((import.meta as any).env?.VITE_LLM_MODEL || 'big-pickle').toLowerCase().replace(/\s+/g, '-');
       const summary = `Workouts this week: ${store.workouts.length}, Water: ${store.waterLogs.reduce((s: number, w: any) => s + w.amountMl, 0)}ml, Calories logged: ${store.calorieLogs.length}, Sleep entries: ${store.sleepLogs.length}, Weight entries: ${store.weightLogs.length}`;
       const response = await fetch(`${LLM_BASE_URL}/chat/completions`, {
         method: 'POST',

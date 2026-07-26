@@ -3,6 +3,7 @@ import { useGlowFitStore } from '../lib/store';
 import { Sparkles, ArrowLeft, Flame, User, Activity, Utensils, ChevronRight, Dumbbell, Lightbulb, Zap } from 'lucide-react';
 import { haptics } from '../lib/haptics';
 import { track } from '../lib/analytics';
+import { LLM_BASE_URL, LLM_MODEL } from '../lib/llm-config';
 
 type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'active' | 'very_active';
 type DietPref = 'balanced' | 'keto' | 'vegan' | 'paleo' | 'high_protein';
@@ -61,8 +62,6 @@ export default function AiPlanner() {
     setAiPlanLoading(true);
     track('ai_planner_generate');
     try {
-      const LLM_BASE_URL = (import.meta as any).env?.VITE_LLM_BASE_URL || 'https://everbloom-lyla-proxy.georgelanders2.workers.dev';
-      const LLM_MODEL = ((import.meta as any).env?.VITE_LLM_MODEL || 'big-pickle').toLowerCase().replace(/\s+/g, '-');
       const response = await fetch(`${LLM_BASE_URL}/chat/completions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

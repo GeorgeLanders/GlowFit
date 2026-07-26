@@ -31,6 +31,7 @@ export const photos = {
       headers: { 'X-User-Id': USER_ID },
       body: formData,
     });
+    if (!res.ok) throw new Error(`Upload failed: ${res.status}`);
     return res.json();
   },
 

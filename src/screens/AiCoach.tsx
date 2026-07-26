@@ -6,8 +6,7 @@ import { isVoiceSupported, startListening } from '../lib/voice-input';
 import { haptics } from '../lib/haptics';
 import type { ChatMessage } from '../types';
 
-const LLM_BASE_URL = (import.meta as any).env?.VITE_LLM_BASE_URL || 'https://everbloom-lyla-proxy.georgelanders2.workers.dev';
-const LLM_MODEL = ((import.meta as any).env?.VITE_LLM_MODEL || 'big-pickle').toLowerCase().replace(/\s+/g, '-');
+import { LLM_BASE_URL, LLM_MODEL } from '../lib/llm-config';
 
 const QUICK_ACTIONS = [
   { label: 'How am I doing?', prompt: 'Based on my recent data, how am I doing with my fitness goals?' },
