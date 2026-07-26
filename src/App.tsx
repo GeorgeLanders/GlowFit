@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { App as CapacitorApp } from '@capacitor/app';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useGlowFitStore } from './lib/store';
 import { ArrowLeft } from 'lucide-react';
@@ -176,6 +177,18 @@ function AppContent() {
     if (currentScreen) track('screen_view', { screen: currentScreen });
     else track('screen_view', { screen: activeTab });
   }, [currentScreen, activeTab]);
+
+  // Hardware back button — pop sub-screen or minimize
+  useEffect(() => {
+    const handler = CapacitorApp.addListener('backButton', () => {
+      if (currentScreen) {
+        popScreen();
+      } else {
+        CapacitorApp.minimizeApp();
+      }
+    });
+    return () => { handler.then((h: { remove: () => void }) => h.remove()); };
+  }, [currentScreen, popScreen]);
 
   // Onboarding gate
   if (!onboardingCompleted && !currentScreen) {
