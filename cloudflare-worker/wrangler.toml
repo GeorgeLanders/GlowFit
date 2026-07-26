@@ -1,0 +1,19 @@
+name = "glowfit-api"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+# D1 Database
+[[d1_databases]]
+binding = "DB"
+database_name = "glowfit-db"
+database_id = "a8fdec62-d8e6-4c4c-88c8-c7ca6689f623"
+
+# KV Namespace (AI cache)
+[[kv_namespaces]]
+binding = "AI_CACHE"
+id = "6e40d12e93994b3ab57400c2386e42d2"
+
+# R2 Bucket — Enable R2 in Cloudflare dashboard first, then uncomment:
+# [[r2_buckets]]
+# binding = "R2_BUCKET"
+# bucket_name = "glowfit-photos"
