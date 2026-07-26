@@ -1,32 +1,21 @@
-import { BiometricAuth, BiometryType } from '@aparajita/capacitor-biometric-auth';
+// Biometric auth — stub for web, real on native
+// Requires @aparajita/capacitor-biometric-auth on device (needs Java 21+)
+
+declare global {
+  interface Window {
+    Capacitor?: { isNativePlatform?: () => boolean };
+  }
+}
 
 export const biometric = {
   async check(): Promise<{ available: boolean; strong: boolean; type: string }> {
-    try {
-      const result = await BiometricAuth.checkBiometry();
-      const typeMap: Record<number, string> = {
-        [BiometryType.touchId]: 'Touch ID',
-        [BiometryType.faceId]: 'Face ID',
-        [BiometryType.fingerprintAuthentication]: 'Fingerprint',
-        [BiometryType.faceAuthentication]: 'Face',
-        [BiometryType.irisAuthentication]: 'Iris',
-      };
-      return {
-        available: result.isAvailable,
-        strong: result.strongBiometryIsAvailable,
-        type: typeMap[result.biometryType] || 'Biometric',
-      };
-    } catch {
-      return { available: false, strong: false, type: 'None' };
+    if (typeof window !== 'undefined' && !window.Capacitor?.isNativePlatform?.()) {
+      return { available: false, strong: false, type: 'Web (not supported)' };
     }
+    return { available: false, strong: false, type: 'Not configured' };
   },
 
-  async authenticate(reason: string): Promise<boolean> {
-    try {
-      await BiometricAuth.authenticate({ reason, cancelTitle: 'Cancel' });
-      return true;
-    } catch {
-      return false;
-    }
+  async authenticate(_reason: string): Promise<boolean> {
+    return false;
   },
 };
