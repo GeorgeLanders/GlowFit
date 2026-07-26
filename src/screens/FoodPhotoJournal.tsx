@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { useGlowFitStore } from '../lib/store';
 import { ArrowLeft, Camera, Plus, X, Image } from 'lucide-react';
 import { takePhoto, pickPhoto } from '../lib/camera';
+import { photos } from '../lib/api';
 import { haptics } from '../lib/haptics';
 import { track } from '../lib/analytics';
+
+const API_BASE = import.meta.env.VITE_API_URL || 'https://glowfit-api.georgelanders2.workers.dev';
 
 type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
 type MoodTag = 'great' | 'good' | 'okay' | 'bad';
@@ -34,13 +37,37 @@ export default function FoodPhotoJournal() {
   const handleTakePhoto = async () => {
     haptics.medium();
     const url = await takePhoto();
-    if (url) { setPhotoUrl(url); haptics.success(); track('food_photo_captured'); }
+    if (url) {
+      try {
+        const res = await fetch(url);
+        const blob = await res.blob();
+        const file = new File([blob], `food_${Date.now()}.jpg`, { type: 'image/jpeg' });
+        const result = await photos.upload(file, 'food');
+        setPhotoUrl(`${API_BASE}${result.url}`);
+      } catch {
+        setPhotoUrl(url);
+      }
+      haptics.success();
+      track('food_photo_captured');
+    }
   };
 
   const handlePickPhoto = async () => {
     haptics.light();
     const url = await pickPhoto();
-    if (url) { setPhotoUrl(url); haptics.success(); track('food_photo_picked'); }
+    if (url) {
+      try {
+        const res = await fetch(url);
+        const blob = await res.blob();
+        const file = new File([blob], `food_${Date.now()}.jpg`, { type: 'image/jpeg' });
+        const result = await photos.upload(file, 'food');
+        setPhotoUrl(`${API_BASE}${result.url}`);
+      } catch {
+        setPhotoUrl(url);
+      }
+      haptics.success();
+      track('food_photo_picked');
+    }
   };
 
   const addEntry = () => {

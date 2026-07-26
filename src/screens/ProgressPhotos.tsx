@@ -1,12 +1,16 @@
 import { useState, useRef, useCallback, useMemo } from 'react';
 import { useGlowFitStore } from '../lib/store';
 import type { ProgressPhoto } from '../types';
+import { photos } from '../lib/api';
+
+const API_BASE = import.meta.env.VITE_API_URL || 'https://glowfit-api.georgelanders2.workers.dev';
 import {
   Camera,
   Plus,
   ArrowLeftRight,
   X,
   ImagePlus,
+  Loader2,
 } from 'lucide-react';
 import { takePhoto } from '../lib/camera';
 import { haptics } from '../lib/haptics';
@@ -58,16 +62,32 @@ interface PhotoSlotProps {
 
 function PhotoSlot({ label, value, onChange, onClear }: PhotoSlotProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const uploadToApi = useCallback(async (file: File) => {
+    setUploading(true);
+    try {
+      const result = await photos.upload(file, 'progress');
+      onChange(`${API_BASE}${result.url}`);
+      haptics.success();
+    } catch (err) {
+      console.error('Photo upload failed:', err);
+      // Fallback to local base64
+      const base64 = await readFileAsBase64(file);
+      onChange(base64);
+    } finally {
+      setUploading(false);
+    }
+  }, [onChange]);
 
   const handleFile = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
       if (!file) return;
-      const base64 = await readFileAsBase64(file);
-      onChange(base64);
+      await uploadToApi(file);
       e.target.value = '';
     },
-    [onChange],
+    [uploadToApi],
   );
 
   return (
@@ -92,17 +112,35 @@ function PhotoSlot({ label, value, onChange, onClear }: PhotoSlotProps) {
         <div className="space-y-2">
           <button
             onClick={() => inputRef.current?.click()}
+            disabled={uploading}
             aria-label="Upload photo"
-            className="w-full aspect-[3/4] border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-4 text-center hover:border-rose-400 transition-colors flex flex-col items-center justify-center gap-2"
+            className="w-full aspect-[3/4] border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-4 text-center hover:border-rose-400 transition-colors flex flex-col items-center justify-center gap-2 disabled:opacity-50"
           >
-            <ImagePlus className="w-6 h-6 text-slate-300 dark:text-slate-500" />
-            <span className="text-xs text-slate-400 dark:text-slate-500">{label}</span>
+            {uploading ? (
+              <Loader2 className="w-6 h-6 text-rose-400 animate-spin" />
+            ) : (
+              <ImagePlus className="w-6 h-6 text-slate-300 dark:text-slate-500" />
+            )}
+            <span className="text-xs text-slate-400 dark:text-slate-500">{uploading ? 'Uploading...' : label}</span>
           </button>
           <button
             onClick={async () => {
               haptics.medium();
               const url = await takePhoto();
-              if (url) { onChange(url); haptics.success(); track('progress_photo_captured'); }
+              if (url) {
+                // Upload camera photo to API
+                try {
+                  const res = await fetch(url);
+                  const blob = await res.blob();
+                  const file = new File([blob], `photo_${Date.now()}.jpg`, { type: 'image/jpeg' });
+                  const result = await photos.upload(file, 'progress');
+                  onChange(`${API_BASE}${result.url}`);
+                } catch {
+                  onChange(url); // Fallback to local data URL
+                }
+                haptics.success();
+                track('progress_photo_captured');
+              }
             }}
             className="w-full py-2 rounded-xl bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 text-xs font-medium flex items-center justify-center gap-2 hover:bg-rose-100 dark:hover:bg-rose-900/50 transition-colors"
           >
