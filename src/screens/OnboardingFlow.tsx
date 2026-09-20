@@ -63,6 +63,14 @@ const GOAL_OPTIONS: {
 ];
 
 const TOTAL_STEPS = 4;
+const KG_PER_LB = 0.45359237;
+const CM_PER_INCH = 2.54;
+
+function convertInput(value: string, factor: number): string {
+  if (!value.trim()) return '';
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? String(Number((parsed * factor).toFixed(4))) : '';
+}
 
 // ─── Glassmorphism Styles ────────────────────────────────────────
 
@@ -125,6 +133,8 @@ export function OnboardingFlow({
   const [height, setHeight] = useState('');
   const [currentWeight, setCurrentWeight] = useState('');
   const [goalWeight, setGoalWeight] = useState('');
+  const [heightUnit, setHeightUnit] = useState<'cm' | 'inches'>('cm');
+  const [weightUnit, setWeightUnit] = useState<'kg' | 'lbs'>('kg');
   const [goal, setGoal] = useState<Profile['goal']>('maintain');
   const [activityLevel, setActivityLevel] =
     useState<Profile['activityLevel']>('moderate');
@@ -133,19 +143,22 @@ export function OnboardingFlow({
   // ── Derived data ──────────────────────────────────────────────
 
   const parsedAge = parseInt(age, 10);
-  const parsedHeight = parseFloat(height);
-  const parsedCurrentWeight = parseFloat(currentWeight);
-  const parsedGoalWeight = parseFloat(goalWeight);
+  // Keep calculations and the persisted profile in cm/kg, regardless of input units.
+  const heightFactor = heightUnit === 'inches' ? CM_PER_INCH : 1;
+  const weightFactor = weightUnit === 'lbs' ? KG_PER_LB : 1;
+  const parsedHeight = Number(parseFloat(height) * heightFactor);
+  const parsedCurrentWeight = Number(parseFloat(currentWeight) * weightFactor);
+  const parsedGoalWeight = Number(parseFloat(goalWeight) * weightFactor);
 
   const isStep2Valid =
     name.trim().length > 0 &&
     !isNaN(parsedAge) &&
     parsedAge > 0 &&
-    !isNaN(parsedHeight) &&
+    Number.isFinite(parsedHeight) &&
     parsedHeight > 0 &&
-    !isNaN(parsedCurrentWeight) &&
+    Number.isFinite(parsedCurrentWeight) &&
     parsedCurrentWeight > 0 &&
-    !isNaN(parsedGoalWeight) &&
+    Number.isFinite(parsedGoalWeight) &&
     parsedGoalWeight > 0;
 
   const tdee = useMemo(() => {
@@ -244,7 +257,7 @@ export function OnboardingFlow({
   function renderWelcome() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
-        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center mb-8 shadow-lg">
+        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-sky-400 to-blue-500 flex items-center justify-center mb-8 shadow-lg">
           <Sparkles className="w-12 h-12 text-white" />
         </div>
         <h1 className="text-5xl font-bold text-rose-900 mb-3 tracking-tight">
@@ -338,54 +351,99 @@ export function OnboardingFlow({
         {/* Heights + Weights */}
         <div className={`${glassCard} p-4 space-y-4`}>
           <div>
-            <label className="block text-sm font-medium text-rose-900 mb-2">
-              Height (cm)
+            <label htmlFor="onboarding-height" className="block text-sm font-medium text-rose-900 mb-2">
+              Height ({heightUnit})
             </label>
+            <div role="group" aria-label="Height unit" className="flex gap-2 mb-3">
+              {(['cm', 'inches'] as const).map((unit) => (
+                <button
+                  key={unit}
+                  type="button"
+                  aria-pressed={heightUnit === unit}
+                  onClick={() => {
+                    if (unit === heightUnit) return;
+                    setHeight(convertInput(height, unit === 'inches' ? 1 / CM_PER_INCH : CM_PER_INCH));
+                    setHeightUnit(unit);
+                  }}
+                  className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all ${heightUnit === unit ? 'bg-rose-500 text-white shadow-md' : 'bg-white/60 text-rose-700 border border-rose-200 hover:bg-rose-50'}`}
+                >
+                  {unit}
+                </button>
+              ))}
+            </div>
             <div className="relative">
               <Scale className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-rose-400" />
               <input
+                id="onboarding-height"
                 type="number"
                 value={height}
                 onChange={(e) => setHeight(e.target.value)}
-                placeholder="170"
-                min="50"
-                max="300"
-                step="0.1"
+                placeholder={heightUnit === 'cm' ? '170' : '67'}
+                min={50 / heightFactor}
+                max={300 / heightFactor}
+                step="any"
+                inputMode="decimal"
                 className="w-full pl-11 pr-4 py-3 bg-white/60 border border-rose-200 rounded-xl text-rose-900 placeholder-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent transition-all"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-sm font-medium text-rose-900 mb-2">
-                Current Weight (kg)
-              </label>
-              <input
-                type="number"
-                value={currentWeight}
-                onChange={(e) => setCurrentWeight(e.target.value)}
-                placeholder="70"
-                min="20"
-                max="300"
-                step="0.1"
-                className="w-full px-4 py-3 bg-white/60 border border-rose-200 rounded-xl text-rose-900 placeholder-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent transition-all"
-              />
+          {/* Weight unit toggle hugs the weight inputs so it is not mistaken for height */}
+          <div className="space-y-3">
+            <div role="group" aria-label="Weight unit" className="flex gap-2">
+              {(['kg', 'lbs'] as const).map((unit) => (
+                <button
+                  key={unit}
+                  type="button"
+                  aria-pressed={weightUnit === unit}
+                  onClick={() => {
+                    if (unit === weightUnit) return;
+                    const factor = unit === 'lbs' ? 1 / KG_PER_LB : KG_PER_LB;
+                    setCurrentWeight(convertInput(currentWeight, factor));
+                    setGoalWeight(convertInput(goalWeight, factor));
+                    setWeightUnit(unit);
+                  }}
+                  className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all ${weightUnit === unit ? 'bg-rose-500 text-white shadow-md' : 'bg-white/60 text-rose-700 border border-rose-200 hover:bg-rose-50'}`}
+                >
+                  {unit}
+                </button>
+              ))}
             </div>
-            <div>
-              <label className="block text-sm font-medium text-rose-900 mb-2">
-                Goal Weight (kg)
-              </label>
-              <input
-                type="number"
-                value={goalWeight}
-                onChange={(e) => setGoalWeight(e.target.value)}
-                placeholder="65"
-                min="20"
-                max="300"
-                step="0.1"
-                className="w-full px-4 py-3 bg-white/60 border border-rose-200 rounded-xl text-rose-900 placeholder-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent transition-all"
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label htmlFor="onboarding-current-weight" className="block text-sm font-medium text-rose-900 mb-2">
+                  Current Weight ({weightUnit})
+                </label>
+                <input
+                  id="onboarding-current-weight"
+                  type="number"
+                  value={currentWeight}
+                  onChange={(e) => setCurrentWeight(e.target.value)}
+                  placeholder={weightUnit === 'kg' ? '70' : '154'}
+                  min={20 / weightFactor}
+                  max={300 / weightFactor}
+                  step="any"
+                  inputMode="decimal"
+                  className="w-full px-4 py-3 bg-white/60 border border-rose-200 rounded-xl text-rose-900 placeholder-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent transition-all"
+                />
+              </div>
+              <div>
+                <label htmlFor="onboarding-goal-weight" className="block text-sm font-medium text-rose-900 mb-2">
+                  Goal Weight ({weightUnit})
+                </label>
+                <input
+                  id="onboarding-goal-weight"
+                  type="number"
+                  value={goalWeight}
+                  onChange={(e) => setGoalWeight(e.target.value)}
+                  placeholder={weightUnit === 'kg' ? '65' : '143'}
+                  min={20 / weightFactor}
+                  max={300 / weightFactor}
+                  step="any"
+                  inputMode="decimal"
+                  className="w-full px-4 py-3 bg-white/60 border border-rose-200 rounded-xl text-rose-900 placeholder-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent transition-all"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -591,7 +649,7 @@ export function OnboardingFlow({
         {/* Profile summary */}
         <div className={`${glassCard} p-5 space-y-3`}>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-sky-400 to-blue-500 flex items-center justify-center">
               <User className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -605,18 +663,18 @@ export function OnboardingFlow({
           <div className="grid grid-cols-3 gap-3 text-center">
             <div className="bg-white/50 rounded-xl p-3">
               <div className="text-xs text-rose-500 mb-1">Height</div>
-              <div className="font-bold text-rose-900">{parsedHeight} cm</div>
+              <div className="font-bold text-rose-900">{height} {heightUnit}</div>
             </div>
             <div className="bg-white/50 rounded-xl p-3">
               <div className="text-xs text-rose-500 mb-1">Current</div>
               <div className="font-bold text-rose-900">
-                {parsedCurrentWeight} kg
+                {currentWeight} {weightUnit}
               </div>
             </div>
             <div className="bg-white/50 rounded-xl p-3">
               <div className="text-xs text-rose-500 mb-1">Goal</div>
               <div className="font-bold text-rose-900">
-                {parsedGoalWeight} kg
+                {goalWeight} {weightUnit}
               </div>
             </div>
           </div>
@@ -676,22 +734,35 @@ export function OnboardingFlow({
   // ── Main Render ───────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-orange-50">
-      {/* Step indicator dots */}
+    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50">
+      {/* Header: Back (flow, never overlaps content) + step dots */}
       {step > 0 && (
-        <div className="flex items-center justify-center gap-2 pt-12 pb-4">
-          {Array.from({ length: TOTAL_STEPS }, (_, i) => (
-            <div
-              key={i}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                i === step
-                  ? 'w-8 bg-rose-500'
-                  : i < step
-                    ? 'w-2 bg-rose-400'
-                    : 'w-2 bg-rose-200'
-              }`}
-            />
-          ))}
+        <div className="flex items-center px-5 pt-12 pb-4">
+          {step < TOTAL_STEPS - 1 && (
+            <button
+              onClick={goBack}
+              aria-label="Go back"
+              className="flex items-center gap-1 text-sm text-rose-500 hover:text-rose-700 transition-colors bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-rose-200 shadow-sm"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Back
+            </button>
+          )}
+          <div className="flex-1 flex items-center justify-center gap-2">
+            {Array.from({ length: TOTAL_STEPS }, (_, i) => (
+              <div
+                key={i}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  i === step
+                    ? 'w-8 bg-rose-500'
+                    : i < step
+                      ? 'w-2 bg-rose-400'
+                      : 'w-2 bg-rose-200'
+                }`}
+              />
+            ))}
+          </div>
+          {step < TOTAL_STEPS - 1 && <div className="w-20" aria-hidden="true" />}
         </div>
       )}
 
@@ -699,20 +770,6 @@ export function OnboardingFlow({
       <div className={`${slideClass}`} key={step}>
         {renderStep()}
       </div>
-
-      {/* Back button (hidden on welcome) */}
-      {step > 0 && step < TOTAL_STEPS - 1 && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
-          <button
-            onClick={goBack}
-            aria-label="Go back"
-            className="flex items-center gap-1 text-sm text-rose-500 hover:text-rose-700 transition-colors bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-rose-200 shadow-sm"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Back
-          </button>
-        </div>
-      )}
 
       {/* Inline animations via style tag */}
       <style>{`
