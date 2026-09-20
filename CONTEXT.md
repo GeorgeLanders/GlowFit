@@ -48,3 +48,11 @@ before any edit, then only the one file you change. Target 2k–8k tokens/step.
 - SAFE edits (deterministic): copy/paste renames, typo fixes, one-line config.
 - RISKY (needs George's yes): anything touching store.ts shape, api.ts, auth, build config.
 - Never write app source without George's approval on risky edits.
+- SIGNING: release credentials live in `android/keystore.properties` (GITIGNORED).
+  `android/app/build.gradle` reads them at build time and is a TRACKED file in a
+  PUBLIC repo — on 2026-09-20 it publicly leaked the keystore password
+  (`GlowFit2026!`) at raw.githubusercontent.com/GeorgeLanders/GlowFit. That value
+  is now rotated and dead. NEVER put storePassword/keyPassword back into
+  build.gradle. If the properties file is missing, copy
+  `android/keystore.properties.example` and fill it in. Back up
+  `~/.android/keystores/*.jks` + keystore.properties off-machine.
