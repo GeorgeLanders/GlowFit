@@ -1,28 +1,28 @@
 import { useState } from 'react';
 import { useGlowFitStore } from '../lib/store';
-import { ArrowLeft, Search, Dumbbell, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowLeft, Search, Dumbbell, ChevronDown, ChevronUp, Play } from 'lucide-react';
 
 const exerciseDatabase = [
-  { id: '1', name: 'Bench Press', category: 'Chest', muscle: 'Pectorals', equipment: 'Barbell', difficulty: 'Intermediate' },
-  { id: '2', name: 'Squat', category: 'Legs', muscle: 'Quadriceps', equipment: 'Barbell', difficulty: 'Intermediate' },
-  { id: '3', name: 'Deadlift', category: 'Back', muscle: 'Hamstrings', equipment: 'Barbell', difficulty: 'Advanced' },
-  { id: '4', name: 'Pull-up', category: 'Back', muscle: 'Latissimus Dorsi', equipment: 'Bodyweight', difficulty: 'Intermediate' },
-  { id: '5', name: 'Overhead Press', category: 'Shoulders', muscle: 'Deltoids', equipment: 'Barbell', difficulty: 'Intermediate' },
-  { id: '6', name: 'Barbell Row', category: 'Back', muscle: 'Rhomboids', equipment: 'Barbell', difficulty: 'Intermediate' },
-  { id: '7', name: 'Bicep Curl', category: 'Arms', muscle: 'Biceps', equipment: 'Dumbbell', difficulty: 'Beginner' },
-  { id: '8', name: 'Tricep Dip', category: 'Arms', muscle: 'Triceps', equipment: 'Bodyweight', difficulty: 'Beginner' },
-  { id: '9', name: 'Lunges', category: 'Legs', muscle: 'Quadriceps', equipment: 'Bodyweight', difficulty: 'Beginner' },
-  { id: '10', name: 'Leg Press', category: 'Legs', muscle: 'Quadriceps', equipment: 'Machine', difficulty: 'Beginner' },
-  { id: '11', name: 'Cable Fly', category: 'Chest', muscle: 'Pectorals', equipment: 'Cable', difficulty: 'Beginner' },
-  { id: '12', name: 'Lat Pulldown', category: 'Back', muscle: 'Latissimus Dorsi', equipment: 'Machine', difficulty: 'Beginner' },
-  { id: '13', name: 'Face Pull', category: 'Shoulders', muscle: 'Rear Deltoids', equipment: 'Cable', difficulty: 'Beginner' },
-  { id: '14', name: 'Plank', category: 'Core', muscle: 'Abs', equipment: 'Bodyweight', difficulty: 'Beginner' },
-  { id: '15', name: 'Russian Twist', category: 'Core', muscle: 'Obliques', equipment: 'Bodyweight', difficulty: 'Beginner' },
-  { id: '16', name: 'Hip Thrust', category: 'Legs', muscle: 'Glutes', equipment: 'Barbell', difficulty: 'Intermediate' },
-  { id: '17', name: 'Dumbbell Row', category: 'Back', muscle: 'Latissimus Dorsi', equipment: 'Dumbbell', difficulty: 'Beginner' },
-  { id: '18', name: 'Calf Raise', category: 'Legs', muscle: 'Calves', equipment: 'Machine', difficulty: 'Beginner' },
-  { id: '19', name: 'Hammer Curl', category: 'Arms', muscle: 'Biceps', equipment: 'Dumbbell', difficulty: 'Beginner' },
-  { id: '20', name: 'Skull Crusher', category: 'Arms', muscle: 'Triceps', equipment: 'Barbell', difficulty: 'Intermediate' },
+  { id: '1', name: 'Bench Press', category: 'Chest', muscle: 'Pectorals', equipment: 'Barbell', difficulty: 'Intermediate', videoId: 'hWbUlkb5Ms4' },
+  { id: '2', name: 'Squat', category: 'Legs', muscle: 'Quadriceps', equipment: 'Barbell', difficulty: 'Intermediate', videoId: 'PPmvh7gBTi0' },
+  { id: '3', name: 'Deadlift', category: 'Back', muscle: 'Hamstrings', equipment: 'Barbell', difficulty: 'Advanced', videoId: 'ZaTM37cfiDs' },
+  { id: '4', name: 'Pull-up', category: 'Back', muscle: 'Latissimus Dorsi', equipment: 'Bodyweight', difficulty: 'Intermediate', videoId: 'OEXosPwzFdc' },
+  { id: '5', name: 'Overhead Press', category: 'Shoulders', muscle: 'Deltoids', equipment: 'Barbell', difficulty: 'Intermediate', videoId: 'zoN5EH50Dro' },
+  { id: '6', name: 'Barbell Row', category: 'Back', muscle: 'Rhomboids', equipment: 'Barbell', difficulty: 'Intermediate', videoId: 'Nqh7q3zDCoQ' },
+  { id: '7', name: 'Bicep Curl', category: 'Arms', muscle: 'Biceps', equipment: 'Dumbbell', difficulty: 'Beginner', videoId: 'XE_pHwbst04' },
+  { id: '8', name: 'Tricep Dip', category: 'Arms', muscle: 'Triceps', equipment: 'Bodyweight', difficulty: 'Beginner', videoId: 'aCa7cc8ECp8' },
+  { id: '9', name: 'Lunges', category: 'Legs', muscle: 'Quadriceps', equipment: 'Bodyweight', difficulty: 'Beginner', videoId: '1cS-6KsJW9g' },
+  { id: '10', name: 'Leg Press', category: 'Legs', muscle: 'Quadriceps', equipment: 'Machine', difficulty: 'Beginner', videoId: 'nDh_BlnLCGc' },
+  { id: '11', name: 'Cable Fly', category: 'Chest', muscle: 'Pectorals', equipment: 'Cable', difficulty: 'Beginner', videoId: 'M97ra0UR-40' },
+  { id: '12', name: 'Lat Pulldown', category: 'Back', muscle: 'Latissimus Dorsi', equipment: 'Machine', difficulty: 'Beginner', videoId: 'bNmvKpJSWKM' },
+  { id: '13', name: 'Face Pull', category: 'Shoulders', muscle: 'Rear Deltoids', equipment: 'Cable', difficulty: 'Beginner', videoId: 'IeOqdw9WI90' },
+  { id: '14', name: 'Plank', category: 'Core', muscle: 'Abs', equipment: 'Bodyweight', difficulty: 'Beginner', videoId: 'v25dawSzRTM' },
+  { id: '15', name: 'Russian Twist', category: 'Core', muscle: 'Obliques', equipment: 'Bodyweight', difficulty: 'Beginner', videoId: 'wkD8rjkodUI' },
+  { id: '16', name: 'Hip Thrust', category: 'Legs', muscle: 'Glutes', equipment: 'Barbell', difficulty: 'Intermediate', videoId: 'pF17m_CXfL0' },
+  { id: '17', name: 'Dumbbell Row', category: 'Back', muscle: 'Latissimus Dorsi', equipment: 'Dumbbell', difficulty: 'Beginner', videoId: 'roCP6wCXPqo' },
+  { id: '18', name: 'Calf Raise', category: 'Legs', muscle: 'Calves', equipment: 'Machine', difficulty: 'Beginner', videoId: 'eMTy3qylqnE' },
+  { id: '19', name: 'Hammer Curl', category: 'Arms', muscle: 'Biceps', equipment: 'Dumbbell', difficulty: 'Beginner', videoId: 'lmIo_gVE8T4' },
+  { id: '20', name: 'Skull Crusher', category: 'Arms', muscle: 'Triceps', equipment: 'Barbell', difficulty: 'Intermediate', videoId: 'dtkD5sQLFL4' },
 ];
 
 const categories = ['All', 'Chest', 'Back', 'Legs', 'Shoulders', 'Arms', 'Core'];
@@ -31,6 +31,37 @@ const difficultyColors: Record<string, string> = {
   Intermediate: 'bg-amber-100 text-amber-700',
   Advanced: 'bg-red-100 text-red-700',
 };
+
+function ExerciseVideo({ videoId, name }: { videoId: string; name: string }) {
+  const [playing, setPlaying] = useState(false);
+
+  if (playing) {
+    return (
+      <div className="relative w-full aspect-video rounded-2xl overflow-hidden">
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`}
+          title={`${name} demonstration video`}
+          allow="encrypted-media; picture-in-picture"
+          allowFullScreen
+          className="absolute inset-0 w-full h-full"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <button onClick={() => setPlaying(true)} aria-label={`Play ${name} video`}
+      className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/40 shadow-[var(--shadow-card)]">
+      <img src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`} alt={`${name} demonstration video`} loading="lazy"
+        className="w-full h-full object-cover" />
+      <span className="absolute inset-0 flex items-center justify-center bg-slate-900/20">
+        <span className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-[var(--shadow-card)]">
+          <Play className="w-6 h-6 text-rose-500 ml-0.5" />
+        </span>
+      </span>
+    </button>
+  );
+}
 
 export default function ExerciseBrowser() {
   const popScreen = useGlowFitStore((s) => s.popScreen);
@@ -89,6 +120,7 @@ export default function ExerciseBrowser() {
             </button>
             {expanded === ex.id && (
               <div className="px-4 pb-4 border-t border-slate-100 pt-3 space-y-2">
+                {ex.videoId && <ExerciseVideo videoId={ex.videoId} name={ex.name} />}
                 <div className="flex justify-between text-sm"><span className="text-slate-500">Category</span><span className="text-slate-800">{ex.category}</span></div>
                 <div className="flex justify-between text-sm"><span className="text-slate-500">Equipment</span><span className="text-slate-800">{ex.equipment}</span></div>
                 <div className="flex justify-between text-sm"><span className="text-slate-500">Difficulty</span><span className="text-slate-800">{ex.difficulty}</span></div>

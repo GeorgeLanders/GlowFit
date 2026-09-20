@@ -1,4 +1,6 @@
 const PROXY_URL = 'https://everbloom-lyla-proxy.georgelanders2.workers.dev';
+const OLLAMA_URL = (import.meta as any).env?.VITE_OLLAMA_URL || '';
+const OLLAMA_MODEL = (import.meta as any).env?.VITE_OLLAMA_MODEL || 'smollm2:latest';
 
 interface ChatMessage {
   role: 'system' | 'user' | 'assistant';
@@ -27,26 +29,47 @@ export async function getAIResponse(
     content: SYSTEM_PROMPT + (userContext ? `\n\nUser context: ${userContext}` : ''),
   };
 
+  const payload = {
+    messages: [systemMessage, ...messages],
+    model: 'ling-3.0-flash-free',
+    max_tokens: 500,
+  };
+
+  // Try cloud proxy first
   try {
-    const response = await fetch(PROXY_URL, {
+    const response = await fetch(`${PROXY_URL}/chat/completions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        messages: [systemMessage, ...messages],
-        model: 'ling-3.0-flash-free',
-        max_tokens: 500,
-      }),
+      body: JSON.stringify(payload),
     });
 
-    if (!response.ok) throw new Error('AI request failed');
-
     const data = await response.json();
-    return data.choices?.[0]?.message?.content
-      || data.choices?.[0]?.reasoning
-      || 'I could not generate a response. Please try again.';
-  } catch {
-    return 'I am having trouble connecting right now. Please try again in a moment.';
+    if (data.choices?.[0]?.message?.content) {
+      return data.choices[0].message.content;
+    }
+    if (data.error) throw new Error(data.error?.message || 'Proxy error');
+  } catch (proxyErr) {
+    console.warn('[AiCoach] Cloud proxy failed, trying Ollama:', proxyErr);
   }
+
+  // Fallback to local Ollama
+  if (OLLAMA_URL) {
+    try {
+      const ollamaPayload = { ...payload, model: OLLAMA_MODEL };
+      const ollamaResponse = await fetch(`${OLLAMA_URL}/v1/chat/completions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(ollamaPayload),
+      });
+      const data = await ollamaResponse.json();
+      return data.choices?.[0]?.message?.content
+        || 'I could not generate a response. Please try again.';
+    } catch (ollamaErr) {
+      console.error('[AiCoach] Ollama also failed:', ollamaErr);
+    }
+  }
+
+  return 'I am having trouble connecting right now. Please try again in a moment.';
 }
 
 export function analyzeProgress(data: {

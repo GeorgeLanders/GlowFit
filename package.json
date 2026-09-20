@@ -19,6 +19,7 @@
     "@capacitor/haptics": "^8.0.2",
     "@capacitor/local-notifications": "^8.2.1",
     "@capacitor/share": "^8.0.1",
+    "@capgo/capacitor-health": "^8.11.3",
     "@tailwindcss/vite": "^4.3.3",
     "framer-motion": "^12.42.2",
     "lottie-react": "^2.4.1",

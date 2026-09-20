@@ -19,6 +19,7 @@ import Profile from './screens/Profile';
 // Sub-screens
 import WaterTracker from './screens/WaterTracker';
 import SleepTracker from './screens/SleepTracker';
+import FastingTracker from './screens/FastingTracker';
 import WellnessTracker from './screens/WellnessTracker';
 import MentalWellness from './screens/MentalWellness';
 import HabitTracker from './screens/HabitTracker';
@@ -85,6 +86,7 @@ const SUB_SCREENS: Record<string, { title: string; component: React.ReactNode }>
   // Dashboard sub-screens
   'water-tracker': { title: 'Water Intake', component: <WaterTracker /> },
   'sleep-tracker': { title: 'Sleep Log', component: <SleepTracker /> },
+  'fasting-tracker': { title: 'Fasting', component: <FastingTracker /> },
   'wellness-tracker': { title: 'Mood & Wellness', component: <WellnessTracker /> },
   'mental-wellness': { title: 'Mental Wellness', component: <MentalWellness /> },
   'habit-tracker': { title: 'Habits', component: <HabitTracker /> },

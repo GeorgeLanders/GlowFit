@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useGlowFitStore } from '../lib/store';
-import { User, Info, Save, Trash2, Fingerprint } from 'lucide-react';
+import { User, Info, Save, Trash2, Fingerprint, HeartPulse } from 'lucide-react';
 import { DarkModeToggle } from '../components/DarkModeToggle';
 import { notifications } from '../lib/notifications';
 import { haptics } from '../lib/haptics';
 import { biometric } from '../lib/biometric';
 import { track } from '../lib/analytics';
+import { isHealthSupported, requestHealthAccess, checkHealthAccess, syncTodayHealth, sleepTimesToday, openHealthConnectSettings, type HealthSyncSummary } from '../lib/health-connect';
 
 const ACTIVITY_LEVELS = ['sedentary', 'light', 'moderate', 'active', 'very_active'] as const;
 const GOALS = ['lose', 'maintain', 'gain'] as const;
@@ -24,10 +25,69 @@ export default function SettingsScreen() {
   const [saved, setSaved] = useState(false);
   const [biometricInfo, setBiometricInfo] = useState<{ available: boolean; strong: boolean; type: string }>({ available: false, strong: false, type: 'None' });
   const [biometricEnabled, setBiometricEnabled] = useState(false);
+  const [healthSupport, setHealthSupport] = useState<{ available: boolean; reason?: string } | null>(null);
+  const [healthGranted, setHealthGranted] = useState<string[]>([]);
+  const [healthSummary, setHealthSummary] = useState<HealthSyncSummary | null>(null);
+  const [healthSyncing, setHealthSyncing] = useState(false);
+  const upsertHealthSteps = useGlowFitStore((s) => s.upsertHealthSteps);
+  const sleepLogs = useGlowFitStore((s) => s.sleepLogs);
+  const upsertHealthSleep = useGlowFitStore((s) => s.upsertHealthSleep);
 
   useEffect(() => {
     biometric.check().then(setBiometricInfo).catch(() => {});
+    isHealthSupported().then(setHealthSupport).catch(() => setHealthSupport({ available: false }));
   }, []);
+
+  useEffect(() => {
+    if (healthSupport?.available) {
+      checkHealthAccess().then((a) => setHealthGranted(a.granted)).catch(() => {});
+    }
+  }, [healthSupport]);
+
+  const connectHealth = async () => {
+    haptics.medium();
+    try {
+      const { granted } = await requestHealthAccess();
+      setHealthGranted(granted);
+      if (granted.length > 0) {
+        haptics.success();
+        track('health_connect_authorized');
+      }
+    } catch {
+      haptics.light();
+    }
+  };
+
+  const syncHealth = async () => {
+    if (healthSyncing) return;
+    setHealthSyncing(true);
+    haptics.medium();
+    try {
+      const summary = await syncTodayHealth();
+      const todayStr = new Date().toISOString().split('T')[0] ?? '';
+      upsertHealthSteps({ date: todayStr, steps: summary.steps, syncedAt: summary.syncedAt });
+      const manualToday = sleepLogs.some((l) => l.date === todayStr && l.source !== 'health-connect');
+      if (summary.sleepMinutes != null && !manualToday) {
+        const { bedTime, wakeTime } = sleepTimesToday(summary.syncedAt, summary.sleepMinutes);
+        upsertHealthSleep({
+          id: `hc_${todayStr}`,
+          date: todayStr,
+          bedTime,
+          wakeTime,
+          quality: 3,
+          notes: 'Synced from Health Connect',
+          source: 'health-connect',
+        });
+      }
+      setHealthSummary(summary);
+      haptics.success();
+      track('health_sync', { steps: summary.steps });
+    } catch {
+      haptics.light();
+    } finally {
+      setHealthSyncing(false);
+    }
+  };
 
   const save = () => {
     updateProfile({
@@ -74,6 +134,57 @@ export default function SettingsScreen() {
         >
           Enable Push Notifications
         </button>
+      </div>
+
+      {/* Health Sync */}
+      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-4 shadow-[var(--shadow-card)]">
+        <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3">Health Sync</h3>
+        {healthSupport == null ? (
+          <p className="text-xs text-slate-400">Checking device support…</p>
+        ) : !healthSupport.available ? (
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <HeartPulse className="w-5 h-5 text-slate-300" />
+              <p className="text-xs text-slate-500">Health sync isn't available on this device{healthSupport.reason ? `: ${healthSupport.reason}` : '.'}</p>
+            </div>
+            <button onClick={() => openHealthConnectSettings()} aria-label="Open Health Connect settings"
+              className="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 text-sm font-medium active:scale-95 transition-all">
+              Open Health Connect Settings
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <HeartPulse className={`w-5 h-5 ${healthGranted.length > 0 ? 'text-emerald-500' : 'text-slate-300'}`} />
+              <div>
+                <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                  {healthGranted.length > 0 ? `Connected (${healthGranted.join(', ')})` : 'Connect your health data'}
+                </p>
+                <p className="text-xs text-slate-400">Reads steps, heart rate, and sleep. Read-only.</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              {healthGranted.length === 0 ? (
+                <button onClick={connectHealth} aria-label="Connect health data"
+                  className="px-4 py-2 rounded-xl bg-emerald-500 text-white text-sm font-bold active:scale-95 transition-all">
+                  Connect
+                </button>
+              ) : (
+                <button onClick={syncHealth} disabled={healthSyncing} aria-label="Sync health data now"
+                  className="px-4 py-2 rounded-xl bg-emerald-500 text-white text-sm font-bold active:scale-95 transition-all disabled:opacity-50">
+                  {healthSyncing ? 'Syncing…' : 'Sync Now'}
+                </button>
+              )}
+            </div>
+            {healthSummary && (
+              <div className="flex gap-4 text-sm">
+                <span className="text-slate-600"><span className="font-bold text-slate-800">{healthSummary.steps.toLocaleString()}</span> steps</span>
+                {healthSummary.avgHeartRate != null && <span className="text-slate-600"><span className="font-bold text-slate-800">{healthSummary.avgHeartRate}</span> bpm avg</span>}
+                {healthSummary.sleepMinutes != null && <span className="text-slate-600"><span className="font-bold text-slate-800">{Math.floor(healthSummary.sleepMinutes / 60)}h {healthSummary.sleepMinutes % 60}m</span> sleep</span>}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Security */}

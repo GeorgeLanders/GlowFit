@@ -64,6 +64,33 @@ export interface CalorieLog {
   timestamp: number;
 }
 
+export interface FoodPhotoEntry {
+  id: string;
+  imageUrl: string;
+  mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack';
+  mood: 'great' | 'good' | 'okay' | 'bad';
+  notes: string;
+  date: string;
+  foodName?: string;
+  calories?: number;
+}
+
+// ─── Fasting ────────────────────────────────────────────────────
+export interface FastingSettings {
+  enabled: boolean;
+  windowHours: number;
+  reminderMinutesBefore: number;
+}
+
+export interface FastingLog {
+  id: string;
+  date: string;
+  startedAt: number;
+  endedAt?: number;
+  targetHours: number;
+  completed: boolean;
+}
+
 export interface MealPlan {
   id: string;
   date: string;
@@ -112,6 +139,13 @@ export interface SleepLog {
   wakeTime: string;
   quality: 1 | 2 | 3 | 4 | 5;
   notes: string;
+  source?: string;
+}
+
+export interface HealthSteps {
+  date: string;
+  steps: number;
+  syncedAt: number;
 }
 
 // ─── Mood / Wellness ─────────────────────────────────────────────
@@ -174,6 +208,23 @@ export interface GLP1Log {
   appetite: 1 | 2 | 3 | 4 | 5;
   nausea: 1 | 2 | 3 | 4 | 5;
   notes: string;
+}
+
+export interface Medication {
+  id: string;
+  name: string;
+  dose: number;
+  frequencyDays: number;
+  reminderTime: string;
+  reminderEnabled: boolean;
+}
+
+export interface MedicationDose {
+  id: string;
+  medicationId: string;
+  date: string;
+  taken: boolean;
+  takenAt?: number;
 }
 
 // ─── AI Chat ──────────────────────────────────────────────────────

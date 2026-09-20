@@ -56,12 +56,12 @@ export default function AccountabilityCircle() {
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
-          <Users className="w-5 h-5 text-purple-500" />
+          <Users className="w-5 h-5 text-[#CE88F7]" />
           <h1 className="text-xl font-serif text-rose-900">Accountability Circles</h1>
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-purple-500 to-violet-500 rounded-2xl p-5 text-white shadow-lg text-center">
+      <div className="bg-gradient-to-br from-[#CE88F7] to-[#F569B8] rounded-2xl p-5 text-white shadow-lg text-center">
         <Users className="w-8 h-8 mx-auto mb-2" />
         <p className="text-lg font-semibold">Stay accountable together</p>
         <p className="text-sm text-white/80 mt-1">Create or join a circle to share your fitness journey with friends.</p>
@@ -70,7 +70,7 @@ export default function AccountabilityCircle() {
       {/* Action Buttons */}
       <div className="flex gap-3">
         <button onClick={() => { setShowCreate(!showCreate); setShowJoin(false); }} aria-label="Create Circle"
-          className="flex-1 py-3 rounded-2xl bg-gradient-to-r from-purple-500 to-violet-500 text-white font-semibold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg">
+          className="flex-1 py-3 rounded-2xl bg-gradient-to-r from-[#CE88F7] to-[#F569B8] text-white font-semibold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg">
           <Plus className="w-5 h-5" /> Create Circle
         </button>
         <button onClick={() => { setShowJoin(!showJoin); setShowCreate(false); }} aria-label="Join Circle"
@@ -84,7 +84,7 @@ export default function AccountabilityCircle() {
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-3">
           <input type="text" placeholder="Circle name" value={newName} onChange={e => setNewName(e.target.value)}
             className="w-full p-3 rounded-xl border border-slate-200 text-slate-800" />
-          <button onClick={createCircle} aria-label="Create circle" className="w-full py-3 rounded-xl bg-purple-500 text-white font-semibold active:scale-95 transition-all">Create</button>
+          <button onClick={createCircle} aria-label="Create circle" className="w-full py-3 rounded-xl bg-[#CE88F7] text-white font-semibold active:scale-95 transition-all">Create</button>
         </div>
       )}
 
@@ -102,7 +102,7 @@ export default function AccountabilityCircle() {
         {circles.map(circle => (
           <div key={circle.id} className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-violet-500 flex items-center justify-center text-white font-bold text-lg">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#CE88F7] to-[#F569B8] flex items-center justify-center text-white font-bold text-lg">
                 {circle.name.charAt(0)}
               </div>
               <div className="flex-1">
@@ -121,7 +121,7 @@ export default function AccountabilityCircle() {
               <div className="mt-3 p-2 bg-slate-50 rounded-xl flex items-center gap-2">
                 <Link className="w-4 h-4 text-slate-400" />
                 <span className="text-sm text-slate-600 font-mono">{circle.inviteCode}</span>
-                <button className="ml-auto text-xs text-purple-500 font-medium">Share</button>
+                <button className="ml-auto text-xs text-[#CE88F7] font-medium">Share</button>
               </div>
             )}
           </div>

@@ -6,7 +6,7 @@ import { isVoiceSupported, startListening } from '../lib/voice-input';
 import { haptics } from '../lib/haptics';
 import type { ChatMessage } from '../types';
 
-import { LLM_BASE_URL, LLM_MODEL } from '../lib/llm-config';
+import { LLM_BASE_URL, LLM_MODEL, OLLAMA_URL, OLLAMA_MODEL, JARVIS_URL, JARVIS_MODEL } from '../lib/llm-config';
 
 const QUICK_ACTIONS = [
   { label: 'How am I doing?', prompt: 'Based on my recent data, how am I doing with my fitness goals?' },
@@ -159,13 +159,64 @@ export function AiCoach() {
       addChatMessage(assistantMsg);
     } catch (err: any) {
       if (err.name !== 'AbortError') {
-        const errorMsg: ChatMessage = {
-          id: generateId(),
-          role: 'assistant',
-          content: 'Oops! I had trouble connecting. Please check your connection and try again.',
-          timestamp: Date.now(),
-        };
-        addChatMessage(errorMsg);
+        // Try OpenJarvis fallback (local, fast)
+        let gotResponse = false;
+        if (JARVIS_URL) {
+          try {
+            const jarvisResponse = await fetch(`${JARVIS_URL}/v1/chat/completions`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ model: JARVIS_MODEL, messages, max_tokens: 500 }),
+            });
+            const jarvisData = await jarvisResponse.json();
+            const content = jarvisData.choices?.[0]?.message?.content;
+            if (content) {
+              const assistantMsg: ChatMessage = {
+                id: generateId(),
+                role: 'assistant',
+                content,
+                timestamp: Date.now(),
+              };
+              addChatMessage(assistantMsg);
+              gotResponse = true;
+            }
+          } catch { /* jarvis down, try ollama */ }
+        }
+        // Try Ollama fallback (local, slower)
+        if (!gotResponse && OLLAMA_URL) {
+          try {
+            const ollamaResponse = await fetch(`${OLLAMA_URL}/v1/chat/completions`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ model: OLLAMA_MODEL, messages, max_tokens: 500 }),
+            });
+            const ollamaData = await ollamaResponse.json();
+            const content = ollamaData.choices?.[0]?.message?.content || 'I could not generate a response.';
+            const assistantMsg: ChatMessage = {
+              id: generateId(),
+              role: 'assistant',
+              content,
+              timestamp: Date.now(),
+            };
+            addChatMessage(assistantMsg);
+          } catch {
+            const errorMsg: ChatMessage = {
+              id: generateId(),
+              role: 'assistant',
+              content: 'Oops! I had trouble connecting. Please check your connection and try again.',
+              timestamp: Date.now(),
+            };
+            addChatMessage(errorMsg);
+          }
+        } else if (!gotResponse) {
+          const errorMsg: ChatMessage = {
+            id: generateId(),
+            role: 'assistant',
+            content: 'Oops! I had trouble connecting. Please check your connection and try again.',
+            timestamp: Date.now(),
+          };
+          addChatMessage(errorMsg);
+        }
       }
     } finally {
       setTyping(false);

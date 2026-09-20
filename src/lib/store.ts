@@ -3,8 +3,9 @@ import { persist } from 'zustand/middleware';
 import type {
   Profile, WorkoutLog, CalorieLog, WaterLog, WeightLog,
   SleepLog, WellnessLog, CycleLog, Habit, Streak, BodyMeasurement,
-  ProgressPhoto, GLP1Log, ChatMessage, JournalEntry, FoodItem,
-  WorkoutTemplate,
+  ProgressPhoto, GLP1Log, Medication, MedicationDose, ChatMessage,
+  JournalEntry, FoodItem,
+  FoodPhotoEntry, FastingSettings, FastingLog, HealthSteps, WorkoutTemplate,
 } from '../types';
 
 // ═══════════════════════════════════════════════════════════════════
@@ -26,8 +27,10 @@ interface WorkoutSlice {
 interface NutritionSlice {
   calorieLogs: CalorieLog[];
   recentFoods: FoodItem[];
+  foodPhotoEntries: FoodPhotoEntry[];
   addCalorieLog: (log: CalorieLog) => void;
   addRecentFood: (food: FoodItem) => void;
+  addFoodPhotoEntry: (entry: FoodPhotoEntry) => void;
 }
 
 interface WaterSlice {
@@ -43,6 +46,9 @@ interface WeightSlice {
 interface SleepSlice {
   sleepLogs: SleepLog[];
   addSleep: (log: SleepLog) => void;
+  upsertHealthSleep: (log: SleepLog) => void;
+  healthSteps: HealthSteps[];
+  upsertHealthSteps: (entry: HealthSteps) => void;
 }
 
 interface WellnessSlice {
@@ -79,6 +85,20 @@ interface PhotoSlice {
 interface GLP1Slice {
   glp1Logs: GLP1Log[];
   addGLP1Log: (log: GLP1Log) => void;
+  medications: Medication[];
+  medicationDoses: MedicationDose[];
+  addMedication: (m: Medication) => void;
+  updateMedication: (id: string, updates: Partial<Medication>) => void;
+  deleteMedication: (id: string) => void;
+  upsertDose: (dose: MedicationDose) => void;
+}
+
+interface FastingSlice {
+  fastingSettings: FastingSettings;
+  updateFastingSettings: (updates: Partial<FastingSettings>) => void;
+  fastingLogs: FastingLog[];
+  startFast: (log: FastingLog) => void;
+  endFast: (id: string, endedAt: number, completed: boolean) => void;
 }
 
 interface ChatSlice {
@@ -100,6 +120,19 @@ interface UISlice {
   popScreen: () => void;
   seeded: boolean;
   markSeeded: () => void;
+
+  // AI Provider Config (BYOK)
+  aiConfig: {
+    mode: 'app-default' | 'bring-your-own-key';
+    provider: string;
+    apiKey: string;
+    baseUrl: string;
+    model: string;
+  };
+  setAiMode: (mode: 'app-default' | 'bring-your-own-key') => void;
+  setAiProvider: (provider: string, baseUrl: string, model: string) => void;
+  setAiApiKey: (key: string) => void;
+  setAiModel: (model: string) => void;
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -110,7 +143,7 @@ export type GlowFitStore =
   ProfileSlice & WorkoutSlice & NutritionSlice & WaterSlice &
   WeightSlice & SleepSlice & WellnessSlice & CycleSlice &
   HabitSlice & StreakSlice & BodySlice & PhotoSlice &
-  GLP1Slice & ChatSlice & JournalSlice & UISlice;
+  GLP1Slice & FastingSlice & ChatSlice & JournalSlice & UISlice;
 
 // ═══════════════════════════════════════════════════════════════════
 // Default Profile
@@ -151,12 +184,15 @@ export const useGlowFitStore = create<GlowFitStore>()(
       // Nutrition
       calorieLogs: [],
       recentFoods: [],
+      foodPhotoEntries: [],
       addCalorieLog: (log) =>
         set((s) => ({ calorieLogs: [log, ...s.calorieLogs] })),
       addRecentFood: (food) =>
         set((s) => ({
           recentFoods: [food, ...s.recentFoods.filter((f) => f.id !== food.id)].slice(0, 20),
         })),
+      addFoodPhotoEntry: (entry) =>
+        set((s) => ({ foodPhotoEntries: [entry, ...s.foodPhotoEntries] })),
 
       // Water
       waterLogs: [],
@@ -169,6 +205,23 @@ export const useGlowFitStore = create<GlowFitStore>()(
       // Sleep
       sleepLogs: [],
       addSleep: (log) => set((s) => ({ sleepLogs: [log, ...s.sleepLogs] })),
+      upsertHealthSleep: (log) =>
+        set((s) => ({
+          sleepLogs: [
+            log,
+            ...s.sleepLogs.filter(
+              (l) => !(l.date === log.date && l.source === 'health-connect')
+            ),
+          ],
+        })),
+      healthSteps: [],
+      upsertHealthSteps: (entry) =>
+        set((s) => ({
+          healthSteps: [
+            entry,
+            ...s.healthSteps.filter((e) => e.date !== entry.date),
+          ],
+        })),
 
       // Wellness
       wellnessLogs: [],
@@ -218,6 +271,44 @@ export const useGlowFitStore = create<GlowFitStore>()(
       glp1Logs: [],
       addGLP1Log: (log) =>
         set((s) => ({ glp1Logs: [log, ...s.glp1Logs] })),
+      medications: [],
+      medicationDoses: [],
+      addMedication: (m) =>
+        set((s) => ({ medications: [...s.medications, m] })),
+      updateMedication: (id, updates) =>
+        set((s) => ({
+          medications: s.medications.map((m) =>
+            m.id === id ? { ...m, ...updates } : m
+          ),
+        })),
+      deleteMedication: (id) =>
+        set((s) => ({
+          medications: s.medications.filter((m) => m.id !== id),
+          medicationDoses: s.medicationDoses.filter((d) => d.medicationId !== id),
+        })),
+      upsertDose: (dose) =>
+        set((s) => ({
+          medicationDoses: [
+            dose,
+            ...s.medicationDoses.filter(
+              (d) => !(d.medicationId === dose.medicationId && d.date === dose.date)
+            ),
+          ],
+        })),
+
+      // Fasting
+      fastingSettings: { enabled: true, windowHours: 16, reminderMinutesBefore: 30 },
+      updateFastingSettings: (updates) =>
+        set((s) => ({ fastingSettings: { ...s.fastingSettings, ...updates } })),
+      fastingLogs: [],
+      startFast: (log) =>
+        set((s) => ({ fastingLogs: [log, ...s.fastingLogs] })),
+      endFast: (id, endedAt, completed) =>
+        set((s) => ({
+          fastingLogs: s.fastingLogs.map((l) =>
+            l.id === id ? { ...l, endedAt, completed } : l
+          ),
+        })),
 
       // Chat
       chatMessages: [],
@@ -238,6 +329,20 @@ export const useGlowFitStore = create<GlowFitStore>()(
       popScreen: () => set({ currentScreen: null }),
       seeded: false,
       markSeeded: () => set({ seeded: true }),
+
+      // AI Provider Config (BYOK)
+      aiConfig: {
+        mode: 'app-default',
+        provider: 'gemini',
+        apiKey: '',
+        baseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai',
+        model: 'gemini-2.0-flash',
+      },
+      setAiMode: (mode) => set((s) => ({ aiConfig: { ...s.aiConfig, mode } })),
+      setAiProvider: (provider, baseUrl, model) =>
+        set((s) => ({ aiConfig: { ...s.aiConfig, provider, baseUrl, model } })),
+      setAiApiKey: (apiKey) => set((s) => ({ aiConfig: { ...s.aiConfig, apiKey } })),
+      setAiModel: (model) => set((s) => ({ aiConfig: { ...s.aiConfig, model } })),
     }),
     {
       name: 'glowfit-storage',

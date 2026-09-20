@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import { useGlowFitStore } from '../lib/store';
 import { ArrowLeft, Send, Bot, Dumbbell, Apple, Moon, Heart, Brain, Zap } from 'lucide-react';
+import { chatCompletion } from '../lib/llm-config';
+import { useGlowFitStore } from '../lib/store';
 
 interface ChatMsg {
   role: 'user' | 'assistant';
@@ -49,8 +50,6 @@ function classifyAgent(prompt: string): string {
   return 'GeneralAgent';
 }
 
-const CLOUDFLARE_PROXY = 'https://everbloom-lyla-proxy.georgelanders2.workers.dev';
-
 export default function AgentChat() {
   const popScreen = useGlowFitStore((s) => s.popScreen);
   const profile = useGlowFitStore((s) => s.profile);
@@ -79,22 +78,12 @@ export default function AgentChat() {
 
       const systemPrompt = `You are GlowFit AI Coach. You have 5 specialized agents: WorkoutAgent (exercise plans), NutritionAgent (diet advice), RecoveryAgent (rest/recovery), MindsetAgent (motivation), GeneralAgent (general fitness). ${profileContext}Current agent: ${agentName}. Be concise, supportive, and actionable. Max 3 sentences per response.`;
 
-      const res = await fetch(`${CLOUDFLARE_PROXY}/v1/chat/completions`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'big-pickle',
-          messages: [
-            { role: 'system', content: systemPrompt },
-            ...historyContext ? [{ role: 'user', content: `Conversation so far:\n${historyContext}` }] : [],
-            { role: 'user', content: text },
-          ],
-          max_tokens: 300,
-        }),
-      });
-
-      const data = await res.json();
-      const reply = data.choices?.[0]?.message?.content || "I'm here to help! Could you rephrase that?";
+      const aiConfig = useGlowFitStore.getState().aiConfig;
+      const reply = await chatCompletion([
+        { role: 'system', content: systemPrompt },
+        ...(historyContext ? [{ role: 'user' as const, content: `Conversation so far:\n${historyContext}` }] : []),
+        { role: 'user', content: text },
+      ], { max_tokens: 300, aiConfig });
 
       const assistantMsg: ChatMsg = {
         role: 'assistant',

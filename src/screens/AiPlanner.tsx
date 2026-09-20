@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
-import { useGlowFitStore } from '../lib/store';
 import { Sparkles, ArrowLeft, Flame, User, Activity, Utensils, ChevronRight, Dumbbell, Lightbulb, Zap } from 'lucide-react';
 import { haptics } from '../lib/haptics';
 import { track } from '../lib/analytics';
-import { LLM_BASE_URL, LLM_MODEL } from '../lib/llm-config';
+import { chatCompletion } from '../lib/llm-config';
+import { useGlowFitStore } from '../lib/store';
 
 type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'active' | 'very_active';
 type DietPref = 'balanced' | 'keto' | 'vegan' | 'paleo' | 'high_protein';
@@ -62,19 +62,11 @@ export default function AiPlanner() {
     setAiPlanLoading(true);
     track('ai_planner_generate');
     try {
-      const response = await fetch(`${LLM_BASE_URL}/chat/completions`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: LLM_MODEL,
-          messages: [
-            { role: 'system', content: 'You are a fitness planner. Create a personalized weekly workout and meal plan. Be specific with exercises, sets, reps, and meal ideas. Format with clear sections.' },
-            { role: 'user', content: `Age: ${age}, Height: ${height}cm, Weight: ${weight}kg, Target: ${target}kg, Activity: ${activity}, Diet: ${diet}, Gender: ${gender}, BMI: ${bmi}. Create a detailed weekly plan.` },
-          ],
-        }),
-      });
-      const data = await response.json();
-      const content = data.choices?.[0]?.message?.content || data.choices?.[0]?.delta?.content || '';
+      const aiConfig = useGlowFitStore.getState().aiConfig;
+      const content = await chatCompletion([
+        { role: 'system', content: 'You are a fitness planner. Create a personalized weekly workout and meal plan. Be specific with exercises, sets, reps, and meal ideas. Format with clear sections.' },
+        { role: 'user', content: `Age: ${age}, Height: ${height}cm, Weight: ${weight}kg, Target: ${target}kg, Activity: ${activity}, Diet: ${diet}, Gender: ${gender}, BMI: ${bmi}. Create a detailed weekly plan.` },
+      ], { aiConfig });
       setAiPlan(content);
       setActiveTab('plan');
       haptics.success();

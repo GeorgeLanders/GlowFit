@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useGlowFitStore } from '../lib/store';
 import { Sparkles, ArrowLeft, Zap } from 'lucide-react';
 import { haptics } from '../lib/haptics';
 import { track } from '../lib/analytics';
-import { LLM_BASE_URL, LLM_MODEL } from '../lib/llm-config';
+import { chatCompletion } from '../lib/llm-config';
+import { useGlowFitStore } from '../lib/store';
 
 interface Insight {
   id: string;
@@ -111,19 +111,11 @@ export default function AiInsights() {
     track('ai_insights_generate');
     try {
       const summary = `Workouts this week: ${store.workouts.length}, Water: ${store.waterLogs.reduce((s: number, w: any) => s + w.amountMl, 0)}ml, Calories logged: ${store.calorieLogs.length}, Sleep entries: ${store.sleepLogs.length}, Weight entries: ${store.weightLogs.length}`;
-      const response = await fetch(`${LLM_BASE_URL}/chat/completions`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: LLM_MODEL,
-          messages: [
-            { role: 'system', content: 'You are a fitness data analyst. Given the user\'s recent activity data, provide 2-3 personalized, actionable insights in 2-3 short paragraphs. Be encouraging and specific.' },
-            { role: 'user', content: `Here's my recent data: ${summary}. Generate personalized insights.` },
-          ],
-        }),
-      });
-      const data = await response.json();
-      const content = data.choices?.[0]?.message?.content || data.choices?.[0]?.delta?.content || '';
+      const aiConfig = useGlowFitStore.getState().aiConfig;
+      const content = await chatCompletion([
+        { role: 'system', content: 'You are a fitness data analyst. Given the user\'s recent activity data, provide 2-3 personalized, actionable insights in 2-3 short paragraphs. Be encouraging and specific.' },
+        { role: 'user', content: `Here's my recent data: ${summary}. Generate personalized insights.` },
+      ], { aiConfig });
       setAiInsight(content);
       haptics.success();
     } catch {

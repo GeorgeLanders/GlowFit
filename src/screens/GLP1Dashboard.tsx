@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useGlowFitStore } from '../lib/store';
-import { Syringe, Plus, Star, TrendingDown, Activity } from 'lucide-react';
+import { Syringe, Plus, Star, TrendingDown, Activity, Pill, Bell, BellOff, Trash2, Check } from 'lucide-react';
+import { notifications } from '../lib/notifications';
+import { haptics } from '../lib/haptics';
+import { track } from '../lib/analytics';
 import {
   LineChart,
   Line,
@@ -34,6 +37,17 @@ function formatDate(dateStr: string): string {
     day: 'numeric',
     year: 'numeric',
   });
+}
+
+function addDays(dateStr: string, days: number): string {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const dt = new Date(y, (m ?? 1) - 1, d);
+  dt.setDate(dt.getDate() + days);
+  return dt.toISOString().split('T')[0] ?? dateStr;
+}
+
+function medReminderId(medId: string): number {
+  return 8000 + (parseInt(medId.slice(-6), 10) % 900);
 }
 
 // ─── Star Rating Component ─────────────────────────────────────────
@@ -73,7 +87,7 @@ function StarRating({ value, onChange }: StarRatingProps) {
 // ─── Main Component ─────────────────────────────────────────────────
 
 export function GLP1Dashboard() {
-  const { glp1Logs, addGLP1Log, weightLogs } = useGlowFitStore();
+  const { glp1Logs, addGLP1Log, weightLogs, medications, medicationDoses, addMedication, updateMedication, deleteMedication, upsertDose } = useGlowFitStore();
 
   const [showForm, setShowForm] = useState(false);
   const [dosage, setDosage] = useState<number>(0.25);
@@ -82,6 +96,66 @@ export function GLP1Dashboard() {
   const [appetite, setAppetite] = useState<1 | 2 | 3 | 4 | 5>(3);
   const [nausea, setNausea] = useState<1 | 2 | 3 | 4 | 5>(1);
   const [notes, setNotes] = useState('');
+
+  const [showMedForm, setShowMedForm] = useState(false);
+  const [medName, setMedName] = useState<(typeof MEDICATIONS)[number]>('Ozempic');
+  const [medDose, setMedDose] = useState<number>(0.25);
+  const [medFreq, setMedFreq] = useState<number>(7);
+  const [medTime, setMedTime] = useState('08:00');
+  const [medReminder, setMedReminder] = useState(true);
+
+  const dueDateFor = (medId: string, frequencyDays: number): string => {
+    const taken = medicationDoses
+      .filter((d) => d.medicationId === medId && d.taken)
+      .sort((a, b) => (b.takenAt ?? 0) - (a.takenAt ?? 0));
+    if (taken.length === 0) return todayString();
+    return addDays(taken[0].date, frequencyDays);
+  };
+
+  const scheduleDoseReminder = async (medId: string, name: string, dose: number, dueDate: string, time: string) => {
+    const [hh, mm] = time.split(':').map(Number);
+    const [y, mo, dd] = dueDate.split('-').map(Number);
+    const at = new Date(y, (mo ?? 1) - 1, dd, hh ?? 8, mm ?? 0);
+    if (at.getTime() <= Date.now()) return;
+    await notifications.scheduleMedReminder(
+      `${name} dose due`,
+      `Time for your ${dose}mg dose of ${name}.`,
+      at,
+      medReminderId(medId)
+    );
+  };
+
+  const handleAddMedication = async () => {
+    haptics.medium();
+    const id = Date.now().toString();
+    addMedication({ id, name: medName, dose: medDose, frequencyDays: medFreq, reminderTime: medTime, reminderEnabled: medReminder });
+    if (medReminder) {
+      await notifications.requestPermission();
+      await scheduleDoseReminder(id, medName, medDose, todayString(), medTime);
+    }
+    setShowMedForm(false);
+    setMedDose(DOSAGE_PRESETS[medName][0] ?? 0.25);
+    haptics.success();
+    track('medication_added', { name: medName });
+  };
+
+  const handleMarkTaken = async (medId: string, name: string, dose: number, frequencyDays: number, dueDate: string, reminderTime: string, reminderEnabled: boolean) => {
+    haptics.medium();
+    upsertDose({ id: `${medId}_${dueDate}`, medicationId: medId, date: dueDate, taken: true, takenAt: Date.now() });
+    const nextDue = addDays(dueDate, frequencyDays);
+    if (reminderEnabled) {
+      await scheduleDoseReminder(medId, name, dose, nextDue, reminderTime);
+    }
+    haptics.success();
+    track('medication_dose_taken', { name });
+  };
+
+  const handleDeleteMedication = async (medId: string) => {
+    haptics.light();
+    await notifications.cancel(medReminderId(medId));
+    deleteMedication(medId);
+    track('medication_deleted');
+  };
 
   // ─── Derived Data ──────────────────────────────────────────────
 
@@ -306,6 +380,130 @@ export function GLP1Dashboard() {
           <span className="text-2xl font-bold text-slate-800">{uniqueMeds.length}</span>
           <span className="text-[10px] text-slate-400 uppercase tracking-wider">Medications</span>
         </div>
+      </div>
+
+      {/* ─── Medications ───────────────────────────────────────── */}
+      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400">
+            Medications
+          </h3>
+          <button onClick={() => setShowMedForm(!showMedForm)} aria-label={showMedForm ? 'Cancel medication' : 'Add medication'}
+            className="flex items-center gap-1 text-xs font-bold text-rose-500 hover:text-rose-700">
+            <Plus className="w-4 h-4" />
+            {showMedForm ? 'Cancel' : 'Add'}
+          </button>
+        </div>
+
+        {showMedForm && (
+          <div className="space-y-3 mb-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className="block text-xs font-bold text-slate-400 mb-1">Medication</label>
+                <select value={medName}
+                  onChange={(e) => {
+                    const m = e.target.value as (typeof MEDICATIONS)[number];
+                    setMedName(m);
+                    setMedDose(DOSAGE_PRESETS[m][0] ?? 0.25);
+                  }}
+                  className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm">
+                  {MEDICATIONS.map((m) => <option key={m} value={m}>{m}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-400 mb-1">Dose (mg)</label>
+                <input type="number" step="0.01" min="0" value={medDose}
+                  onChange={(e) => setMedDose(parseFloat(e.target.value) || 0)}
+                  className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm" />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className="block text-xs font-bold text-slate-400 mb-1">Every (days)</label>
+                <div className="flex gap-1.5">
+                  {[1, 7, 14].map((f) => (
+                    <button key={f} type="button" onClick={() => setMedFreq(f)} aria-label={`Every ${f} days`}
+                      className={`flex-1 py-2 rounded-xl text-xs font-bold ${medFreq === f ? 'bg-rose-500 text-white' : 'bg-white text-slate-600 border border-slate-200'}`}>
+                      {f === 1 ? 'Daily' : `${f}d`}
+                    </button>
+                  ))}
+                  <input type="number" min="1" max="90" value={medFreq}
+                    onChange={(e) => setMedFreq(parseInt(e.target.value, 10) || 7)}
+                    className="w-14 px-2 py-2 rounded-xl bg-white border border-slate-200 text-xs text-center" aria-label="Custom frequency in days" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-400 mb-1">Reminder time</label>
+                <input type="time" value={medTime} onChange={(e) => setMedTime(e.target.value)}
+                  className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm" />
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-sm text-slate-600">
+                {medReminder ? <Bell className="w-4 h-4 text-rose-500" /> : <BellOff className="w-4 h-4 text-slate-300" />}
+                Reminders
+              </div>
+              <button onClick={() => setMedReminder(!medReminder)} aria-label={medReminder ? 'Disable reminders' : 'Enable reminders'}
+                className={`relative w-12 h-7 rounded-full transition-colors ${medReminder ? 'bg-rose-500' : 'bg-slate-200'}`}>
+                <div className={`absolute top-1 w-5 h-5 rounded-full bg-white shadow transition-transform ${medReminder ? 'translate-x-6' : 'translate-x-1'}`} />
+              </button>
+            </div>
+            <button onClick={handleAddMedication} disabled={medDose <= 0} aria-label="Save medication"
+              className="w-full py-2.5 rounded-xl bg-rose-500 text-white text-sm font-bold active:scale-[0.98] transition-all disabled:opacity-50">
+              Save Medication
+            </button>
+          </div>
+        )}
+
+        {medications.length === 0 ? (
+          <p className="text-sm text-slate-400 text-center py-4">
+            No medications yet. Add one to get dose reminders and track adherence.
+          </p>
+        ) : (
+          <div className="space-y-2">
+            {medications.map((med) => {
+              const due = dueDateFor(med.id, med.frequencyDays);
+              const dose = medicationDoses.find((d) => d.medicationId === med.id && d.date === due);
+              const taken = dose?.taken === true;
+              const missed = !taken && due < todayString();
+              return (
+                <div key={med.id} className="flex items-center justify-between py-2 border-b border-slate-100 last:border-0">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${taken ? 'bg-emerald-100' : missed ? 'bg-slate-100' : 'bg-orange-100'}`}>
+                      <Pill className={`w-4 h-4 ${taken ? 'text-emerald-500' : missed ? 'text-slate-400' : 'text-orange-500'}`} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-slate-800">{med.name} — {med.dose}mg</p>
+                      <p className="text-[11px] text-slate-400">
+                        {taken ? `Taken ${formatDate(dose.date)}` : missed ? `Missed ${formatDate(due)}` : due === todayString() ? 'Due today' : `Due ${formatDate(due)}`} · every {med.frequencyDays === 1 ? 'day' : `${med.frequencyDays} days`}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    {!taken && (
+                      <button onClick={() => handleMarkTaken(med.id, med.name, med.dose, med.frequencyDays, due, med.reminderTime, med.reminderEnabled)}
+                        aria-label={`Mark ${med.name} taken`}
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-emerald-500 text-white text-xs font-bold active:scale-95 transition-all">
+                        <Check className="w-3.5 h-3.5" /> Taken
+                      </button>
+                    )}
+                    <button onClick={() => {
+                      const next = !med.reminderEnabled;
+                      updateMedication(med.id, { reminderEnabled: next });
+                      if (!next) notifications.cancel(medReminderId(med.id));
+                      else scheduleDoseReminder(med.id, med.name, med.dose, due, med.reminderTime);
+                    }} aria-label={med.reminderEnabled ? 'Disable reminder' : 'Enable reminder'} className="p-1.5">
+                      {med.reminderEnabled ? <Bell className="w-4 h-4 text-rose-400" /> : <BellOff className="w-4 h-4 text-slate-300" />}
+                    </button>
+                    <button onClick={() => handleDeleteMedication(med.id)} aria-label={`Delete ${med.name}`} className="p-1.5">
+                      <Trash2 className="w-4 h-4 text-slate-300 hover:text-red-400" />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* ─── Weight Correlation Chart ──────────────────────────── */}
