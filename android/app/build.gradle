@@ -18,10 +18,22 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file(System.getProperty("user.home") + "/.android/keystores/glowfit-release.jks")
-            storePassword "GlowFit2026!"
-            keyAlias "glowfit"
-            keyPassword "GlowFit2026!"
+            // Credentials live in android/keystore.properties (gitignored).
+            // NEVER hardcode storePassword/keyPassword here - this file is tracked
+            // AND this repo is public on GitHub.
+            def keystorePropsFile = rootProject.file("keystore.properties")
+            if (!keystorePropsFile.exists()) {
+                throw new GradleException(
+                    "Missing android/keystore.properties. Copy android/keystore.properties.example " +
+                    "to android/keystore.properties and fill in the real signing values."
+                )
+            }
+            def keystoreProps = new Properties()
+            keystorePropsFile.withInputStream { keystoreProps.load(it) }
+            storeFile file(keystoreProps['storeFile'])
+            storePassword keystoreProps['storePassword']
+            keyAlias keystoreProps['keyAlias']
+            keyPassword keystoreProps['keyPassword']
         }
     }
     buildTypes {
