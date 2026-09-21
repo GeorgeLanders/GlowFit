@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useGlowFitStore } from '../lib/store';
-import { Bell, ArrowLeft, Droplets, Dumbbell, Moon, Apple, Trophy, Heart } from 'lucide-react';
+import { Bell, ArrowLeft, Droplets, Dumbbell, Moon, Apple, Trophy, Heart, ShieldCheck } from 'lucide-react';
 
 interface NotificationSetting {
   id: string;
@@ -19,6 +19,7 @@ export default function SmartNotifications() {
     { id: 'workout', title: 'Workout Reminders', description: 'Remind you to work out on schedule', icon: <Dumbbell className="w-5 h-5" />, color: 'text-rose-500', enabled: true, time: '9:00 AM' },
     { id: 'sleep', title: 'Sleep Reminder', description: 'Wind down notification at bedtime', icon: <Moon className="w-5 h-5" />, color: 'text-indigo-500', enabled: false, time: '10:30 PM' },
     { id: 'meal', title: 'Meal Logging', description: 'Remind you to log your meals', icon: <Apple className="w-5 h-5" />, color: 'text-amber-500', enabled: true, time: '12:00 PM' },
+    { id: 'protein', title: 'Muscle Guard Protein Nudge', description: 'Evening nudge if you are short on your protein target (GLP-1)', icon: <ShieldCheck className="w-5 h-5" />, color: 'text-rose-500', enabled: true, time: '6:00 PM' },
     { id: 'streak', title: 'Streak Alerts', description: 'Get notified when your streak is at risk', icon: <Trophy className="w-5 h-5" />, color: 'text-orange-500', enabled: true },
     { id: 'wellness', title: 'Wellness Check-in', description: 'Daily mood and wellness prompt', icon: <Heart className="w-5 h-5" />, color: 'text-pink-500', enabled: false, time: '8:00 PM' },
   ]);

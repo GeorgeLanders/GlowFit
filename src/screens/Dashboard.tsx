@@ -5,6 +5,8 @@ import { Flame, Droplets, Moon, TrendingUp, Footprints, Target, Brain, Bed, Hear
 import { haptics } from '../lib/haptics';
 import { track } from '../lib/analytics';
 import { notifications } from '../lib/notifications';
+import { MuscleGuardCard } from '../components/MuscleGuard';
+import { todayProteinG, weeklyStrengthProgress } from '../lib/muscle-guard';
 import { PullToRefresh } from '../components/PullToRefresh';
 
 // Feature grid entries. Kept at module scope so the "See all" toggle can count them.
@@ -104,6 +106,9 @@ export default function Dashboard() {
   const latestWeight = weightLogs[0];
   const caloriesBurned = todayWorkouts.reduce((sum, w) => sum + w.caloriesBurned, 0);
   const completedToday = habits.filter((h) => h.completedDates.includes(todayStr)).length;
+  const showMuscleGuard = profile.glp1User === true;
+  const mgProteinG = todayProteinG(calorieLogs, todayStr);
+  const mgStrength = weeklyStrengthProgress(workouts);
 
   const addDays = (dateStr: string, days: number): string => {
     const [y, m, d] = dateStr.split('-').map(Number);
@@ -165,7 +170,16 @@ export default function Dashboard() {
         <div>
           <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3 px-1">Today</h2>
           <div className="grid grid-cols-2 gap-3">
-            <NavCard icon={Flame} label="Calories" value={todayCalories} unit="kcal" color="bg-rose-500" screen="water-tracker" index={0} />
+            {showMuscleGuard && (
+        <MuscleGuardCard
+          profile={profile}
+          proteinTodayG={mgProteinG}
+          strength={mgStrength}
+          onLogFood={() => { haptics.light(); pushScreen('food-search'); }}
+          onLogWorkout={() => { haptics.light(); pushScreen('workout-logger'); }}
+        />
+      )}
+      <NavCard icon={Flame} label="Calories" value={todayCalories} unit="kcal" color="bg-rose-500" screen="water-tracker" index={0} />
             <NavCard icon={Target} label="Burned" value={caloriesBurned} unit="kcal" color="bg-violet-500" screen="workout-logger" index={1} />
             <NavCard icon={Droplets} label="Water" value={todayWater > 0 ? (todayWater / 1000).toFixed(1) : '—'} unit={todayWater > 0 ? 'L' : ''} color="bg-blue-500" screen="water-tracker" index={2} />
             <NavCard icon={Moon} label="Mood" value={todayWellness?.mood ?? '—'} unit={todayWellness ? '/5' : ''} color="bg-amber-500" screen="wellness-tracker" index={3} />

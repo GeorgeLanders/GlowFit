@@ -4,6 +4,7 @@ import { haptics } from '../lib/haptics';
 import { track } from '../lib/analytics';
 import { chatCompletion } from '../lib/llm-config';
 import { useGlowFitStore } from '../lib/store';
+import { muscleGuardTargets, weeklyStrengthProgress, todayProteinG } from '../lib/muscle-guard';
 
 interface Insight {
   id: string;
@@ -74,6 +75,27 @@ function generateInsights(state: any): Insight[] {
         : `Avg ${avgHours.toFixed(1)}h. Aim for 7-9 hours.`,
       priority: avgHours >= 7 ? 'low' : 'high', icon: '😴',
     });
+  }
+
+  // Muscle Guard: GLP-1 protein + strength preservation
+  if (state.profile?.glp1User) {
+    const targets = muscleGuardTargets(state.profile.currentWeight || 70);
+    const todayStr = new Date().toISOString().split('T')[0];
+    const protein = todayProteinG(calorieLogs, todayStr);
+    const strength = weeklyStrengthProgress(workouts);
+    if (protein < targets.proteinMinG) {
+      insights.push({
+        id: 'muscle-protein', category: 'nutrition', title: 'Muscle Guard: Protein Low',
+        message: `${Math.round(protein)}g of ${targets.proteinIdealG}g protein today. On GLP-1, hitting 1.2-1.6g/kg protects muscle while you lose.`,
+        priority: 'high', icon: '🛡️',
+      });
+    } else if (strength.pctChange !== null && strength.pctChange > 0) {
+      insights.push({
+        id: 'muscle-strength', category: 'workout', title: 'Muscle Protected',
+        message: `Strength volume up ${strength.pctChange}% this week — you're building muscle while losing weight.`,
+        priority: 'low', icon: '💪',
+      });
+    }
   }
 
   const todayCalories = calorieLogs.filter((c: any) =>
