@@ -33,3 +33,7 @@ keystore.properties
 .env
 .env.*
 !.env.example
+
+# Build artifacts - regenerable, never commit
+*.apk
+*.aab
