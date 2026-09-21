@@ -1,6 +1,47 @@
 import { User, Settings, BookOpen, ChevronRight } from 'lucide-react';
 import { useGlowFitStore } from '../lib/store';
 
+// Feature screens that have no other navigation entry point.
+const MORE_SCREENS: { label: string; screen: string }[] = [
+  { label: 'AI Agent Chat', screen: 'agent-chat' },
+  { label: 'Memory Insights', screen: 'memory-insights' },
+  { label: 'Body Composition', screen: 'body-composition' },
+  { label: 'Body Neutral Progress', screen: 'body-neutral-progress' },
+  { label: 'Progressive Overload', screen: 'progressive-overload' },
+  { label: 'TDEE Calculator', screen: 'tdee-calculator' },
+  { label: 'Mood & Meals', screen: 'mood-meal' },
+  { label: 'Nourishment', screen: 'nourishment' },
+  { label: 'Sleep & Wellness', screen: 'sleep-wellness' },
+  { label: 'Wellness Tracker', screen: 'wellness-tracker' },
+  { label: 'SOS Grounding', screen: 'sos-grounding' },
+  { label: 'Crisis Resources', screen: 'crisis-resources' },
+  { label: 'Budget', screen: 'budget' },
+  { label: 'Accountability Circle', screen: 'accountability-circle' },
+  { label: 'GLP-1 Settings', screen: 'glp1-settings' },
+  { label: 'Smart Notifications', screen: 'smart-notifications' },
+];
+
+// Legal & data — Play requires privacy policy and terms to be reachable in-app.
+const LEGAL_SCREENS: { label: string; screen: string }[] = [
+  { label: 'Export Data', screen: 'export-data' },
+  { label: 'Privacy Policy', screen: 'privacy-policy' },
+  { label: 'Terms of Service', screen: 'terms-of-service' },
+];
+
+function MenuRow({ label, screen }: { label: string; screen: string }) {
+  const pushScreen = useGlowFitStore((s) => s.pushScreen);
+  return (
+    <button
+      onClick={() => pushScreen(screen)}
+      aria-label={label}
+      className="w-full flex items-center justify-between bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] text-left hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98]"
+    >
+      <span className="text-sm font-medium text-slate-700">{label}</span>
+      <ChevronRight className="w-4 h-4 text-slate-400" />
+    </button>
+  );
+}
+
 export default function Profile() {
   const profile = useGlowFitStore((s) => s.profile);
   const workouts = useGlowFitStore((s) => s.workouts);
@@ -58,6 +99,22 @@ export default function Profile() {
           </div>
           <ChevronRight className="w-4 h-4 text-slate-400" />
         </button>
+      </div>
+
+      {/* Tools & More */}
+      <div className="space-y-2">
+        <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 px-1">Tools & More</h3>
+        {MORE_SCREENS.map((item) => (
+          <MenuRow key={item.screen} label={item.label} screen={item.screen} />
+        ))}
+      </div>
+
+      {/* Legal & Data */}
+      <div className="space-y-2">
+        <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 px-1">Legal & Data</h3>
+        {LEGAL_SCREENS.map((item) => (
+          <MenuRow key={item.screen} label={item.label} screen={item.screen} />
+        ))}
       </div>
     </div>
   );

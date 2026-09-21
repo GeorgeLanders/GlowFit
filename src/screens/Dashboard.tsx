@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useGlowFitStore } from '../lib/store';
-import { Flame, Droplets, Moon, TrendingUp, Footprints, Target, Apple, Brain, Bed, Heart, Zap, BarChart3, Activity, Calendar, Award, Syringe, Camera, UtensilsCrossed, Timer, Pill } from 'lucide-react';
+import { Flame, Droplets, Moon, TrendingUp, Footprints, Target, Apple, Brain, Bed, Heart, Zap, BarChart3, Activity, Calendar, Award, Syringe, Camera, UtensilsCrossed, Timer, Pill, Sparkles, CalendarCheck, Dumbbell, HeartPulse, RefreshCw, Trophy, Image as ImageIcon, BookOpen } from 'lucide-react';
 import { haptics } from '../lib/haptics';
 import { track } from '../lib/analytics';
 import { notifications } from '../lib/notifications';
@@ -274,6 +274,14 @@ export default function Dashboard() {
               { icon: Syringe, label: 'GLP-1', screen: 'glp1-tracker', color: 'bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400' },
               { icon: Camera, label: 'Photos', screen: 'progress-photos', color: 'bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400' },
               { icon: UtensilsCrossed, label: 'Meals', screen: 'meal-planner', color: 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400' },
+              { icon: Sparkles, label: 'AI Insights', screen: 'ai-insights', color: 'bg-fuchsia-100 dark:bg-fuchsia-900/30 text-fuchsia-600 dark:text-fuchsia-400' },
+              { icon: CalendarCheck, label: 'AI Planner', screen: 'ai-planner', color: 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400' },
+              { icon: Dumbbell, label: 'Exercises', screen: 'exercise-browser', color: 'bg-slate-100 dark:bg-slate-700/30 text-slate-600 dark:text-slate-300' },
+              { icon: HeartPulse, label: 'Heart Rate', screen: 'heart-rate', color: 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400' },
+              { icon: RefreshCw, label: 'Cycle', screen: 'cycle-tracker', color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' },
+              { icon: Trophy, label: 'Achievements', screen: 'gamification', color: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400' },
+              { icon: ImageIcon, label: 'Food Photos', screen: 'food-photo-journal', color: 'bg-lime-100 dark:bg-lime-900/30 text-lime-600 dark:text-lime-400' },
+              { icon: BookOpen, label: 'Programs', screen: 'programs', color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' },
             ].map((f) => (
               <motion.button
                 key={f.label}
