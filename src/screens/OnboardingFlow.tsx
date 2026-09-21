@@ -146,9 +146,11 @@ export function OnboardingFlow({
   // Keep calculations and the persisted profile in cm/kg, regardless of input units.
   const heightFactor = heightUnit === 'inches' ? CM_PER_INCH : 1;
   const weightFactor = weightUnit === 'lbs' ? KG_PER_LB : 1;
-  const parsedHeight = Number(parseFloat(height) * heightFactor);
-  const parsedCurrentWeight = Number(parseFloat(currentWeight) * weightFactor);
-  const parsedGoalWeight = Number(parseFloat(goalWeight) * weightFactor);
+  // Round to 1 decimal so unit conversion doesn't store 86.1825503 kg.
+  const round1 = (n: number) => Number(n.toFixed(1));
+  const parsedHeight = round1(parseFloat(height) * heightFactor);
+  const parsedCurrentWeight = round1(parseFloat(currentWeight) * weightFactor);
+  const parsedGoalWeight = round1(parseFloat(goalWeight) * weightFactor);
 
   const isStep2Valid =
     name.trim().length > 0 &&
@@ -386,6 +388,11 @@ export function OnboardingFlow({
                 className="w-full pl-11 pr-4 py-3 bg-white/60 border border-rose-200 rounded-xl text-rose-900 placeholder-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent transition-all"
               />
             </div>
+            {heightUnit === 'inches' && (
+              <p className="text-[11px] text-rose-400 mt-1.5">
+                Enter total inches — 5'7" is 67
+              </p>
+            )}
           </div>
 
           {/* Weight unit toggle hugs the weight inputs so it is not mistaken for height */}
