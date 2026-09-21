@@ -1,3 +1,0 @@
-// screens/LandingProgram.tsx — Phase 1 (Stabilize) of the Landing Program:
-// structured support for the first 4 weeks after stopping GLP-1 medication.
-// Behavioral support only; not medical advice.

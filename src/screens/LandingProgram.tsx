@@ -22,7 +22,7 @@ export default function LandingProgram() {
   const [med, setMed] = useState('Semaglutide');
   const [lastDose, setLastDose] = useState(todayStr());
 
-  const latestWeight = weightLogs[0]?.weightKg ?? null;
+  const latestWeight = weightLogs[0]?.weight ?? null;
 
   const begin = () => {
     haptics.medium();
