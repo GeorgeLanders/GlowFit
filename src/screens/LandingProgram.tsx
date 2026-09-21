@@ -3,12 +3,13 @@
 // Behavioral support only; not medical advice.
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, PlaneLanding, CheckCircle2, Scale, Beef, Dumbbell, Info } from 'lucide-react';
+import { ArrowLeft, PlaneLanding, CheckCircle2, Scale, Beef, Dumbbell, Info, Flame, TrendingUp } from 'lucide-react';
 import { useGlowFitStore } from '../lib/store';
 import { haptics } from '../lib/haptics';
 import {
   loadLanding, saveLanding, startLanding, currentLandingWeek,
   weightBand, bandStatus, STABILIZE_WEEKS, type LandingState,
+  landingPhase, currentLandingWeekTotal, currentRebuildWeek, estimateMaintenance,
 } from '../lib/landing-program';
 
 function todayStr() { return new Date().toISOString().split('T')[0] ?? ''; }
@@ -17,6 +18,7 @@ export default function LandingProgram() {
   const popScreen = useGlowFitStore((s) => s.popScreen);
   const profile = useGlowFitStore((s) => s.profile);
   const weightLogs = useGlowFitStore((s) => s.weightLogs);
+  const calorieLogs = useGlowFitStore((s) => s.calorieLogs);
 
   const [state, setState] = useState<LandingState | null>(loadLanding());
   const [med, setMed] = useState('Semaglutide');
@@ -80,10 +82,21 @@ export default function LandingProgram() {
   }
 
   // ------- Active program view -------
+  const phase = landingPhase(state);
+  const totalWeek = currentLandingWeekTotal(state);
   const week = currentLandingWeek(state);
   const plan = STABILIZE_WEEKS[week - 1] ?? STABILIZE_WEEKS[0]!;
+  const rebuildPlan = currentRebuildWeek(state);
+  const maintenance = estimateMaintenance(state, calorieLogs, weightLogs);
   const band = weightBand(state);
   const status = bandStatus(state, latestWeight);
+
+  const heroTitle = phase === 'rebuild' && rebuildPlan ? rebuildPlan.title : plan.title;
+  const heroFocus = phase === 'rebuild' && rebuildPlan ? rebuildPlan.focus : plan.focus;
+  const heroActions = phase === 'rebuild' && rebuildPlan ? rebuildPlan.actions : plan.actions;
+  const phaseLabel = phase === 'stabilize' ? 'Phase 1 - Stabilize' : phase === 'rebuild' ? 'Phase 2 - Rebuild' : 'Phase 3 - Autonomy';
+  const progressWeeks = phase === 'stabilize' ? 4 : 12;
+  const progressDone = Math.min(totalWeek, progressWeeks);
 
   return (
     <div className="space-y-4">
@@ -91,12 +104,12 @@ export default function LandingProgram() {
 
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
         className="bg-gradient-to-br from-violet-500 to-rose-400 rounded-2xl p-5 text-white shadow-[var(--shadow-card)]">
-        <p className="text-xs uppercase tracking-widest text-white/80">Landing Program - off {state.medicationName}</p>
-        <h2 className="text-xl font-bold mt-1">{plan.title}</h2>
-        <p className="text-sm text-white/90 mt-1.5 leading-relaxed">{plan.focus}</p>
+        <p className="text-xs uppercase tracking-widest text-white/80">{phaseLabel} - off {state.medicationName}</p>
+        <h2 className="text-xl font-bold mt-1">{heroTitle}</h2>
+        <p className="text-sm text-white/90 mt-1.5 leading-relaxed">{heroFocus}</p>
         <div className="flex gap-1 mt-3">
-          {[1, 2, 3, 4].map((w) => (
-            <div key={w} className={`h-1.5 flex-1 rounded-full ${w <= week ? 'bg-white' : 'bg-white/30'}`} />
+          {Array.from({ length: progressWeeks }, (_, i) => i + 1).map((w) => (
+            <div key={w} className={`h-1.5 flex-1 rounded-full ${w <= progressDone ? 'bg-white' : 'bg-white/30'}`} />
           ))}
         </div>
       </motion.div>
@@ -123,9 +136,9 @@ export default function LandingProgram() {
       </div>
 
       <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)]">
-        <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 mb-2">This week: three anchors</h3>
+        <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 mb-2">{phase === 'rebuild' ? 'Rebuild focus' : 'This week: three anchors'}</h3>
         <div className="space-y-2">
-          {plan.actions.map((a, i) => (
+          {heroActions.map((a, i) => (
             <div key={i} className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
               <p className="text-sm text-slate-700 dark:text-slate-300">{a}</p>
@@ -133,6 +146,35 @@ export default function LandingProgram() {
           ))}
         </div>
       </div>
+
+      {phase === 'rebuild' && (
+        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)]">
+          <div className="flex items-center gap-2 mb-2">
+            <Flame className="w-4 h-4 text-orange-500" />
+            <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100">Your maintenance number</h3>
+            <span className={`ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+              maintenance.confidence === 'high' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300'
+              : maintenance.confidence === 'medium' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300'
+              : 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400'
+            }`}>
+              {maintenance.confidence} confidence
+            </span>
+          </div>
+          {maintenance.kcal != null ? (
+            <>
+              <p className="text-3xl font-bold text-slate-800 dark:text-slate-100">
+                {maintenance.kcal.toLocaleString()} <span className="text-sm font-normal text-slate-400">kcal/day</span>
+              </p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">{maintenance.explanation}</p>
+            </>
+          ) : (
+            <div className="flex items-start gap-2">
+              <TrendingUp className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{maintenance.explanation}</p>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="grid grid-cols-2 gap-2">
         <div className="rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-100 dark:border-rose-900/40 p-3 text-center">

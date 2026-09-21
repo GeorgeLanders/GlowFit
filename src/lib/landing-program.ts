@@ -90,3 +90,141 @@ export const STABILIZE_WEEKS: StabilizeWeek[] = [
     actions: ['Compare this week\'s average weight to start', 'Decide your maintenance calories from the data, not a guess', 'Celebrate: 1 month off-medication, habits intact'],
   },
 ];
+
+// ═══════════════════════════════════════════════════════════════════
+// Phase 2 — Rebuild (weeks 5-12)
+// Strength becomes the headline. Maintenance calories computed from the
+// user's OWN logged intake + weight drift, not a formula guess.
+// ═══════════════════════════════════════════════════════════════════
+
+import type { CalorieLog as _Cal } from '../types';
+import type { WeightLog as _W } from '../types';
+
+export const REBUILD_TOTAL_WEEKS = 12; // weeks 5-12 inclusive => landing week 5..12
+
+export function landingPhase(state: LandingState): 'stabilize' | 'rebuild' | 'autonomy' {
+  const w = currentLandingWeekTotal(state);
+  if (w <= 4) return 'stabilize';
+  if (w <= REBUILD_TOTAL_WEEKS) return 'rebuild';
+  return 'autonomy';
+}
+
+export function currentLandingWeekTotal(state: LandingState): number {
+  const start = new Date(state.lastDoseDate).getTime();
+  const days = Math.max(0, (Date.now() - start) / 86_400_000);
+  return Math.floor(days / 7) + 1;
+}
+
+export interface MaintenanceEstimate {
+  kcal: number | null;        // null until >= 14 days with both intake + weight data
+  confidence: 'low' | 'medium' | 'high';
+  daysWithData: number;
+  weightDeltaKg: number;      // over the measured window
+  explanation: string;
+}
+
+// Energy balance: 1 kg of body mass ~ 7700 kcal.
+// maintenance = avgDailyIntake + (weightDeltaKg * 7700 / days)
+// (if you gained, you ate above maintenance, so true maintenance is LOWER:
+//  note sign — gaining means intake exceeded maintenance, so subtract.)
+export function estimateMaintenance(
+  state: LandingState,
+  calorieLogs: _Cal[],
+  weightLogs: _W[],
+): MaintenanceEstimate {
+  const startDate = state.lastDoseDate;
+  const logs = calorieLogs.filter((l) => l.date >= startDate);
+  const weights = weightLogs
+    .filter((w) => w.date >= startDate)
+    .sort((a, b) => a.date.localeCompare(b.date));
+
+  const daysSet = new Set(logs.map((l) => l.date));
+  const daysWithData = daysSet.size;
+
+  if (daysWithData < 7 || weights.length < 2) {
+    return {
+      kcal: null, confidence: 'low', daysWithData, weightDeltaKg: 0,
+      explanation: daysWithData < 7
+        ? 'Log food for at least 7 days to compute your real maintenance number.'
+        : 'Log at least 2 weights since your last dose to compute maintenance.',
+    };
+  }
+
+  const totalKcal = logs.reduce((s, l) => s + l.food.calories * l.quantity, 0);
+  const avgIntake = totalKcal / daysWithData;
+
+  const spanDays = Math.max(1,
+    (new Date(weights[weights.length - 1]!.date).getTime() - new Date(weights[0]!.date).getTime()) / 86_400_000);
+  const delta = weights[weights.length - 1]!.weight - weights[0]!.weight;
+  const dailySurplus = (delta * 7700) / spanDays;
+  const maintenance = Math.round(avgIntake - dailySurplus);
+
+  const confidence: MaintenanceEstimate['confidence'] =
+    daysWithData >= 21 && spanDays >= 14 ? 'high' :
+    daysWithData >= 14 && spanDays >= 7 ? 'medium' : 'low';
+
+  const dir = delta > 0.3 ? 'gaining slowly' : delta < -0.3 ? 'still losing' : 'holding steady';
+  return {
+    kcal: maintenance,
+    confidence,
+    daysWithData,
+    weightDeltaKg: Math.round(delta * 10) / 10,
+    explanation: `From ${daysWithData} days of your logging: you average ${Math.round(avgIntake)} kcal and are ${dir} (${delta >= 0 ? '+' : ''}${Math.round(delta * 10) / 10} kg). Your real maintenance is about ${maintenance} kcal — that's your data talking, not a formula.`,
+  };
+}
+
+export interface RebuildWeek {
+  week: number; // 5-12
+  title: string;
+  focus: string;
+  actions: string[];
+}
+
+export const REBUILD_WEEKS: RebuildWeek[] = [
+  {
+    week: 5, title: 'Week 5 - Strength takes the lead',
+    focus: 'Muscle is now the headline metric. The scale is a supporting character from here on.',
+    actions: ['3 strength sessions this week, minimum', 'Protein at target 5 of 7 days', 'Log weight once, mid-week'],
+  },
+  {
+    week: 6, title: 'Week 6 - Find your real number',
+    focus: 'Two weeks of your own data beats any calculator. Your maintenance calories are becoming visible.',
+    actions: ['Log food most days - accuracy drives the estimate', 'Compare your computed maintenance to what you assumed', 'Keep meals on their schedule'],
+  },
+  {
+    week: 7, title: 'Week 7 - Push one thing',
+    focus: 'Pick one lift and add a little weight or one rep. Mastery beats variety right now.',
+    actions: ['One personal record attempt on a main lift', 'Protein target every day this week', 'Sleep 7+ hours - recovery drives strength'],
+  },
+  {
+    week: 8, title: 'Week 8 - The plateau test',
+    focus: 'Weight stable for two weeks with strength rising means the rebuild is working exactly as designed.',
+    actions: ['Check your band - inside means winning', 'Note how clothes fit vs what the scale says', 'Celebrate non-scale wins out loud'],
+  },
+  {
+    week: 9, title: 'Week 9 - Habits on autopilot',
+    focus: 'By now protein and training should feel routine, not effortful. If not, shrink the ask, not the habit.',
+    actions: ['Identify your weakest anchor and simplify it', 'One enjoyable cardio session you actually like', 'Keep food logging - it powers your number'],
+  },
+  {
+    week: 10, title: 'Week 10 - Plan real life',
+    focus: 'Restaurants, travel, stress weeks. Practice maintenance through one disruption on purpose.',
+    actions: ['Pick a busy day and pre-plan its protein', 'Use your maintenance number to sanity-check menus', 'No panic after a high day - look at the week, not the day'],
+  },
+  {
+    week: 11, title: 'Week 11 - Teach-back',
+    focus: 'Explaining your own system out loud proves you own it. This is how maintenance sticks for years.',
+    actions: ['Write down your 3 rules that actually work', 'Check confidence level on your maintenance estimate', 'Strength sessions at full effort'],
+  },
+  {
+    week: 12, title: 'Week 12 - Graduation review',
+    focus: 'Twelve weeks off medication with habits intact. This is the outcome most people never get.',
+    actions: ['Review your 12-week weight and strength trend', 'Lock in your maintenance number', 'Move to Autonomy: monthly check-ins, not daily'],
+  },
+];
+
+export function currentRebuildWeek(state: LandingState): RebuildWeek | null {
+  const w = currentLandingWeekTotal(state);
+  if (w < 5 || w > REBUILD_TOTAL_WEEKS) return null;
+  return REBUILD_WEEKS[w - 5] ?? null;
+}
