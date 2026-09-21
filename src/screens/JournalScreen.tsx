@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGlowFitStore } from '../lib/store';
-import { BookOpen, Plus, ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus, ChevronDown, ChevronUp } from 'lucide-react';
+import { EmptyState } from '../components/EmptyState';
 
 const PROMPTS = [
   'How are you feeling today?',
@@ -88,11 +89,7 @@ export default function JournalScreen() {
 
       {/* Entries */}
       {journalEntries.length === 0 ? (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-8 shadow-[var(--shadow-card)] text-center">
-          <BookOpen className="w-12 h-12 text-rose-300 mx-auto mb-3" />
-          <p className="text-slate-500 font-medium">No journal entries yet</p>
-          <p className="text-xs text-slate-400 mt-1">Start writing to track your thoughts</p>
-        </div>
+        <EmptyState emoji="📓" title="No journal entries yet" message="Start writing to track your thoughts" />
       ) : (
         <div className="space-y-3">
           {journalEntries.map((entry) => {

@@ -1,11 +1,35 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useGlowFitStore } from '../lib/store';
-import { Flame, Droplets, Moon, TrendingUp, Footprints, Target, Apple, Brain, Bed, Heart, Zap, BarChart3, Activity, Calendar, Award, Syringe, Camera, UtensilsCrossed, Timer, Pill, Sparkles, CalendarCheck, Dumbbell, HeartPulse, RefreshCw, Trophy, Image as ImageIcon, BookOpen } from 'lucide-react';
+import { Flame, Droplets, Moon, TrendingUp, Footprints, Target, Brain, Bed, Heart, Zap, BarChart3, Activity, Calendar, Award, Syringe, Camera, UtensilsCrossed, Timer, Pill, Sparkles, CalendarCheck, Dumbbell, HeartPulse, RefreshCw, Trophy, Image as ImageIcon, BookOpen } from 'lucide-react';
 import { haptics } from '../lib/haptics';
 import { track } from '../lib/analytics';
 import { notifications } from '../lib/notifications';
 import { PullToRefresh } from '../components/PullToRefresh';
+
+// Feature grid entries. Kept at module scope so the "See all" toggle can count them.
+const FEATURES: { icon: React.ElementType; label: string; screen: string; color: string }[] = [
+  { icon: Bed, label: 'Sleep', screen: 'sleep-tracker', color: 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' },
+  { icon: Timer, label: 'Fasting', screen: 'fasting-tracker', color: 'bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400' },
+  { icon: Heart, label: 'Wellness', screen: 'mental-wellness', color: 'bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400' },
+  { icon: Zap, label: 'Habits', screen: 'habit-tracker', color: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400' },
+  { icon: Award, label: 'Streaks', screen: 'streak-dashboard', color: 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400' },
+  { icon: BarChart3, label: 'Trends', screen: 'trends', color: 'bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400' },
+  { icon: Calendar, label: 'Weekly', screen: 'weekly-report', color: 'bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400' },
+  { icon: Brain, label: 'AI Coach', screen: 'ai-coach', color: 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400' },
+  { icon: Activity, label: 'Recovery', screen: 'recovery', color: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' },
+  { icon: Syringe, label: 'GLP-1', screen: 'glp1-tracker', color: 'bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400' },
+  { icon: Camera, label: 'Photos', screen: 'progress-photos', color: 'bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400' },
+  { icon: UtensilsCrossed, label: 'Meals', screen: 'meal-planner', color: 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400' },
+  { icon: Sparkles, label: 'AI Insights', screen: 'ai-insights', color: 'bg-fuchsia-100 dark:bg-fuchsia-900/30 text-fuchsia-600 dark:text-fuchsia-400' },
+  { icon: CalendarCheck, label: 'AI Planner', screen: 'ai-planner', color: 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400' },
+  { icon: Dumbbell, label: 'Exercises', screen: 'exercise-browser', color: 'bg-slate-100 dark:bg-slate-700/30 text-slate-600 dark:text-slate-300' },
+  { icon: HeartPulse, label: 'Heart Rate', screen: 'heart-rate', color: 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400' },
+  { icon: RefreshCw, label: 'Cycle', screen: 'cycle-tracker', color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' },
+  { icon: Trophy, label: 'Achievements', screen: 'gamification', color: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400' },
+  { icon: ImageIcon, label: 'Food Photos', screen: 'food-photo-journal', color: 'bg-lime-100 dark:bg-lime-900/30 text-lime-600 dark:text-lime-400' },
+  { icon: BookOpen, label: 'Programs', screen: 'programs', color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' },
+];
 
 function today() {
   return new Date().toISOString().split('T')[0] ?? '';
@@ -59,6 +83,7 @@ export default function Dashboard() {
   const upsertDose = useGlowFitStore((s) => s.upsertDose);
   const healthSteps = useGlowFitStore((s) => s.healthSteps);
   const pushScreen = useGlowFitStore((s) => s.pushScreen);
+  const [showAllFeatures, setShowAllFeatures] = useState(false);
 
   const handleRefresh = useCallback(async () => {
     haptics.light();
@@ -234,55 +259,11 @@ export default function Dashboard() {
           </motion.button>
         )}
 
-        {/* Quick Actions */}
-        <div>
-          <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3 px-1">Quick Add</h2>
-          <div className="grid grid-cols-3 gap-3">
-            {[
-              { icon: Footprints, label: 'Workout', color: 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400', screen: 'workout-logger' },
-              { icon: Apple, label: 'Food', color: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400', screen: 'nutrition' },
-              { icon: Droplets, label: 'Water', color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400', screen: 'water-tracker' },
-            ].map((action) => (
-              <motion.button
-                key={action.label}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => { haptics.light(); track('dashboard_quick_add', { type: action.label }); pushScreen(action.screen); }}
-                aria-label={action.label}
-                className={`flex flex-col items-center gap-2 p-4 rounded-2xl ${action.color} border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all`}
-              >
-                <action.icon className="w-6 h-6" />
-                <span className="text-xs font-bold">{action.label}</span>
-              </motion.button>
-            ))}
-          </div>
-        </div>
-
         {/* Feature Grid */}
         <div>
           <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3 px-1">Features</h2>
           <div className="grid grid-cols-2 gap-3">
-            {[
-              { icon: Bed, label: 'Sleep', screen: 'sleep-tracker', color: 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' },
-              { icon: Timer, label: 'Fasting', screen: 'fasting-tracker', color: 'bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400' },
-              { icon: Heart, label: 'Wellness', screen: 'mental-wellness', color: 'bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400' },
-              { icon: Zap, label: 'Habits', screen: 'habit-tracker', color: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400' },
-              { icon: Award, label: 'Streaks', screen: 'streak-dashboard', color: 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400' },
-              { icon: BarChart3, label: 'Trends', screen: 'trends', color: 'bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400' },
-              { icon: Calendar, label: 'Weekly', screen: 'weekly-report', color: 'bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400' },
-              { icon: Brain, label: 'AI Coach', screen: 'ai-coach', color: 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400' },
-              { icon: Activity, label: 'Recovery', screen: 'recovery', color: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' },
-              { icon: Syringe, label: 'GLP-1', screen: 'glp1-tracker', color: 'bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400' },
-              { icon: Camera, label: 'Photos', screen: 'progress-photos', color: 'bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400' },
-              { icon: UtensilsCrossed, label: 'Meals', screen: 'meal-planner', color: 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400' },
-              { icon: Sparkles, label: 'AI Insights', screen: 'ai-insights', color: 'bg-fuchsia-100 dark:bg-fuchsia-900/30 text-fuchsia-600 dark:text-fuchsia-400' },
-              { icon: CalendarCheck, label: 'AI Planner', screen: 'ai-planner', color: 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400' },
-              { icon: Dumbbell, label: 'Exercises', screen: 'exercise-browser', color: 'bg-slate-100 dark:bg-slate-700/30 text-slate-600 dark:text-slate-300' },
-              { icon: HeartPulse, label: 'Heart Rate', screen: 'heart-rate', color: 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400' },
-              { icon: RefreshCw, label: 'Cycle', screen: 'cycle-tracker', color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' },
-              { icon: Trophy, label: 'Achievements', screen: 'gamification', color: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400' },
-              { icon: ImageIcon, label: 'Food Photos', screen: 'food-photo-journal', color: 'bg-lime-100 dark:bg-lime-900/30 text-lime-600 dark:text-lime-400' },
-              { icon: BookOpen, label: 'Programs', screen: 'programs', color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' },
-            ].map((f) => (
+            {(showAllFeatures ? FEATURES : FEATURES.slice(0, 8)).map((f) => (
               <motion.button
                 key={f.label}
                 whileTap={{ scale: 0.97 }}
@@ -295,6 +276,13 @@ export default function Dashboard() {
               </motion.button>
             ))}
           </div>
+          <button
+            onClick={() => { haptics.light(); setShowAllFeatures(!showAllFeatures); }}
+            aria-expanded={showAllFeatures}
+            className="w-full mt-3 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 hover:text-rose-500 dark:hover:text-rose-400 transition-colors"
+          >
+            {showAllFeatures ? 'Show less' : `See all ${FEATURES.length} features`}
+          </button>
         </div>
 
         {/* Streaks */}

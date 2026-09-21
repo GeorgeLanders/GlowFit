@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useGlowFitStore } from '../lib/store';
 import { ArrowLeft, Camera, Plus, X, Image, Clock, Check } from 'lucide-react';
 import { takePhoto, pickPhoto } from '../lib/camera';
+import { EmptyState } from '../components/EmptyState';
 import { photos } from '../lib/api';
 import { haptics } from '../lib/haptics';
 import { track } from '../lib/analytics';
@@ -308,10 +309,7 @@ export default function FoodPhotoJournal() {
           </div>
         ))}
         {filtered.length === 0 && (
-          <div className="text-center py-12 text-slate-400">
-            <Camera className="w-12 h-12 mx-auto mb-3 opacity-50" />
-            <p>No food photos yet. Start logging!</p>
-          </div>
+          <EmptyState emoji="🍽️" title="No food photos yet" message="Snap your meals to build your photo journal" />
         )}
       </div>
     </div>

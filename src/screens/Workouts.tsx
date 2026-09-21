@@ -1,5 +1,6 @@
 import { useGlowFitStore } from '../lib/store';
-import { Dumbbell, Plus, Timer, BookOpen, Wind, Syringe } from 'lucide-react';
+import { Plus, Timer, BookOpen, Wind, Syringe } from 'lucide-react';
+import { EmptyState } from '../components/EmptyState';
 
 export default function Workouts() {
   const workouts = useGlowFitStore((s) => s.workouts);
@@ -40,11 +41,7 @@ export default function Workouts() {
 
       {/* Recent Workouts */}
       {workouts.length === 0 ? (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-8 shadow-[var(--shadow-card)] text-center">
-          <Dumbbell className="w-12 h-12 text-rose-300 mx-auto mb-3" />
-          <p className="text-slate-500 font-medium">No workouts logged yet</p>
-          <p className="text-xs text-slate-400 mt-1">Tap "Log" to record your first workout</p>
-        </div>
+        <EmptyState emoji="🏋️" title="No workouts logged yet" message='Tap "Log" to record your first workout' />
       ) : (
         <div className="space-y-3">
           {workouts.slice(0, 10).map((w) => (

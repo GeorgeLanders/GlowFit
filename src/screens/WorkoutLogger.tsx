@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGlowFitStore } from '../lib/store';
-import { Plus, Trash2, Dumbbell } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
+import { EmptyState } from '../components/EmptyState';
 
 type Exercise = { name: string; sets: { reps: number; weight: number }[] };
 type WorkoutType = 'strength' | 'cardio' | 'hiit' | 'flexibility' | 'sports';
@@ -79,10 +80,7 @@ export default function WorkoutLogger() {
       )}
 
       {workouts.length === 0 ? (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-8 shadow-[var(--shadow-card)] text-center">
-          <Dumbbell className="w-12 h-12 text-rose-300 mx-auto mb-3" />
-          <p className="text-slate-500 font-medium">No workouts yet</p>
-        </div>
+        <EmptyState emoji="🏋️" title="No workouts yet" message="Your logged workouts will appear here" />
       ) : (
         <div className="space-y-3">
           {workouts.map((w) => (

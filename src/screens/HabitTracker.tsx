@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGlowFitStore } from '../lib/store';
-import { Plus, Check } from 'lucide-react';
+import { Plus } from 'lucide-react';
+import { EmptyState } from '../components/EmptyState';
 
 function today() { return new Date().toISOString().split('T')[0] ?? ''; }
 function daysAgo(n: number) { const d = new Date(); d.setDate(d.getDate() - n); return d.toISOString().split('T')[0] ?? ''; }
@@ -37,10 +38,7 @@ export default function HabitTracker() {
       )}
 
       {habits.length === 0 ? (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-8 shadow-[var(--shadow-card)] text-center">
-          <Check className="w-12 h-12 text-emerald-300 mx-auto mb-3" />
-          <p className="text-slate-500">No habits yet</p>
-        </div>
+        <EmptyState emoji="✅" title="No habits yet" message="Small daily habits compound into big change" />
       ) : (
         <div className="space-y-3">
           {habits.map((h) => {

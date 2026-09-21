@@ -8,6 +8,7 @@ import { initErrorTracking } from './lib/error-tracking';
 import { track } from './lib/analytics';
 import BottomNav from './components/BottomNav';
 import { OfflineBanner } from './components/OfflineBanner';
+import { QuickAddFab } from './components/QuickAddFab';
 
 // Main tab screens
 import Dashboard from './screens/Dashboard';
@@ -256,6 +257,7 @@ function AppContent() {
         </motion.main>
       </AnimatePresence>
       <BottomNav />
+      <QuickAddFab />
     </div>
   );
 }
