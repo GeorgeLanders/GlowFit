@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useGlowFitStore } from '../lib/store';
-import { ArrowLeft, Syringe, Pill, Droplets, Beef, ChevronDown, Check } from 'lucide-react';
+import { ArrowLeft, Syringe, Pill, Droplets, Beef, ChevronDown, Check, PlaneLanding } from 'lucide-react';
 
 const GLP1_MEDICATIONS = ['Semaglutide', 'Tirzepatide', 'Liraglutide', 'Dulaglutide'];
 
@@ -194,6 +194,21 @@ export default function GLP1Settings() {
               </div>
             </div>
           </div>
+
+          {/* Landing Program entry */}
+          <button
+            onClick={() => useGlowFitStore.getState().pushScreen('landing-program')}
+            className="w-full flex items-center justify-between bg-gradient-to-r from-violet-500/10 to-rose-500/10 dark:from-violet-900/30 dark:to-rose-900/30 rounded-2xl p-4 border border-violet-200/60 dark:border-violet-800/40 shadow-[var(--shadow-card)]"
+          >
+            <div className="flex items-center gap-3">
+              <PlaneLanding className="w-5 h-5 text-violet-500" />
+              <div className="text-left">
+                <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">Stopped this medication?</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Start the Landing Program — your first 4 weeks off, guided.</p>
+              </div>
+            </div>
+            <ChevronDown className="w-4 h-4 text-slate-400 -rotate-90" />
+          </button>
 
           {/* Quick Tips */}
           <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-4 border border-cyan-200/50 shadow-[var(--shadow-card)]">

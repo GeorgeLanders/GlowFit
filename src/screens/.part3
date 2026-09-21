@@ -1,0 +1,28 @@
+        <div className='bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)] space-y-3'>
+          <label className='block text-sm font-medium text-slate-700 dark:text-slate-200'>
+            Which medication did you stop?
+            <select value={med} onChange={(e) => setMed(e.target.value)}
+              className='mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-slate-800 dark:text-slate-100'>
+              {['Semaglutide', 'Tirzepatide', 'Liraglutide', 'Dulaglutide', 'Other'].map((m) => <option key={m}>{m}</option>)}
+            </select>
+          </label>
+          <label className='block text-sm font-medium text-slate-700 dark:text-slate-200'>
+            Date of your last dose
+            <input type='date' value={lastDose} max={todayStr()} onChange={(e) => setLastDose(e.target.value)}
+              className='mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-slate-800 dark:text-slate-100' />
+          </label>
+          <button onClick={begin}
+            className='w-full rounded-xl bg-violet-600 text-white font-semibold py-3 text-sm hover:bg-violet-700 transition-colors'>
+            Start my Landing Program
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ------- Active program view -------
+  const week = currentLandingWeek(state);
+  const plan = STABILIZE_WEEKS[week - 1] ?? STABILIZE_WEEKS[0]!;
+  const band = weightBand(state);
+  const status = bandStatus(state, latestWeight);
+

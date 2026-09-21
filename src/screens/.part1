@@ -1,0 +1,14 @@
+// screens/LandingProgram.tsx — Phase 1 (Stabilize) of the Landing Program:
+// structured support for the first 4 weeks after stopping GLP-1 medication.
+// Behavioral support only; not medical advice.
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowLeft, PlaneLanding, CheckCircle2, Scale, Beef, Dumbbell, Info } from 'lucide-react';
+import { useGlowFitStore } from '../lib/store';
+import { haptics } from '../lib/haptics';
+import {
+  loadLanding, saveLanding, startLanding, currentLandingWeek,
+  weightBand, bandStatus, STABILIZE_WEEKS, type LandingState,
+} from '../lib/landing-program';
+
+function todayStr() { return new Date().toISOString().split('T')[0] ?? ''; }

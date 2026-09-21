@@ -64,6 +64,7 @@ import AgentChat from './screens/AgentChat';
 import AiPlanner from './screens/AiPlanner';
 import BodyNeutralProgress from './screens/BodyNeutralProgress';
 import GLP1Settings from './screens/GLP1Settings';
+import LandingProgram from './screens/LandingProgram';
 import MoodMeal from './screens/MoodMeal';
 import Nourishment from './screens/Nourishment';
 import SleepWellness from './screens/SleepWellness';
@@ -137,6 +138,7 @@ const SUB_SCREENS: Record<string, { title: string; component: React.ReactNode }>
   'ai-planner': { title: 'AI Planner', component: <AiPlanner /> },
   'body-neutral-progress': { title: 'Body Neutral Progress', component: <BodyNeutralProgress /> },
   'glp1-settings': { title: 'GLP-1 Settings', component: <GLP1Settings /> },
+  'landing-program': { title: 'Landing Program', component: <LandingProgram /> },
   'mood-meal': { title: 'Mood & Meal', component: <MoodMeal /> },
   'nourishment': { title: 'Nourishment', component: <Nourishment /> },
   'sleep-wellness': { title: 'Sleep Wellness', component: <SleepWellness /> },

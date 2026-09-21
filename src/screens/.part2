@@ -1,0 +1,43 @@
+export default function LandingProgram() {
+  const popScreen = useGlowFitStore((s) => s.popScreen);
+  const profile = useGlowFitStore((s) => s.profile);
+  const weightLogs = useGlowFitStore((s) => s.weightLogs);
+
+  const [state, setState] = useState<LandingState | null>(loadLanding());
+  const [med, setMed] = useState('Semaglutide');
+  const [lastDose, setLastDose] = useState(todayStr());
+
+  const latestWeight = weightLogs[0]?.weightKg ?? null;
+
+  const begin = () => {
+    haptics.medium();
+    const s = startLanding(med, lastDose, latestWeight ?? profile.currentWeight ?? 70);
+    setState(s);
+  };
+
+  const endProgram = () => {
+    haptics.light();
+    saveLanding(null);
+    setState(null);
+  };
+
+  // ------- Activation view -------
+  if (!state?.active) {
+    return (
+      <div className='space-y-4'>
+        <Header popScreen={popScreen} />
+        <div className='bg-gradient-to-br from-violet-50 to-rose-50 dark:from-violet-950/40 dark:to-rose-950/40 rounded-2xl p-5 border border-violet-100 dark:border-violet-900/40 shadow-[var(--shadow-card)]'>
+          <div className='flex items-center gap-2 mb-2'>
+            <PlaneLanding className='w-5 h-5 text-violet-500' />
+            <h2 className='font-serif text-lg text-slate-800 dark:text-slate-100'>The Landing Program</h2>
+          </div>
+          <p className='text-sm text-slate-600 dark:text-slate-300 leading-relaxed'>
+            Coming off a GLP-1 is a real transition — appetite returns over a few weeks.
+            This 4-week program keeps your protein, strength, and routine steady while your
+            body recalibrates, so the progress you made stays yours.
+          </p>
+          <p className='mt-2 text-xs text-slate-500 dark:text-slate-400 leading-relaxed'>
+            Stopping or changing medication is a decision for you and your prescriber.
+            This program supports your habits; it does not give medical advice.
+          </p>
+        </div>
