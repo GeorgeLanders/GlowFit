@@ -11,7 +11,7 @@ export const AI_PROVIDERS = {
     models: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.5-flash-lite'],
     defaultModel: 'gemini-2.5-flash',
     signupUrl: 'https://aistudio.google.com/apikey',
-    keyPrefix: 'AIza',
+    keyPrefix: 'AIza',  // legacy format; newer keys start with 'AQ.'
     instructions: 'Go to Google AI Studio and click "Get API key"',
     color: '#4285F4', // Google blue
     icon: '🔵',
@@ -76,7 +76,8 @@ export const DEFAULT_AI_CONFIG: AIProviderConfig = {
 
 // Auto-detect provider from API key prefix
 export function detectProvider(apiKey: string): ProviderKey | null {
-  if (apiKey.startsWith('AIza')) return 'gemini';
+  // Gemini: legacy 'AIza...' keys AND Google's newer 'AQ....' format.
+  if (apiKey.startsWith('AIza') || apiKey.startsWith('AQ.')) return 'gemini';
   if (apiKey.startsWith('nvapi-')) return 'nvidia';
   return null;
 }
