@@ -3,13 +3,14 @@
 // Behavioral support only; not medical advice.
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, PlaneLanding, CheckCircle2, Scale, Beef, Dumbbell, Info, Flame, TrendingUp } from 'lucide-react';
+import { ArrowLeft, PlaneLanding, CheckCircle2, Scale, Beef, Dumbbell, Info, Flame, TrendingUp, Trophy, CalendarCheck } from 'lucide-react';
 import { useGlowFitStore } from '../lib/store';
 import { haptics } from '../lib/haptics';
 import {
   loadLanding, saveLanding, startLanding, currentLandingWeek,
   weightBand, bandStatus, STABILIZE_WEEKS, type LandingState,
   landingPhase, currentLandingWeekTotal, currentRebuildWeek, estimateMaintenance,
+  autonomySignal, graduationStatus, autonomyTheme, autonomyCadence,
 } from '../lib/landing-program';
 
 function todayStr() { return new Date().toISOString().split('T')[0] ?? ''; }
@@ -90,12 +91,21 @@ export default function LandingProgram() {
   const maintenance = estimateMaintenance(state, calorieLogs, weightLogs);
   const band = weightBand(state);
   const status = bandStatus(state, latestWeight);
+  const autonomy = phase === 'autonomy' ? autonomyTheme(totalWeek) : null;
+  const cadence = phase === 'autonomy' ? autonomyCadence(totalWeek) : null;
+  const signal = phase === 'autonomy' ? autonomySignal(state, weightLogs) : null;
+  const graduation = phase === 'autonomy' ? graduationStatus(state, latestWeight) : null;
 
-  const heroTitle = phase === 'rebuild' && rebuildPlan ? rebuildPlan.title : plan.title;
-  const heroFocus = phase === 'rebuild' && rebuildPlan ? rebuildPlan.focus : plan.focus;
-  const heroActions = phase === 'rebuild' && rebuildPlan ? rebuildPlan.actions : plan.actions;
+  const heroTitle = phase === 'rebuild' && rebuildPlan ? rebuildPlan.title
+    : phase === 'autonomy' && autonomy ? autonomy.title
+    : plan.title;
+  const heroFocus = phase === 'rebuild' && rebuildPlan ? rebuildPlan.focus
+    : phase === 'autonomy' && autonomy ? autonomy.focus
+    : plan.focus;
+  const heroActions = phase === 'rebuild' && rebuildPlan ? rebuildPlan.actions
+    : phase === 'autonomy' ? [] : plan.actions;
   const phaseLabel = phase === 'stabilize' ? 'Phase 1 - Stabilize' : phase === 'rebuild' ? 'Phase 2 - Rebuild' : 'Phase 3 - Autonomy';
-  const progressWeeks = phase === 'stabilize' ? 4 : 12;
+  const progressWeeks = phase === 'stabilize' ? 4 : phase === 'rebuild' ? 12 : 24;
   const progressDone = Math.min(totalWeek, progressWeeks);
 
   return (
@@ -135,6 +145,7 @@ export default function LandingProgram() {
         )}
       </div>
 
+      {phase !== 'autonomy' && (
       <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)]">
         <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 mb-2">{phase === 'rebuild' ? 'Rebuild focus' : 'This week: three anchors'}</h3>
         <div className="space-y-2">
@@ -146,6 +157,7 @@ export default function LandingProgram() {
           ))}
         </div>
       </div>
+      )}
 
       {phase === 'rebuild' && (
         <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)]">
@@ -176,6 +188,53 @@ export default function LandingProgram() {
         </div>
       )}
 
+      {phase === 'autonomy' && (
+        <>
+          {/* Cadence + status card */}
+          <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)]">
+            <div className="flex items-center gap-2 mb-2">
+              <CalendarCheck className="w-4 h-4 text-violet-500" />
+              <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100">
+                {cadence === 'weekly' && 'Weekly check-in'}
+                {cadence === 'monthly' && 'Monthly check-in'}
+                {cadence === 'graduated' && 'Yearly re-check'}
+              </h3>
+            </div>
+            {signal && (
+              <p className={`text-sm leading-relaxed ${
+                signal.level === 'steady' ? 'text-emerald-600 dark:text-emerald-400'
+                : signal.level === 'watch' ? 'text-amber-600 dark:text-amber-400'
+                : 'text-rose-600 dark:text-rose-400'
+              }`}>
+                {signal.message}
+              </p>
+            )}
+          </div>
+
+          {/* Graduation card */}
+          {graduation && (
+            <div className={`rounded-2xl p-4 border shadow-[var(--shadow-card)] ${
+              graduation.eligible
+                ? 'bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/40 dark:to-teal-950/40 border-emerald-200 dark:border-emerald-900/40'
+                : 'bg-white/70 dark:bg-slate-800/70 border-white/40 dark:border-slate-700/40'
+            }`}>
+              <div className="flex items-center gap-2 mb-1">
+                <Trophy className={`w-4 h-4 ${graduation.eligible ? 'text-emerald-500' : 'text-slate-400'}`} />
+                <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100">
+                  {graduation.eligible ? 'One year stable. You did it.' : '365-day milestone'}
+                </h3>
+              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                {graduation.eligible
+                  ? 'A full year of maintenance after GLP-1. fewer than half of users get here - and you built it from habits, not willpower.'
+                  : `${graduation.daysUntilEligible} days to go. Stay inside your band and the milestone unlocks.`}
+              </p>
+            </div>
+          )}
+        </>
+      )}
+
+      {phase !== 'autonomy' && (
       <div className="grid grid-cols-2 gap-2">
         <div className="rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-100 dark:border-rose-900/40 p-3 text-center">
           <Beef className="w-5 h-5 text-rose-500 mx-auto mb-1" />
@@ -188,6 +247,7 @@ export default function LandingProgram() {
           <p className="text-[11px] text-slate-500">Volume holds the muscle</p>
         </div>
       </div>
+      )}
 
       <div className="flex items-start gap-2 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 p-3">
         <Info className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />

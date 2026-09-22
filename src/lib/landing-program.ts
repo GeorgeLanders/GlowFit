@@ -228,3 +228,88 @@ export function currentRebuildWeek(state: LandingState): RebuildWeek | null {
   if (w < 5 || w > REBUILD_TOTAL_WEEKS) return null;
   return REBUILD_WEEKS[w - 5] ?? null;
 }
+
+// ═══════════════════════════════════════════════════════════════════
+// Phase 3 — Autonomy (weeks 13-24+)
+// Tapered check-ins and an early-warning system. The app steps back;
+// habits carry the load. Graduation at 365 days stable.
+// ═══════════════════════════════════════════════════════════════════
+
+export const AUTONOMY_END_WEEK = 24; // active guidance ends; yearly re-check after
+
+// How often we surface a check-in during Autonomy, by week.
+export function autonomyCadence(week: number): 'weekly' | 'monthly' | 'graduated' {
+  if (week <= 16) return 'weekly';
+  if (week <= AUTONOMY_END_WEEK) return 'monthly';
+  return 'graduated';
+}
+
+export interface AutonomySignal {
+  level: 'steady' | 'watch' | 'act';
+  message: string;
+}
+
+// Early warning: two consecutive weekly average weights above the band.
+export function autonomySignal(
+  state: LandingState,
+  weightLogs: _W[],
+): AutonomySignal {
+  const band = weightBand(state);
+  const byWeek = new Map<string, number[]>();
+  for (const w of weightLogs) {
+    if (w.date < state.lastDoseDate) continue;
+    const d = new Date(w.date);
+    const weekKey = new Date(d.getTime() - d.getDay() * 86_400_000).toISOString().slice(0, 10);
+    const arr = byWeek.get(weekKey) ?? [];
+    arr.push(w.weight);
+    byWeek.set(weekKey, arr);
+  }
+  const weeksAbove = [...byWeek.entries()]
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .slice(-2)
+    .map(([, ws]) => ws.reduce((s, x) => s + x, 0) / ws.length > band.high);
+
+  const aboveCount = weeksAbove.filter(Boolean).length;
+  if (weeksAbove.length >= 2 && aboveCount === 2) {
+    return {
+      level: 'act',
+      message: 'Two weeks above your stability band. Not panic - signal. Tighten protein and meal timing this week, or talk to your prescriber if hunger feels unmanageable.',
+    };
+  }
+  if (aboveCount === 1) {
+    return {
+      level: 'watch',
+      message: 'Last week drifted above your band. Normal fluctuation or early creep - this week tells you which.',
+    };
+  }
+  return { level: 'steady', message: 'Holding steady. Your system is working.' };
+}
+
+export interface GraduationStatus {
+  weeksSinceStart: number;
+  eligible: boolean;           // 52 weeks and within band right now
+  daysUntilEligible: number;
+}
+
+export function graduationStatus(state: LandingState, latestWeightKg: number | null): GraduationStatus {
+  const weeks = currentLandingWeekTotal(state);
+  const daysTotal = Math.max(0, (Date.now() - new Date(state.lastDoseDate).getTime()) / 86_400_000);
+  const inBand = latestWeightKg != null && bandStatus(state, latestWeightKg) === 'inside';
+  const eligible = daysTotal >= 365 && inBand;
+  return {
+    weeksSinceStart: weeks,
+    eligible,
+    daysUntilEligible: Math.max(0, Math.ceil(365 - daysTotal)),
+  };
+}
+
+export const AUTONOMY_THEMES: { range: [number, number]; title: string; focus: string }[] = [
+  { range: [13, 16], title: 'Loosening the reins', focus: 'Weekly check-ins now. You have 12 weeks of proof your system holds.' },
+  { range: [17, 20], title: 'Your routine, your rules', focus: 'Adjust the parts of the plan to fit your life - the anchors stay, the schedule is yours.' },
+  { range: [21, 24], title: 'Monthly rhythm', focus: 'One check-in a month. Log weight, glance at your band, get on with your life.' },
+  { range: [25, 999], title: 'Graduated', focus: 'You are maintaining without a program. A yearly re-check is all that remains.' },
+];
+
+export function autonomyTheme(week: number) {
+  return AUTONOMY_THEMES.find((t) => week >= t.range[0] && week <= t.range[1]) ?? AUTONOMY_THEMES[AUTONOMY_THEMES.length - 1]!;
+}
