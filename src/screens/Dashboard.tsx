@@ -11,28 +11,32 @@ import { PullToRefresh } from '../components/PullToRefresh';
 
 // Feature grid entries. Kept at module scope so the "See all" toggle can count them.
 const FEATURES: { icon: React.ElementType; label: string; screen: string; color: string }[] = [
-  { icon: Bed, label: 'Sleep', screen: 'sleep-tracker', color: 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' },
-  { icon: Timer, label: 'Fasting', screen: 'fasting-tracker', color: 'bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400' },
-  { icon: Heart, label: 'Wellness', screen: 'mental-wellness', color: 'bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400' },
-  { icon: Zap, label: 'Habits', screen: 'habit-tracker', color: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400' },
-  { icon: Award, label: 'Streaks', screen: 'streak-dashboard', color: 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400' },
-  { icon: BarChart3, label: 'Trends', screen: 'trends', color: 'bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400' },
-  { icon: Calendar, label: 'Weekly', screen: 'weekly-report', color: 'bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400' },
+  /* Feature tiles are grouped into six semantic colour families so the grid
+     reads as organised rather than random. Families: violet = AI,
+     rose = mind & wellbeing, emerald = nutrition, sky = progress & metrics,
+     amber = momentum, slate = training & tools. */
+  { icon: Bed, label: 'Sleep', screen: 'sleep-tracker', color: 'bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400' },
+  { icon: Timer, label: 'Fasting', screen: 'fasting-tracker', color: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' },
+  { icon: Heart, label: 'Wellness', screen: 'mental-wellness', color: 'bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400' },
+  { icon: Zap, label: 'Habits', screen: 'habit-tracker', color: 'bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400' },
+  { icon: Award, label: 'Streaks', screen: 'streak-dashboard', color: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400' },
+  { icon: BarChart3, label: 'Trends', screen: 'trends', color: 'bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400' },
+  { icon: Calendar, label: 'Weekly', screen: 'weekly-report', color: 'bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400' },
   { icon: Brain, label: 'AI Coach', screen: 'ai-coach', color: 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400' },
-  { icon: KeyRound, label: 'AI Keys', screen: 'ai-settings', color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' },
-  { icon: Activity, label: 'Recovery', screen: 'recovery', color: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' },
-  { icon: Syringe, label: 'GLP-1', screen: 'glp1-tracker', color: 'bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400' },
-  { icon: PlaneLanding, label: 'Landing', screen: 'landing-program', color: 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400' },
-  { icon: Camera, label: 'Photos', screen: 'progress-photos', color: 'bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400' },
-  { icon: UtensilsCrossed, label: 'Meals', screen: 'meal-planner', color: 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400' },
-  { icon: Sparkles, label: 'AI Insights', screen: 'ai-insights', color: 'bg-fuchsia-100 dark:bg-fuchsia-900/30 text-fuchsia-600 dark:text-fuchsia-400' },
+  { icon: KeyRound, label: 'AI Keys', screen: 'ai-settings', color: 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400' },
+  { icon: Activity, label: 'Recovery', screen: 'recovery', color: 'bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400' },
+  { icon: Syringe, label: 'GLP-1', screen: 'glp1-tracker', color: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' },
+  { icon: PlaneLanding, label: 'Landing', screen: 'landing-program', color: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400' },
+  { icon: Camera, label: 'Photos', screen: 'progress-photos', color: 'bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400' },
+  { icon: UtensilsCrossed, label: 'Meals', screen: 'meal-planner', color: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' },
+  { icon: Sparkles, label: 'AI Insights', screen: 'ai-insights', color: 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400' },
   { icon: CalendarCheck, label: 'AI Planner', screen: 'ai-planner', color: 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400' },
   { icon: Dumbbell, label: 'Exercises', screen: 'exercise-browser', color: 'bg-slate-100 dark:bg-slate-700/30 text-slate-600 dark:text-slate-300' },
-  { icon: HeartPulse, label: 'Heart Rate', screen: 'heart-rate', color: 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400' },
-  { icon: RefreshCw, label: 'Cycle', screen: 'cycle-tracker', color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' },
-  { icon: Trophy, label: 'Achievements', screen: 'gamification', color: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400' },
-  { icon: ImageIcon, label: 'Food Photos', screen: 'food-photo-journal', color: 'bg-lime-100 dark:bg-lime-900/30 text-lime-600 dark:text-lime-400' },
-  { icon: BookOpen, label: 'Programs', screen: 'programs', color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' },
+  { icon: HeartPulse, label: 'Heart Rate', screen: 'heart-rate', color: 'bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400' },
+  { icon: RefreshCw, label: 'Cycle', screen: 'cycle-tracker', color: 'bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400' },
+  { icon: Trophy, label: 'Achievements', screen: 'gamification', color: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400' },
+  { icon: ImageIcon, label: 'Food Photos', screen: 'food-photo-journal', color: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' },
+  { icon: BookOpen, label: 'Programs', screen: 'programs', color: 'bg-slate-100 dark:bg-slate-700/30 text-slate-600 dark:text-slate-300' },
 ];
 
 function today() {
@@ -181,10 +185,10 @@ export default function Dashboard() {
           onLogWorkout={() => { haptics.light(); pushScreen('workout-logger'); }}
         />
       )}
-      <NavCard icon={Flame} label="Calories" value={todayCalories} unit="kcal" color="bg-gradient-to-br from-fuchsia-600 to-pink-500" screen="water-tracker" index={0} />
-            <NavCard icon={Target} label="Burned" value={caloriesBurned} unit="kcal" color="bg-gradient-to-br from-violet-600 to-indigo-500" screen="workout-logger" index={1} />
-            <NavCard icon={Droplets} label="Water" value={todayWater > 0 ? (todayWater / 1000).toFixed(1) : '—'} unit={todayWater > 0 ? 'L' : ''} color="bg-gradient-to-br from-sky-500 to-blue-600" screen="water-tracker" index={2} />
-            <NavCard icon={Moon} label="Mood" value={todayWellness?.mood ?? '—'} unit={todayWellness ? '/5' : ''} color="bg-gradient-to-br from-amber-500 to-orange-500" screen="wellness-tracker" index={3} />
+      <NavCard icon={Flame} label="Calories" value={todayCalories} unit="kcal" color="bg-gradient-to-br from-rose-500 to-rose-600" screen="water-tracker" index={0} />
+            <NavCard icon={Target} label="Burned" value={caloriesBurned} unit="kcal" color="bg-gradient-to-br from-violet-500 to-violet-600" screen="workout-logger" index={1} />
+            <NavCard icon={Droplets} label="Water" value={todayWater > 0 ? (todayWater / 1000).toFixed(1) : '—'} unit={todayWater > 0 ? 'L' : ''} color="bg-gradient-to-br from-sky-500 to-sky-600" screen="water-tracker" index={2} />
+            <NavCard icon={Moon} label="Mood" value={todayWellness?.mood ?? '—'} unit={todayWellness ? '/5' : ''} color="bg-gradient-to-br from-amber-500 to-amber-600" screen="wellness-tracker" index={3} />
           </div>
         </div>
 

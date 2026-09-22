@@ -7,13 +7,21 @@
 
 @theme {
   /* ─── Brand Palette — Bright Pastels & Deep Violet ──────────── */
-  --color-rose-50: #fefaff;
-  --color-rose-100: #fdf2ff;
-  --color-rose-200: #fbe4fe;
-  --color-rose-300: #f8d5fe;
-  --color-rose-400: #f0c0fb;
-  --color-rose-500: #E3BCFB; /* GlowFit Primary Lavender (lightened 2026-09-22) */
-  --color-rose-600: #F58FCB; /* GlowFit Secondary Hot Pink (lightened) */
+  --color-rose-50: #fdf7ff;
+  --color-rose-100: #fae8fe;
+  --color-rose-200: #f3d0fb;
+  --color-rose-300: #e9b3f7;
+  --color-rose-400: #F0ABFC; /* dark-mode text/icons — 10.3:1 on --bg-page-dark */
+  --color-rose-500: #C026D3; /* magenta: primary buttons — 4.65:1 with white text */
+  --color-rose-600: #A21CAF; /* hover / deeper accent — 6.33:1 with white text */
+  --color-rose-700: #7C3AED; /* GlowFit Deep Violet */
+  --color-rose-800: #6b21a8;
+  --color-rose-900: #4c1d95;
+  /* NOTE: 500/600 were previously #E3BCFB / #F58FCB. Those are pastel surface
+     tints, but the app uses them as `bg-rose-500 text-white` for every primary
+     button and as `text-rose-500` for icons, which measured 1.35:1 and 1.9:1
+     against white — effectively invisible. Keep 50-200 for surfaces; 400+ must
+     stay legible enough to carry white text and icon strokes. */
   --color-rose-700: #7C3AED; /* GlowFit Deep Violet */
   --color-rose-800: #6b21a8;
   --color-rose-900: #4c1d95;
@@ -111,6 +119,20 @@
 
 .dark .text-slate-500 {
   color: #cbd5e1;
+}
+/* rose-500/600 are tuned for light backgrounds (magenta on white). On the dark
+   page they would drop to ~3.9:1, so lift them to the pastel for dark mode —
+   same pattern as .dark .text-slate-500 above. Harmless where a component
+   already sets an explicit dark:text-rose-400, since the value matches. */
+.dark .text-rose-500,
+.dark .text-rose-600 {
+  color: var(--color-rose-400);
+}
+/* ...and the mirror case: rose-400 is a pastel meant for dark surfaces (2.0:1
+   on white). Several screens use it bare for icons and hint text on light
+   cards, where it is effectively invisible, so step it up to rose-500. */
+html:not(.dark) .text-rose-400 {
+  color: var(--color-rose-500);
 }
 .dark ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); }
 
