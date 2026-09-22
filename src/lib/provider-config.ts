@@ -5,46 +5,43 @@ export const AI_PROVIDERS = {
   gemini: {
     name: 'Google Gemini',
     baseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai',
-    models: ['gemini-2.0-flash', 'gemini-2.5-flash-preview-05-20', 'gemini-2.0-flash-lite'],
-    defaultModel: 'gemini-2.0-flash',
+    // Updated 2026-09-21: gemini-2.0-* was shut down June 2026 and the
+    // 2.5-flash-preview-05-20 preview is long gone. Tap "Refresh model list"
+    // in AI Settings for the authoritative live list from Google.
+    models: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.5-flash-lite'],
+    defaultModel: 'gemini-2.5-flash',
     signupUrl: 'https://aistudio.google.com/apikey',
     keyPrefix: 'AIza',
     instructions: 'Go to Google AI Studio and click "Get API key"',
     color: '#4285F4', // Google blue
     icon: '🔵',
   },
-  groq: {
-    name: 'Groq',
-    baseUrl: 'https://api.groq.com/openai/v1',
-    models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'mixtral-8x7b-32768'],
-    defaultModel: 'llama-3.3-70b-versatile',
-    signupUrl: 'https://console.groq.com/keys',
-    keyPrefix: 'gsk_',
-    instructions: 'Sign up at console.groq.com and create an API key',
-    color: '#F55036', // Groq orange
-    icon: '⚡',
+  nvidia: {
+    name: 'NVIDIA NIM',
+    baseUrl: 'https://integrate.api.nvidia.com/v1',
+    // 2026-09-22: NVIDIA NIM provides OpenAI-compatible inference.
+    // Tap "Refresh model list" for the live catalog from NVIDIA.
+    models: ['meta/llama-3.3-70b-instruct', 'meta/llama-3.1-8b-instruct', 'nvidia/llama-3.1-nemotron-70b-instruct'],
+    defaultModel: 'meta/llama-3.3-70b-instruct',
+    signupUrl: 'https://build.nvidia.com/',
+    keyPrefix: 'nvapi-',
+    instructions: 'Go to build.nvidia.com, sign in, and generate an API key',
+    color: '#76B900', // NVIDIA green
+    icon: '🟢',
   },
-  openrouter: {
-    name: 'OpenRouter',
-    baseUrl: 'https://openrouter.ai/api/v1',
-    models: ['google/gemini-2.0-flash-001', 'meta-llama/llama-3.3-70b-instruct', 'openai/gpt-4o-mini'],
-    defaultModel: 'google/gemini-2.0-flash-001',
-    signupUrl: 'https://openrouter.ai/keys',
-    keyPrefix: 'sk-or-',
-    instructions: 'Sign in at openrouter.ai and create an API key ($1 free credit)',
-    color: '#7C3AED', // Purple
-    icon: '🌐',
-  },
-  together: {
-    name: 'Together AI',
-    baseUrl: 'https://api.together.xyz/v1',
-    models: ['meta-llama/Meta-Llama-3.3-70B-Instruct-Turbo', 'mistralai/Mixtral-8x7B-Instruct-v0.1'],
-    defaultModel: 'meta-llama/Meta-Llama-3.3-70B-Instruct-Turbo',
-    signupUrl: 'https://api.together.xyz/settings/api-keys',
+  kilo: {
+    name: 'Kilo Gateway',
+    baseUrl: 'https://api.kilo.ai/api/gateway',
+    // 2026-09-21: Kilo is an OpenAI-compatible gateway to hundreds of models
+    // with one account key. Tap "Refresh model list" to see everything your
+    // plan enables (the free tier ships a working default set).
+    models: ['moonshotai/kimi-k2.5', 'anthropic/claude-sonnet-4.5', 'openai/gpt-5-mini'],
+    defaultModel: 'moonshotai/kimi-k2.5',
+    signupUrl: 'https://kilo.ai/docs/gateway/authentication',
     keyPrefix: '',
-    instructions: 'Sign up at together.ai and create an API key ($1 free credit)',
-    color: '#0EA5E9', // Sky blue
-    icon: '🤝',
+    instructions: 'Create an account at kilo.ai, then copy your API key from the dashboard',
+    color: '#E11D48', // Kilo crimson
+    icon: '⚡',
   },
   custom: {
     name: 'Custom Endpoint',
@@ -80,8 +77,7 @@ export const DEFAULT_AI_CONFIG: AIProviderConfig = {
 // Auto-detect provider from API key prefix
 export function detectProvider(apiKey: string): ProviderKey | null {
   if (apiKey.startsWith('AIza')) return 'gemini';
-  if (apiKey.startsWith('gsk_')) return 'groq';
-  if (apiKey.startsWith('sk-or-')) return 'openrouter';
+  if (apiKey.startsWith('nvapi-')) return 'nvidia';
   return null;
 }
 
@@ -89,3 +85,74 @@ export function detectProvider(apiKey: string): ProviderKey | null {
 export function getProviderConfig(provider: ProviderKey) {
   return AI_PROVIDERS[provider];
 }
+
+// ─── Live model list (authoritative) ────────────────────────────────────────
+// Hard-coded model lists go stale: providers retire models without warning
+// (Groq retired llama-3.3-70b-versatile on 2026-08-16; Google shut down
+// gemini-2.0-flash in 2026-06). Asking the provider what it currently serves
+// is the only durable fix, so the app exposes a "Refresh model list" action.
+
+/** Models that are not chat models - never offer these as chat choices. */
+const NON_CHAT_HINTS = [
+  'embedding', 'embed', 'aqa', 'tts', 'whisper', 'audio',
+  'image', 'imagen', 'veo', 'vision-only', 'guard', 'moderation',
+];
+
+/**
+ * Fetch the models the given endpoint currently serves.
+ * Works on any OpenAI-compatible /models endpoint (Gemini, Groq, OpenRouter,
+ * Together). Throws with the provider's own message so the UI can show why.
+ */
+export async function fetchProviderModels(baseUrl: string, apiKey: string): Promise<string[]> {
+  if (!baseUrl) throw new Error('No endpoint URL set for this provider.');
+  if (!apiKey) throw new Error('Enter your API key first.');
+
+  const url = `${baseUrl.replace(/\/+$/, '')}/models`;
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${apiKey}` },
+    });
+  } catch (err) {
+    throw new Error(
+      `Could not reach the provider (${err instanceof Error ? err.message : 'network error'}). Check your connection.`
+    );
+  }
+
+  const raw = await response.text();
+  let parsed: any = null;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    /* fall through to the generic error below */
+  }
+
+  if (!response.ok) {
+    const detail =
+      parsed?.error?.message || parsed?.error || raw.slice(0, 200) || 'no detail';
+    // 401/403 is a key problem, not a model problem - say so plainly.
+    if (response.status === 401 || response.status === 403) {
+      throw new Error(
+        `Your API key was rejected (HTTP ${response.status}). Check the key was copied in full and hasn't been revoked or expired.`
+      );
+    }
+    throw new Error(`HTTP ${response.status}: ${detail}`);
+  }
+
+  const ids: string[] = (parsed?.data ?? [])
+    .map((m: any) => (typeof m?.id === 'string' ? m.id : m?.name))
+    .filter((id: unknown): id is string => typeof id === 'string')
+    // Gemini's OpenAI-compat layer prefixes ids with "models/".
+    .map((id: string) => id.replace(/^models\//, ''));
+
+  const chatModels = ids
+    .filter((id) => !NON_CHAT_HINTS.some((hint) => id.toLowerCase().includes(hint)))
+    .sort();
+
+  if (chatModels.length === 0) {
+    throw new Error('The provider returned no usable chat models for this key.');
+  }
+  return chatModels;
+}
+

@@ -1,21 +1,22 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   GlowFit Design Tokens â€” Warm Rose/Glass Theme
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════════════════════════════════════════════════════
+   GlowFit Design Tokens — Lavender & Hot Pink Glass Theme
+   Matches GlowFit Website (glowfit.pages.dev / glowfit.html)
+   ═══════════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* â”€â”€â”€ Brand Palette â€” Baby Blue/Sky â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-  --color-rose-50: #f0f8ff;
-  --color-rose-100: #e0f2fe;
-  --color-rose-200: #bae6fd;
-  --color-rose-300: #7dd3fc;
-  --color-rose-400: #38bdf8;
-  --color-rose-500: #0ea5e9;
-  --color-rose-600: #0284c7;
-  --color-rose-700: #0369a1;
-  --color-rose-800: #075985;
-  --color-rose-900: #0c4a6e;
+  /* ─── Brand Palette — Bright Pastels & Deep Violet ──────────── */
+  --color-rose-50: #fdf4ff;
+  --color-rose-100: #fae8ff;
+  --color-rose-200: #f5d0fe;
+  --color-rose-300: #f0abfc;
+  --color-rose-400: #e879f9;
+  --color-rose-500: #CE88F7; /* GlowFit Primary Lavender */
+  --color-rose-600: #F569B8; /* GlowFit Secondary Hot Pink */
+  --color-rose-700: #7C3AED; /* GlowFit Deep Violet */
+  --color-rose-800: #6b21a8;
+  --color-rose-900: #4c1d95;
 
   --color-violet-50: #f5f3ff;
   --color-violet-100: #ede9fe;
@@ -24,9 +25,9 @@
   --color-violet-500: #8b5cf6;
   --color-violet-600: #7c3aed;
 
-  --color-emerald-50: #ecfdf5;
-  --color-emerald-100: #d1fae5;
-  --color-emerald-400: #34d399;
+  --color-emerald-50: #f0fdf4;
+  --color-emerald-100: #dcfce7;
+  --color-emerald-400: #79BD7D; /* GlowFit Mint */
   --color-emerald-500: #10b981;
   --color-emerald-600: #059669;
 
@@ -45,44 +46,44 @@
   --color-slate-800: #1e293b;
   --color-slate-900: #0f172a;
 
-  --color-nude-50: #faf7f2;
-  --color-nude-100: #f5f0e8;
+  --color-nude-50: #fdf4ff;
+  --color-nude-100: #fae8ff;
 
-  /* â”€â”€â”€ Typography â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ─── Typography ────────────────────────────────────────────── */
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/* ═══════════════════════════════════════════════════════════════════
    Glassmorphism Tokens
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   ═══════════════════════════════════════════════════════════════════ */
 
 :root {
   /* Glass effects */
-  --glass-light: rgba(255, 255, 255, 0.6);
-  --glass-medium: rgba(255, 255, 255, 0.75);
-  --glass-strong: rgba(255, 255, 255, 0.9);
-  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-light: rgba(255, 255, 255, 0.7);
+  --glass-medium: rgba(255, 255, 255, 0.82);
+  --glass-strong: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(206, 136, 247, 0.3);
 
-  /* Card depth shadows â€” warm rose-tinted */
-  --shadow-card: 0 4px 24px -2px rgba(2, 132, 199, 0.06), 0 2px 8px -1px rgba(2, 132, 199, 0.04);
-  --shadow-card-hover: 0 8px 32px -4px rgba(2, 132, 199, 0.1), 0 4px 12px -2px rgba(2, 132, 199, 0.06);
-  --shadow-float: 0 12px 48px -8px rgba(2, 132, 199, 0.12), 0 6px 16px -4px rgba(2, 132, 199, 0.08);
+  /* Card depth shadows — warm lavender & pink-tinted */
+  --shadow-card: 0 4px 24px -2px rgba(124, 58, 237, 0.08), 0 2px 8px -1px rgba(245, 105, 184, 0.06);
+  --shadow-card-hover: 0 12px 40px -6px rgba(124, 58, 237, 0.16), 0 6px 16px -4px rgba(245, 105, 184, 0.1);
+  --shadow-float: 0 16px 48px -8px rgba(124, 58, 237, 0.2), 0 8px 20px -4px rgba(245, 105, 184, 0.12);
 
   /* Backgrounds */
-  --bg-page: #faf7f2;
-  --bg-card: rgba(255, 255, 255, 0.7);
+  --bg-page: #F6F1FB;
+  --bg-card: rgba(255, 255, 255, 0.85);
 
-  /* Dark mode overrides - lifted one step so cards/tiles read, not muddy */
-  --bg-page-dark: #2b3850;
-  --bg-card-dark: rgba(71, 85, 105, 0.5);
-  --glass-light-dark: rgba(51, 65, 85, 0.6);
-  --glass-medium-dark: rgba(51, 65, 85, 0.75);
-  --glass-strong-dark: rgba(51, 65, 85, 0.9);
-  --glass-border-dark: rgba(71, 85, 105, 0.5);
-  --shadow-card-dark: 0 4px 24px -2px rgba(0, 0, 0, 0.3), 0 2px 8px -1px rgba(0, 0, 0, 0.2);
-  --shadow-card-hover-dark: 0 8px 32px -4px rgba(0, 0, 0, 0.4), 0 4px 12px -2px rgba(0, 0, 0, 0.3);
-  --shadow-float-dark: 0 12px 48px -8px rgba(0, 0, 0, 0.5), 0 6px 16px -4px rgba(0, 0, 0, 0.35);
+  /* Dark mode overrides */
+  --bg-page-dark: #1A102F;
+  --bg-card-dark: rgba(38, 24, 66, 0.7);
+  --glass-light-dark: rgba(38, 24, 66, 0.6);
+  --glass-medium-dark: rgba(38, 24, 66, 0.75);
+  --glass-strong-dark: rgba(38, 24, 66, 0.9);
+  --glass-border-dark: rgba(124, 58, 237, 0.4);
+  --shadow-card-dark: 0 4px 24px -2px rgba(0, 0, 0, 0.4), 0 2px 8px -1px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover-dark: 0 8px 32px -4px rgba(124, 58, 237, 0.3), 0 4px 12px -2px rgba(0, 0, 0, 0.4);
+  --shadow-float-dark: 0 12px 48px -8px rgba(124, 58, 237, 0.4), 0 6px 16px -4px rgba(0, 0, 0, 0.5);
 }
 
 .dark {
@@ -100,19 +101,10 @@
 .dark body {
   color: #e2e8f0;
   background-image:
-    radial-gradient(760px 340px at 50% -90px, rgba(56, 189, 248, 0.20), transparent 65%),
-    radial-gradient(560px 300px at 90% 34%, rgba(139, 92, 246, 0.14), transparent 65%),
-    radial-gradient(520px 320px at 8% 26%, rgba(16, 185, 129, 0.10), transparent 65%);
+    radial-gradient(760px 340px at 50% -90px, rgba(206, 136, 247, 0.20), transparent 65%),
+    radial-gradient(560px 300px at 90% 34%, rgba(245, 105, 184, 0.14), transparent 65%),
+    radial-gradient(520px 320px at 8% 26%, rgba(40, 217, 241, 0.10), transparent 65%);
   background-attachment: fixed;
-}
-
-/* Dark mode only: lift translucent full-width feature/quick-add tiles and dim
-   gray labels. Narrow sibling selectors keep the effect on tiles, not every
-   /30 image icon. */
-.dark div > [class*="dark:bg-"][class*="/30"]:has(> svg),
-.dark button > [class*="dark:bg-"][class*="/30"],
-.dark [class*="dark:bg-"][class*="/30"].rounded-2xl {
-  filter: saturate(1.25) brightness(1.18);
 }
 
 .dark .text-slate-500 {
@@ -120,9 +112,9 @@
 }
 .dark ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/* ═══════════════════════════════════════════════════════════════════
    Global Styles
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   ═══════════════════════════════════════════════════════════════════ */
 
 * {
   -webkit-tap-highlight-color: transparent;
@@ -130,8 +122,12 @@
 
 body {
   font-family: var(--font-sans);
-  background: var(--bg-page);
-  color: #1e293b;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 0%, rgba(206,136,247,0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 85% 10%, rgba(40,217,241,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 40% at 50% 100%, rgba(245,105,184,0.10) 0%, transparent 60%),
+    var(--bg-page);
+  color: #5B4A66;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -139,11 +135,11 @@ body {
 /* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(2, 132, 199, 0.15); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: rgba(206, 136, 247, 0.25); border-radius: 2px; }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/* ═══════════════════════════════════════════════════════════════════
    Animation Keyframes
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   ═══════════════════════════════════════════════════════════════════ */
 
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(8px); }
@@ -156,8 +152,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.2); }
-  50% { box-shadow: 0 0 0 8px rgba(14, 165, 233, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(206, 136, 247, 0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(245, 105, 184, 0); }
 }
 
 @keyframes float {
