@@ -148,16 +148,38 @@ export function OnboardingFlow({
   const weightFactor = weightUnit === 'lbs' ? KG_PER_LB : 1;
   // Round to 1 decimal so unit conversion doesn't store 86.1825503 kg.
   const round1 = (n: number) => Number(n.toFixed(1));
-  const parsedHeight = round1(parseFloat(height) * heightFactor);
+  // Feet-inches guard: people type "5.6" meaning 5'6", which as decimal
+  // inches is 14 cm - a value that silently breaks every BMR/TDEE number.
+  // Interpret x.y (x between 3 and 8) as feet.inches, else pass through.
+  const normaliseInchesInput = (raw: number): number => {
+    if (heightUnit !== 'inches') return raw;
+    const ft = Math.floor(raw);
+    const inchPart = raw - ft;
+    if (ft >= 3 && ft <= 8 && inchPart > 0) {
+      const extra = Math.round(inchPart * 10); // .6 -> 6 inches
+      if (extra <= 11) return ft * 12 + extra;
+    }
+    return raw;
+  };
+  const parsedHeight = round1(normaliseInchesInput(parseFloat(height)) * heightFactor);
   const parsedCurrentWeight = round1(parseFloat(currentWeight) * weightFactor);
   const parsedGoalWeight = round1(parseFloat(goalWeight) * weightFactor);
+
+  // Plausible adult range - block saving a height that would corrupt TDEE.
+  const heightInRange = Number.isFinite(parsedHeight) && parsedHeight >= 100 && parsedHeight <= 250;
+  const heightWarning =
+    !height.trim() ? null
+    : !Number.isFinite(parsedHeight) ? 'Enter a number.'
+    : !heightInRange ? (heightUnit === 'cm'
+        ? 'Height should be between 100 and 250 cm.'
+        : 'Height should be between 40 and 98 inches.')
+    : null;
 
   const isStep2Valid =
     name.trim().length > 0 &&
     !isNaN(parsedAge) &&
     parsedAge > 0 &&
-    Number.isFinite(parsedHeight) &&
-    parsedHeight > 0 &&
+    heightInRange &&
     Number.isFinite(parsedCurrentWeight) &&
     parsedCurrentWeight > 0 &&
     Number.isFinite(parsedGoalWeight) &&
@@ -388,6 +410,9 @@ export function OnboardingFlow({
                 className="w-full pl-11 pr-4 py-3 bg-white/60 border border-rose-200 rounded-xl text-rose-900 placeholder-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent transition-all"
               />
             </div>
+            {heightWarning && (
+              <p className="text-xs text-rose-600 mt-1.5">{heightWarning}</p>
+            )}
             {heightUnit === 'inches' && (
               <p className="text-[11px] text-rose-400 mt-1.5">
                 Enter total inches — 5'7" is 67
