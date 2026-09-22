@@ -7,13 +7,13 @@
 
 @theme {
   /* ─── Brand Palette — Bright Pastels & Deep Violet ──────────── */
-  --color-rose-50: #fdf4ff;
-  --color-rose-100: #fae8ff;
-  --color-rose-200: #f5d0fe;
-  --color-rose-300: #f0abfc;
-  --color-rose-400: #e879f9;
-  --color-rose-500: #CE88F7; /* GlowFit Primary Lavender */
-  --color-rose-600: #F569B8; /* GlowFit Secondary Hot Pink */
+  --color-rose-50: #fefaff;
+  --color-rose-100: #fdf2ff;
+  --color-rose-200: #fbe4fe;
+  --color-rose-300: #f8d5fe;
+  --color-rose-400: #f0c0fb;
+  --color-rose-500: #E3BCFB; /* GlowFit Primary Lavender (lightened 2026-09-22) */
+  --color-rose-600: #F58FCB; /* GlowFit Secondary Hot Pink (lightened) */
   --color-rose-700: #7C3AED; /* GlowFit Deep Violet */
   --color-rose-800: #6b21a8;
   --color-rose-900: #4c1d95;
@@ -46,8 +46,8 @@
   --color-slate-800: #1e293b;
   --color-slate-900: #0f172a;
 
-  --color-nude-50: #fdf4ff;
-  --color-nude-100: #fae8ff;
+  --color-nude-50: #fefaff;
+  --color-nude-100: #fdf2ff;
 
   /* ─── Typography ────────────────────────────────────────────── */
   --font-serif: 'Playfair Display', Georgia, serif;

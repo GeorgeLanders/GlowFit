@@ -19,6 +19,7 @@ export default function AISettingsScreen({ onBack }: { onBack: () => void }) {
 
   const handleKeyChange = (key: string) => {
     setAiApiKey(key);
+    if (key.trim() && aiConfig.mode !== 'bring-your-own-key') setAiMode('bring-your-own-key');
     const detected = detectProvider(key);
     if (detected) {
       const p = AI_PROVIDERS[detected];
@@ -29,6 +30,9 @@ export default function AISettingsScreen({ onBack }: { onBack: () => void }) {
   const handleProviderSelect = (pKey: ProviderKey) => {
     const p = AI_PROVIDERS[pKey];
     setAiProvider(pKey, p.baseUrl, p.defaultModel);
+    // Picking a provider means the user wants to use it - don't make them
+    // also find the mode switch.
+    if (aiConfig.mode !== 'bring-your-own-key') setAiMode('bring-your-own-key');
   };
 
   const refreshModels = async () => {
@@ -160,8 +164,9 @@ export default function AISettingsScreen({ onBack }: { onBack: () => void }) {
           </div>
         </div>
 
-        {/* BYOK Section */}
-        {aiConfig.mode === 'bring-your-own-key' && (
+        {/* BYOK Section - always visible so customers can find providers
+            without first understanding the app-default vs BYOK distinction. */}
+        {(
           <>
             {/* Provider Selection */}
             <div>

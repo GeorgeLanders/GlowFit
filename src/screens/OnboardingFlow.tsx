@@ -259,7 +259,7 @@ export function OnboardingFlow({
   function renderWelcome() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
-        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-300 to-pink-400 flex items-center justify-center mb-8 shadow-lg">
+        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-200 to-pink-300 flex items-center justify-center mb-8 shadow-lg">
           <Sparkles className="w-12 h-12 text-white" />
         </div>
         <h1 className="text-5xl font-bold text-rose-900 mb-3 tracking-tight">
@@ -271,7 +271,7 @@ export function OnboardingFlow({
         <button
           onClick={goNext}
           aria-label="Get started"
-          className="w-full max-w-xs py-4 px-8 bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 active:from-purple-600 active:to-pink-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg"
+          className="w-full max-w-xs py-4 px-8 bg-gradient-to-r from-purple-300 to-pink-300 hover:from-purple-400 hover:to-pink-400 active:from-purple-500 active:to-pink-500 text-purple-950 font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg"
         >
           Get Started
           <ChevronRight className="w-5 h-5" />
@@ -469,7 +469,7 @@ export function OnboardingFlow({
           aria-label="Continue to next step"
           className={`w-full py-4 px-6 font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-lg ${
             isStep2Valid
-              ? 'bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 active:from-purple-600 active:to-pink-600 text-white shadow-lg hover:shadow-xl'
+              ? 'bg-gradient-to-r from-purple-300 to-pink-300 hover:from-purple-400 hover:to-pink-400 active:from-purple-500 active:to-pink-500 text-purple-950 shadow-lg hover:shadow-xl'
               : 'bg-rose-200 text-rose-400 cursor-not-allowed'
           }`}
         >
@@ -623,7 +623,7 @@ export function OnboardingFlow({
         <button
           onClick={goNext}
           aria-label="Continue to next step"
-          className="w-full py-4 px-6 bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 active:from-purple-600 active:to-pink-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg"
+          className="w-full py-4 px-6 bg-gradient-to-r from-purple-300 to-pink-300 hover:from-purple-400 hover:to-pink-400 active:from-purple-500 active:to-pink-500 text-purple-950 font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg"
         >
           Continue
           <ChevronRight className="w-5 h-5" />
@@ -656,7 +656,7 @@ export function OnboardingFlow({
         {/* Profile summary */}
         <div className={`${glassCard} p-5 space-y-3`}>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-300 to-pink-400 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-200 to-pink-300 flex items-center justify-center">
               <User className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -729,7 +729,7 @@ export function OnboardingFlow({
         <button
           onClick={handleComplete}
           aria-label="Complete onboarding"
-          className="w-full py-4 px-6 bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 active:from-purple-600 active:to-pink-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg"
+          className="w-full py-4 px-6 bg-gradient-to-r from-purple-300 to-pink-300 hover:from-purple-400 hover:to-pink-400 active:from-purple-500 active:to-pink-500 text-purple-950 font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg"
         >
           <Sparkles className="w-5 h-5" />
           Start Your Journey
@@ -741,7 +741,7 @@ export function OnboardingFlow({
   // ── Main Render ───────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50/70 via-pink-50/60 to-rose-50/70">
       {/* Header: Back (flow, never overlaps content) + step dots */}
       {step > 0 && (
         <div className="flex items-center px-5 pt-12 pb-4">

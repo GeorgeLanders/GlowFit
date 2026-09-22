@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useGlowFitStore } from '../lib/store';
-import { Flame, Droplets, Moon, TrendingUp, Footprints, Target, Brain, Bed, Heart, Zap, BarChart3, Activity, Calendar, Award, Syringe, Camera, UtensilsCrossed, Timer, Pill, Sparkles, CalendarCheck, Dumbbell, HeartPulse, RefreshCw, Trophy, Image as ImageIcon, BookOpen, PlaneLanding } from 'lucide-react';
+import { Flame, Droplets, Moon, TrendingUp, Footprints, Target, Brain, Bed, Heart, Zap, BarChart3, Activity, Calendar, Award, Syringe, Camera, UtensilsCrossed, Timer, Pill, Sparkles, CalendarCheck, Dumbbell, HeartPulse, RefreshCw, Trophy, Image as ImageIcon, BookOpen, PlaneLanding, KeyRound } from 'lucide-react';
 import { haptics } from '../lib/haptics';
 import { track } from '../lib/analytics';
 import { notifications } from '../lib/notifications';
@@ -19,6 +19,7 @@ const FEATURES: { icon: React.ElementType; label: string; screen: string; color:
   { icon: BarChart3, label: 'Trends', screen: 'trends', color: 'bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400' },
   { icon: Calendar, label: 'Weekly', screen: 'weekly-report', color: 'bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400' },
   { icon: Brain, label: 'AI Coach', screen: 'ai-coach', color: 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400' },
+  { icon: KeyRound, label: 'AI Keys', screen: 'ai-settings', color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' },
   { icon: Activity, label: 'Recovery', screen: 'recovery', color: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' },
   { icon: Syringe, label: 'GLP-1', screen: 'glp1-tracker', color: 'bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400' },
   { icon: PlaneLanding, label: 'Landing', screen: 'landing-program', color: 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400' },
