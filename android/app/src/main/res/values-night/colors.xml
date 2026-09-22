@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark-mode splash backdrop. Matches the bg-page-dark token in index.css,
+         so a dark-mode user does not get a white flash before the app paints. -->
+    <color name="splashBackground">#1A102F</color>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- styles.xml referenced @color/colorPrimary, colorPrimaryDark and
+         colorAccent but this file did not exist, so they were resolving out of
+         a dependency and the theme was picking up stock library colours. Brand
+         values now live here so the Android theme, system accents and the
+         Android 12+ splash are actually GlowFit. Mirrors index.css. -->
+    <color name="colorPrimary">#C026D3</color>
+    <color name="colorPrimaryDark">#1A102F</color>
+    <color name="colorAccent">#C026D3</color>
+
+    <!-- Splash backdrop. Matches the bg-page and bg-page-dark tokens in
+         index.css. values-night/colors.xml overrides splashBackground for dark
+         mode. (XML comments cannot contain a double hyphen, hence the wording.) -->
+    <color name="splashBackground">#F6F1FB</color>
+</resources>

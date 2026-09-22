@@ -18,5 +18,13 @@
 
     <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
         <item name="android:background">@drawable/splash</item>
+        <!-- Android 12+ does not draw @drawable/splash itself: the OS composes
+             its own splash from these two attributes. Without them it falls
+             back to a library default colour and icon, which is why the launch
+             looked unbranded on modern devices. The animated icon reuses the
+             existing density-aware brand mark (ic_launcher_foreground) rather
+             than a new asset, so the OS circular mask gets a clean subject. -->
+        <item name="windowSplashScreenBackground">@color/splashBackground</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
     </style>
 </resources>
