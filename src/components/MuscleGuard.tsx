@@ -2,7 +2,9 @@
 // Surfaces GLP-1 muscle preservation: protein progress vs 1.6 g/kg target,
 // weekly strength trend, and a quick protein-gap suggestion.
 import { motion } from 'framer-motion';
-import { ShieldCheck, TrendingUp, TrendingDown, Minus, UtensilsCrossed, Dumbbell } from 'lucide-react';
+import { ShieldCheck, TrendingUp, TrendingDown, Minus, UtensilsCrossed, Dumbbell, Share2 } from 'lucide-react';
+import { shareText } from '../lib/share';
+import { haptics } from '../lib/haptics';
 import type { Profile } from '../types';
 import { muscleGuardTargets, suggestProtein, type StrengthProgress } from '../lib/muscle-guard';
 
@@ -81,6 +83,15 @@ export function MuscleGuardCard({ profile, proteinTodayG, strength, onLogFood, o
           {strength.strengthDaysThisWeek}/{targets.resistanceDaysPerWeek} strength days
         </span>
       </div>
+
+      {pct >= 100 && strength.pctChange !== null && strength.pctChange > 0 && (
+        <button
+          onClick={() => { haptics.medium(); shareText(`Muscle Guard: protein target hit and strength up ${strength.pctChange}% this week on GLP-1. Protecting muscle, not just losing weight. #GlowFit`, 'GlowFit - Muscle Guard'); }}
+          className="w-full mb-3 flex items-center justify-center gap-1.5 rounded-xl bg-emerald-500/20 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-xs font-semibold py-2"
+        >
+          <Share2 className="w-3.5 h-3.5" /> Share this week's win
+        </button>
+      )}
 
       {/* Quick actions */}
       <div className="flex gap-2">

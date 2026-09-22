@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, PlaneLanding, CheckCircle2, Scale, Beef, Dumbbell, Info, Flame, TrendingUp, Trophy, CalendarCheck } from 'lucide-react';
 import { useGlowFitStore } from '../lib/store';
 import { haptics } from '../lib/haptics';
+import { MilestoneCard } from '../components/MilestoneCard';
 import {
   loadLanding, saveLanding, startLanding, currentLandingWeek,
   weightBand, bandStatus, STABILIZE_WEEKS, type LandingState,
@@ -229,6 +230,15 @@ export default function LandingProgram() {
                   ? 'A full year of maintenance after GLP-1. fewer than half of users get here - and you built it from habits, not willpower.'
                   : `${graduation.daysUntilEligible} days to go. Stay inside your band and the milestone unlocks.`}
               </p>
+              {graduation.eligible && (
+                <div className="mt-3">
+                  <MilestoneCard
+                    kind="landing-graduation"
+                    stat="365 days"
+                    detail={`maintained after ${state.medicationName}`}
+                  />
+                </div>
+              )}
             </div>
           )}
         </>
