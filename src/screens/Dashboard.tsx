@@ -57,16 +57,16 @@ function NavCard({ icon: Icon, label, value, unit, color, screen, index }: {
       whileTap={{ scale: 0.97 }}
       onClick={() => { haptics.light(); track('dashboard_nav', { screen }); pushScreen(screen); }}
       aria-label={label}
-      className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all text-left w-full"
+      className="card-3d rounded-2xl p-4 text-left w-full hover:-translate-y-0.5 transition-transform"
     >
       <div className="flex items-center gap-3">
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color}`}>
-          <Icon className="w-5 h-5 text-white" />
+        <div className={`gloss w-11 h-11 rounded-2xl flex items-center justify-center shadow-lg ${color}`}>
+          <Icon className="w-5 h-5 text-white drop-shadow-sm" />
         </div>
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">{label}</p>
-          <p className="text-lg font-bold text-slate-800 dark:text-slate-100">
-            {value}{unit && <span className="text-xs font-normal text-slate-400 dark:text-slate-500 ml-1">{unit}</span>}
+          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-300">{label}</p>
+          <p className="text-lg font-bold text-slate-800 dark:text-white">
+            {value}{unit && <span className="text-xs font-normal text-slate-400 dark:text-slate-400 ml-1">{unit}</span>}
           </p>
         </div>
       </div>
@@ -160,10 +160,10 @@ export default function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center pt-2"
         >
-          <h1 className="text-3xl font-serif text-rose-900 dark:text-rose-300">
+          <h1 className="text-3xl font-serif text-iridescent">
             {profile.name ? `Hi, ${profile.name}` : 'GlowFit'}
           </h1>
-          <p className="text-xs font-sans font-bold uppercase tracking-[0.2em] text-rose-300/90 mt-1">
+          <p className="text-[11px] font-sans font-bold uppercase tracking-[0.25em] text-rose-700/70 dark:text-rose-300/80 mt-1.5">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
           </p>
         </motion.div>
@@ -181,10 +181,10 @@ export default function Dashboard() {
           onLogWorkout={() => { haptics.light(); pushScreen('workout-logger'); }}
         />
       )}
-      <NavCard icon={Flame} label="Calories" value={todayCalories} unit="kcal" color="bg-rose-500" screen="water-tracker" index={0} />
-            <NavCard icon={Target} label="Burned" value={caloriesBurned} unit="kcal" color="bg-violet-500" screen="workout-logger" index={1} />
-            <NavCard icon={Droplets} label="Water" value={todayWater > 0 ? (todayWater / 1000).toFixed(1) : '—'} unit={todayWater > 0 ? 'L' : ''} color="bg-blue-500" screen="water-tracker" index={2} />
-            <NavCard icon={Moon} label="Mood" value={todayWellness?.mood ?? '—'} unit={todayWellness ? '/5' : ''} color="bg-amber-500" screen="wellness-tracker" index={3} />
+      <NavCard icon={Flame} label="Calories" value={todayCalories} unit="kcal" color="bg-gradient-to-br from-fuchsia-600 to-pink-500" screen="water-tracker" index={0} />
+            <NavCard icon={Target} label="Burned" value={caloriesBurned} unit="kcal" color="bg-gradient-to-br from-violet-600 to-indigo-500" screen="workout-logger" index={1} />
+            <NavCard icon={Droplets} label="Water" value={todayWater > 0 ? (todayWater / 1000).toFixed(1) : '—'} unit={todayWater > 0 ? 'L' : ''} color="bg-gradient-to-br from-sky-500 to-blue-600" screen="water-tracker" index={2} />
+            <NavCard icon={Moon} label="Mood" value={todayWellness?.mood ?? '—'} unit={todayWellness ? '/5' : ''} color="bg-gradient-to-br from-amber-500 to-orange-500" screen="wellness-tracker" index={3} />
           </div>
         </div>
 
@@ -285,7 +285,7 @@ export default function Dashboard() {
                 whileTap={{ scale: 0.97 }}
                 onClick={() => { haptics.light(); track('dashboard_feature', { screen: f.screen }); pushScreen(f.screen); }}
                 aria-label={f.label}
-                className={`flex items-center gap-3 p-4 rounded-2xl ${f.color} border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all text-left`}
+                className={`gloss flex items-center gap-3 p-4 rounded-2xl ${f.color} border border-white/50 dark:border-slate-600/40 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 transition-all text-left`}
               >
                 <f.icon className="w-5 h-5" />
                 <span className="text-sm font-bold">{f.label}</span>

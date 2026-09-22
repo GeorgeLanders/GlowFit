@@ -113,6 +113,66 @@
 .dark ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); }
 
 /* ═══════════════════════════════════════════════════════════════════
+   Premium surface system — iridescent gradients, gloss, depth
+   Gives the "dimensional / holographic" look without a 3D engine:
+   layered gradients + specular highlights + directional colored shadow.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Brand sweep: deep violet -> magenta -> hot pink */
+.iridescent {
+  background-image: linear-gradient(135deg, #6D28D9 0%, #A21CAF 42%, #DB2777 72%, #F472B6 100%);
+}
+
+/* Gradient text (deep in light mode, luminous in dark) */
+.text-iridescent {
+  background-image: linear-gradient(120deg, #6D28D9 0%, #A21CAF 45%, #BE185D 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dark .text-iridescent {
+  background-image: linear-gradient(120deg, #D8B4FE 0%, #F0ABFC 45%, #F9A8D4 85%);
+}
+
+/* Dimensional glass card: sheen on top, colored light underneath */
+.card-3d {
+  position: relative;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.62));
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 12px 32px -14px rgba(109, 40, 217, 0.3),
+    0 4px 12px -6px rgba(219, 39, 119, 0.2);
+  backdrop-filter: blur(10px);
+}
+.dark .card-3d {
+  background-image: linear-gradient(180deg, rgba(58, 36, 96, 0.72), rgba(32, 20, 56, 0.6));
+  border-color: rgba(167, 139, 250, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 16px 38px -16px rgba(0, 0, 0, 0.65),
+    0 0 24px -8px rgba(168, 85, 247, 0.35);
+}
+
+/* Specular gloss: the highlight that makes a tile read as 3D */
+.gloss {
+  position: relative;
+  overflow: hidden;
+}
+.gloss::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.12) 42%,
+    rgba(255, 255, 255, 0) 62%
+  );
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    Global Styles
    ═══════════════════════════════════════════════════════════════════ */
 

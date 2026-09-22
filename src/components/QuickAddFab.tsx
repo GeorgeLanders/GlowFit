@@ -47,7 +47,7 @@ export function QuickAddFab() {
                 {a.label}
               </span>
               <span
-                className={`w-11 h-11 rounded-full ${a.color} text-white flex items-center justify-center shadow-lg`}
+                className={`w-11 h-11 rounded-full ${a.color} text-white flex items-center justify-center shadow-lg gloss`}
               >
                 <a.icon className="w-5 h-5" />
               </span>
@@ -62,7 +62,7 @@ export function QuickAddFab() {
         }}
         aria-label="Quick add"
         aria-expanded={open}
-        className="w-14 h-14 rounded-full bg-gradient-to-br from-rose-500 to-violet-500 text-white shadow-xl shadow-rose-500/30 flex items-center justify-center"
+        className="gloss iridescent w-14 h-14 rounded-full text-white shadow-xl shadow-fuchsia-600/40 flex items-center justify-center border border-white/30"
       >
         <Plus
           className={`w-7 h-7 transition-transform duration-200 ${open ? 'rotate-45' : ''}`}
