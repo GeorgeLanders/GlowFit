@@ -73,9 +73,9 @@
   --bg-page: #faf7f2;
   --bg-card: rgba(255, 255, 255, 0.7);
 
-  /* Dark mode overrides */
-  --bg-page-dark: #1e293b;
-  --bg-card-dark: rgba(51, 65, 85, 0.7);
+  /* Dark mode overrides - lifted one step so cards/tiles read, not muddy */
+  --bg-page-dark: #2b3850;
+  --bg-card-dark: rgba(71, 85, 105, 0.5);
   --glass-light-dark: rgba(51, 65, 85, 0.6);
   --glass-medium-dark: rgba(51, 65, 85, 0.75);
   --glass-strong-dark: rgba(51, 65, 85, 0.9);
@@ -97,7 +97,27 @@
   --shadow-float: var(--shadow-float-dark);
 }
 
-.dark body { color: #e2e8f0; }
+.dark body {
+  color: #e2e8f0;
+  background-image:
+    radial-gradient(760px 340px at 50% -90px, rgba(56, 189, 248, 0.20), transparent 65%),
+    radial-gradient(560px 300px at 90% 34%, rgba(139, 92, 246, 0.14), transparent 65%),
+    radial-gradient(520px 320px at 8% 26%, rgba(16, 185, 129, 0.10), transparent 65%);
+  background-attachment: fixed;
+}
+
+/* Dark mode only: lift translucent full-width feature/quick-add tiles and dim
+   gray labels. Narrow sibling selectors keep the effect on tiles, not every
+   /30 image icon. */
+.dark div > [class*="dark:bg-"][class*="/30"]:has(> svg),
+.dark button > [class*="dark:bg-"][class*="/30"],
+.dark [class*="dark:bg-"][class*="/30"].rounded-2xl {
+  filter: saturate(1.25) brightness(1.18);
+}
+
+.dark .text-slate-500 {
+  color: #cbd5e1;
+}
 .dark ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•

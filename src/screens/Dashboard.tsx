@@ -162,7 +162,7 @@ export default function Dashboard() {
           <h1 className="text-3xl font-serif text-rose-900 dark:text-rose-300">
             {profile.name ? `Hi, ${profile.name}` : 'GlowFit'}
           </h1>
-          <p className="text-xs font-sans font-bold uppercase tracking-[0.2em] text-rose-400/60 mt-1">
+          <p className="text-xs font-sans font-bold uppercase tracking-[0.2em] text-rose-300/90 mt-1">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
           </p>
         </motion.div>

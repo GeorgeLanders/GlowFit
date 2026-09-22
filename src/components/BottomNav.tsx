@@ -16,7 +16,7 @@ export default function BottomNav() {
   const setActiveTab = useGlowFitStore((s) => s.setActiveTab);
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-t border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-float)]">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-800/85 backdrop-blur-xl border-t border-white/40 dark:border-slate-600/50 shadow-[var(--shadow-float)]">
       <div className="flex items-center justify-around max-w-lg mx-auto h-16 px-2">
         {TABS.map((tab) => {
           const Icon = tab.icon;
