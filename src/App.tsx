@@ -58,6 +58,7 @@ import CrisisResources from './screens/CrisisResources';
 import PrivacyPolicy from './screens/PrivacyPolicy';
 import TermsOfService from './screens/TermsOfService';
 import AccountabilityCircle from './screens/AccountabilityCircle';
+import AISettingsScreen from './screens/AISettings';
 import Programs from './screens/Programs';
 import MemoryInsights from './screens/MemoryInsights';
 import AgentChat from './screens/AgentChat';
@@ -96,6 +97,7 @@ const SUB_SCREENS: Record<string, { title: string; component: React.ReactNode }>
   'weekly-report': { title: 'Weekly Report', component: <WeeklyReport /> },
   'trends': { title: 'Trends', component: <Trends /> },
   'ai-coach': { title: 'AI Coach', component: <AiCoach /> },
+  'ai-settings': { title: 'AI Settings', component: <AISettingsScreen onBack={() => useGlowFitStore.getState().popScreen()} /> },
   // Workout sub-screens
   'workout-logger': { title: 'Log Workout', component: <WorkoutLogger /> },
   'workout-timer': { title: 'Workout Timer', component: <WorkoutTimer /> },

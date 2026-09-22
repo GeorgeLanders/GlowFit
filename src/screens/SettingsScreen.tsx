@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useGlowFitStore } from '../lib/store';
-import { User, Info, Save, Trash2, Fingerprint, HeartPulse } from 'lucide-react';
+import { User, Info, Save, Trash2, Fingerprint, HeartPulse, Sparkles } from 'lucide-react';
 import { DarkModeToggle } from '../components/DarkModeToggle';
 import { notifications } from '../lib/notifications';
 import { haptics } from '../lib/haptics';
@@ -114,6 +114,19 @@ export default function SettingsScreen() {
   return (
     <div className="space-y-6 animate-fade-in">
       <h1 className="text-3xl font-serif text-rose-900 dark:text-rose-300">Settings</h1>
+
+      <button
+        onClick={() => { haptics.light(); useGlowFitStore.getState().pushScreen('ai-settings'); }}
+        className="w-full mt-4 flex items-center gap-3 rounded-2xl p-4 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 border border-purple-200 dark:border-purple-800 shadow-[var(--shadow-card)]"
+      >
+        <Sparkles className="w-5 h-5 text-purple-600" />
+        <div className="text-left flex-1">
+          <p className="text-sm font-semibold text-rose-900 dark:text-rose-200">AI Assistant</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Choose provider, bring your own key - free options available</p>
+        </div>
+        <span className="text-xs text-rose-500">Open</span>
+      </button>
+
 
       {/* Appearance */}
       <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-4 shadow-[var(--shadow-card)]">

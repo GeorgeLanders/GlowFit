@@ -1,10 +1,13 @@
 // Shared LLM configuration — used by AiCoach, AiInsights, AiPlanner, AgentChat
 
+const IS_NATIVE = typeof (window as any)?.Capacitor !== 'undefined' &&
+  (window as any).Capacitor?.getPlatform?.() !== 'web';
+
 export const LLM_BASE_URL = (import.meta as any).env?.VITE_LLM_BASE_URL || 'https://everbloom-lyla-proxy.georgelanders2.workers.dev';
 export const LLM_MODEL = (import.meta as any).env?.VITE_LLM_MODEL || 'deepseek-v4-flash-free';
-export const OLLAMA_URL = (import.meta as any).env?.VITE_OLLAMA_URL || '';
+export const OLLAMA_URL = IS_NATIVE ? '' : ((import.meta as any).env?.VITE_OLLAMA_URL || '');
 export const OLLAMA_MODEL = (import.meta as any).env?.VITE_OLLAMA_MODEL || 'smollm2:latest';
-export const JARVIS_URL = (import.meta as any).env?.VITE_JARVIS_URL || 'http://127.0.0.1:8000';
+export const JARVIS_URL = IS_NATIVE ? '' : ((import.meta as any).env?.VITE_JARVIS_URL || 'http://127.0.0.1:8000');
 export const JARVIS_MODEL = (import.meta as any).env?.VITE_JARVIS_MODEL || 'nous-hermes2:latest';
 
 interface ChatMessage {
