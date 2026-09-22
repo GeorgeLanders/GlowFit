@@ -42,7 +42,7 @@ export default function MentalWellness() {
         <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Coping Techniques</h2>
         <div className="space-y-3">
           {TIPS.map((tip) => (
-            <div key={tip.title} className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+            <div key={tip.title} className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
               <div className="flex items-start gap-3">
                 <Heart className="w-4 h-4 text-rose-400 mt-0.5 shrink-0" />
                 <div>
@@ -56,7 +56,7 @@ export default function MentalWellness() {
       </div>
 
       {/* Journal Prompt */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <div className="flex items-center gap-2 mb-2">
           <BookOpen className="w-4 h-4 text-amber-500" />
           <h3 className="text-sm font-bold text-slate-700">Daily Prompt</h3>

@@ -237,7 +237,7 @@ export function GLP1Dashboard() {
 
       {/* ─── Add Log Form ──────────────────────────────────────── */}
       {showForm && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-5 shadow-[var(--shadow-card)] space-y-4 animate-fade-in">
+        <div className="card-3d rounded-2xl p-5 shadow-[var(--shadow-card)] space-y-4 animate-fade-in">
           <h2 className="text-lg font-bold text-slate-800 font-serif">New Injection Log</h2>
 
           {/* Medication */}
@@ -360,22 +360,22 @@ export function GLP1Dashboard() {
 
       {/* ─── Stats Summary ─────────────────────────────────────── */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] flex flex-col items-center">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] flex flex-col items-center">
           <Syringe className="w-5 h-5 text-rose-400 mb-1" />
           <span className="text-2xl font-bold text-slate-800">{totalInjections}</span>
           <span className="text-[10px] text-slate-400 uppercase tracking-wider">Injections</span>
         </div>
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] flex flex-col items-center">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] flex flex-col items-center">
           <TrendingDown className="w-5 h-5 text-amber-400 mb-1" />
           <span className="text-2xl font-bold text-slate-800">{avgAppetite.toFixed(1)}</span>
           <span className="text-[10px] text-slate-400 uppercase tracking-wider">Avg Appetite</span>
         </div>
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] flex flex-col items-center">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] flex flex-col items-center">
           <Activity className="w-5 h-5 text-sky-400 mb-1" />
           <span className="text-2xl font-bold text-slate-800">{avgNausea.toFixed(1)}</span>
           <span className="text-[10px] text-slate-400 uppercase tracking-wider">Avg Nausea</span>
         </div>
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] flex flex-col items-center">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] flex flex-col items-center">
           <div className="w-5 h-5 flex items-center justify-center text-emerald-400 mb-1 text-lg font-bold">💊</div>
           <span className="text-2xl font-bold text-slate-800">{uniqueMeds.length}</span>
           <span className="text-[10px] text-slate-400 uppercase tracking-wider">Medications</span>
@@ -383,7 +383,7 @@ export function GLP1Dashboard() {
       </div>
 
       {/* ─── Medications ───────────────────────────────────────── */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400">
             Medications
@@ -508,7 +508,7 @@ export function GLP1Dashboard() {
 
       {/* ─── Weight Correlation Chart ──────────────────────────── */}
       {chartData.length > 1 && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">
             Weight Correlation
           </h3>
@@ -572,7 +572,7 @@ export function GLP1Dashboard() {
       )}
 
       {/* ─── Recent Logs ───────────────────────────────────────── */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">
           Recent Injections
         </h3>

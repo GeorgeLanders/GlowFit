@@ -39,7 +39,7 @@ export default function TDEECalculator() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -72,7 +72,7 @@ export default function TDEECalculator() {
         </div>
       </div>
 
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-4">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-4">
         <div className="flex gap-3">
           <button onClick={() => setGender('female')} aria-label="Select female" className={`flex-1 py-3 rounded-xl font-medium transition-all ${gender === 'female' ? 'bg-rose-500 text-white' : 'bg-slate-100 text-slate-600'}`}>♀ Female</button>
           <button onClick={() => setGender('male')} aria-label="Select male" className={`flex-1 py-3 rounded-xl font-medium transition-all ${gender === 'male' ? 'bg-blue-500 text-white' : 'bg-slate-100 text-slate-600'}`}>♂ Male</button>
@@ -93,7 +93,7 @@ export default function TDEECalculator() {
         </div>
       </div>
 
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <p className="text-sm font-medium text-slate-600 mb-3">Activity Level</p>
         <div className="space-y-2">
           {(Object.entries(activityMultipliers) as [ActivityLevel, { label: string; value: number; desc: string }][]).map(([key, val]) => (
@@ -105,7 +105,7 @@ export default function TDEECalculator() {
         </div>
       </div>
 
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <p className="text-sm font-medium text-slate-600 mb-3">Goal</p>
         <div className="flex gap-3">
           {([['lose', 'Lose Weight', 'bg-blue-500'], ['maintain', 'Maintain', 'bg-emerald-500'], ['gain', 'Gain Muscle', 'bg-rose-500']] as const).map(([key, label, color]) => (
@@ -114,7 +114,7 @@ export default function TDEECalculator() {
         </div>
       </div>
 
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <p className="text-sm font-medium text-slate-600 mb-3">Recommended Macros</p>
         <div className="grid grid-cols-3 gap-3">
           <div className="text-center p-3 bg-blue-50 rounded-xl">

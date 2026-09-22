@@ -28,12 +28,12 @@ export default function StreakDashboard() {
 
       {/* Summary */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] text-center">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] text-center">
           <Flame className="w-6 h-6 text-amber-500 mx-auto mb-1" />
           <p className="text-2xl font-bold text-slate-800">{totalDays}</p>
           <p className="text-xs text-slate-400">Active Days</p>
         </div>
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] text-center">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] text-center">
           <Trophy className="w-6 h-6 text-violet-500 mx-auto mb-1" />
           <p className="text-2xl font-bold text-slate-800">{habits.length}</p>
           <p className="text-xs text-slate-400">Active Habits</p>
@@ -47,7 +47,7 @@ export default function StreakDashboard() {
 
       {/* Habit Streaks */}
       {habitStreaks.length > 0 && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Habit Streaks</h3>
           <div className="space-y-2">
             {habitStreaks.map((h) => (
@@ -64,7 +64,7 @@ export default function StreakDashboard() {
       )}
 
       {/* Calendar Heatmap */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Last 30 Days</h3>
         <div className="grid grid-cols-7 gap-1">
           {calendarDays.map((d) => (

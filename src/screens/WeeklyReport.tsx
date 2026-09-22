@@ -49,7 +49,7 @@ export default function WeeklyReport() {
           { label: 'Avg Cal', value: avgCalories },
           { label: 'Avg Water', value: `${avgWater}L` },
         ].map((s) => (
-          <div key={s.label} className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-3 shadow-[var(--shadow-card)] text-center">
+          <div key={s.label} className="card-3d rounded-2xl p-3 shadow-[var(--shadow-card)] text-center">
             <p className="text-lg font-bold text-slate-800">{s.value}</p>
             <p className="text-xs font-bold uppercase tracking-widest text-slate-400">{s.label}</p>
           </div>
@@ -57,7 +57,7 @@ export default function WeeklyReport() {
       </div>
 
       {/* Calories Chart */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Calories</h3>
         <ResponsiveContainer width="100%" height={150}>
           <BarChart data={weekDays}>
@@ -70,7 +70,7 @@ export default function WeeklyReport() {
       </div>
 
       {/* Water Chart */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Water (L)</h3>
         <ResponsiveContainer width="100%" height={150}>
           <BarChart data={weekDays}>

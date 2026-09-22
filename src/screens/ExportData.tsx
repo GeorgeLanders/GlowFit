@@ -47,7 +47,7 @@ export default function ExportData() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -56,7 +56,7 @@ export default function ExportData() {
         </div>
       </div>
 
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <p className="text-sm font-medium text-slate-600 mb-3">Export Format</p>
         <div className="flex gap-3">
           <button onClick={() => setFormat('json')} aria-label="Select JSON format" className={`flex-1 p-3 rounded-xl border-2 transition-all flex items-center gap-2 justify-center ${format === 'json' ? 'border-rose-400 bg-rose-50 text-rose-700' : 'border-slate-200 text-slate-500'}`}>
@@ -68,7 +68,7 @@ export default function ExportData() {
         </div>
       </div>
 
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <p className="text-sm font-medium text-slate-600 mb-3">Data Included</p>
         <div className="space-y-2">
           {dataCategories.map((cat) => (

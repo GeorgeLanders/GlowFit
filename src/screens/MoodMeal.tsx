@@ -62,7 +62,7 @@ export default function MoodMeal() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-2">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -78,7 +78,7 @@ export default function MoodMeal() {
       )}
 
       {/* Mood */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <p className="text-sm font-medium text-slate-600 mb-3">How are you feeling?</p>
         <div className="flex justify-center gap-3">
           {MOODS.map(m => (
@@ -91,7 +91,7 @@ export default function MoodMeal() {
       </div>
 
       {/* Meal */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <p className="text-sm font-medium text-slate-600 mb-3">What did you eat?</p>
         <div className="grid grid-cols-4 gap-2 mb-3">
           {MEAL_TYPES.map(mt => (
@@ -105,7 +105,7 @@ export default function MoodMeal() {
       </div>
 
       {/* Before/After + Notes */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-3">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
         <div className="flex gap-2">
           <button onClick={() => setBeforeMeal(true)} aria-label="Before meal" className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${beforeMeal ? 'bg-violet-500 text-white' : 'bg-slate-100 text-slate-600'}`}>Before Meal</button>
           <button onClick={() => setBeforeMeal(false)} aria-label="After meal" className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${!beforeMeal ? 'bg-violet-500 text-white' : 'bg-slate-100 text-slate-600'}`}>After Meal</button>
@@ -119,7 +119,7 @@ export default function MoodMeal() {
 
       {/* Weekly Trend */}
       {entries.length > 0 && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <p className="text-sm font-medium text-slate-600 mb-3 flex items-center gap-1.5"><TrendingUp className="w-4 h-4" /> Weekly Mood Trend</p>
           <div className="flex items-end gap-2 h-24">
             {weeklyTrend.map((d, i) => (
@@ -147,7 +147,7 @@ export default function MoodMeal() {
 
       {/* Recent */}
       {entries.length > 0 && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <p className="text-sm font-medium text-slate-600 mb-3">Recent Entries</p>
           <div className="space-y-2">
             {entries.slice(0, 5).map((e, i) => (

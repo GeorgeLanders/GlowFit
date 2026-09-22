@@ -52,7 +52,7 @@ export default function AccountabilityCircle() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -81,7 +81,7 @@ export default function AccountabilityCircle() {
 
       {/* Create Form */}
       {showCreate && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-3">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
           <input type="text" placeholder="Circle name" value={newName} onChange={e => setNewName(e.target.value)}
             className="w-full p-3 rounded-xl border border-slate-200 text-slate-800" />
           <button onClick={createCircle} aria-label="Create circle" className="w-full py-3 rounded-xl bg-[#CE88F7] text-white font-semibold active:scale-95 transition-all">Create</button>
@@ -90,7 +90,7 @@ export default function AccountabilityCircle() {
 
       {/* Join Form */}
       {showJoin && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-3">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
           <input type="text" placeholder="Enter invite code" value={joinCode} onChange={e => setJoinCode(e.target.value)}
             className="w-full p-3 rounded-xl border border-slate-200 text-slate-800 uppercase tracking-widest text-center text-lg font-mono" maxLength={6} />
           <button onClick={joinCircle} aria-label="Join circle" className="w-full py-3 rounded-xl bg-emerald-500 text-white font-semibold active:scale-95 transition-all">Join</button>
@@ -100,7 +100,7 @@ export default function AccountabilityCircle() {
       {/* Circles List */}
       <div className="space-y-3">
         {circles.map(circle => (
-          <div key={circle.id} className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+          <div key={circle.id} className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#CE88F7] to-[#F569B8] flex items-center justify-center text-white font-bold text-lg">
                 {circle.name.charAt(0)}

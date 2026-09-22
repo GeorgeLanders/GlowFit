@@ -51,7 +51,7 @@ export default function GLP1Settings() {
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center gap-3 mb-2">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div>
@@ -61,7 +61,7 @@ export default function GLP1Settings() {
       </div>
 
       {/* GLP-1 Mode Toggle */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <div className="flex items-center gap-3">
           <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${enabled ? 'bg-emerald-100' : 'bg-slate-100'}`}>
             <Syringe className={`w-5 h-5 ${enabled ? 'text-emerald-500' : 'text-slate-400'}`} />
@@ -82,7 +82,7 @@ export default function GLP1Settings() {
       {enabled && (
         <>
           {/* Medication Selector */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+          <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
             <p className="text-sm font-medium text-slate-600 mb-2 flex items-center gap-1.5"><Pill className="w-4 h-4" /> Medication</p>
             <div className="relative">
               <button
@@ -113,7 +113,7 @@ export default function GLP1Settings() {
           </div>
 
           {/* Dosage */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+          <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
             <p className="text-sm font-medium text-slate-600 mb-2">Current Dosage (mg)</p>
             <div className="flex items-center gap-2">
               <input
@@ -129,7 +129,7 @@ export default function GLP1Settings() {
           </div>
 
           {/* Injection Site Body Map */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+          <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
             <p className="text-sm font-medium text-slate-600 mb-1 flex items-center gap-1.5"><Syringe className="w-4 h-4" /> Injection Site</p>
             <p className="text-xs text-slate-400 mb-3">Rotate sites to prevent lipodystrophy</p>
             <div className="grid grid-cols-2 gap-2">
@@ -149,7 +149,7 @@ export default function GLP1Settings() {
           </div>
 
           {/* Nutrition Targets */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-4">
+          <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-4">
             <p className="text-sm font-medium text-slate-600 flex items-center gap-1.5"><Beef className="w-4 h-4" /> Nutrition Targets</p>
 
             {/* Protein */}

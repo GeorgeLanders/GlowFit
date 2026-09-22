@@ -25,7 +25,7 @@ export default function Budget() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -42,7 +42,7 @@ export default function Budget() {
         </div>
       )}
 
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-white/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-5 shadow-[var(--shadow-card)]">
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-semibold text-slate-800">Monthly Overview</h2>
           <BarChart3 className="w-5 h-5 text-slate-400" />
@@ -57,7 +57,7 @@ export default function Budget() {
         {budgets.map((item) => {
           const pct = Math.round((item.used / item.limit) * 100);
           return (
-            <div key={item.name} className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+            <div key={item.name} className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="font-medium text-slate-800">{item.name}</h3>
                 <span className="text-sm text-slate-500">{item.used}/{item.limit} {item.unit}</span>

@@ -156,7 +156,7 @@ export default function AiInsights() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -190,7 +190,7 @@ export default function AiInsights() {
         {aiLoading ? 'Analyzing your data...' : 'AI Deep Analysis'}
       </button>
       {aiInsight && (
-        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-violet-200 dark:border-violet-800/40 p-4 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl border border-violet-200 dark:border-violet-800/40 p-4 shadow-[var(--shadow-card)]">
           <div className="flex items-center gap-2 mb-2">
             <Sparkles className="w-4 h-4 text-violet-500" />
             <h3 className="font-semibold text-slate-800 dark:text-slate-100">AI Analysis</h3>
@@ -201,7 +201,7 @@ export default function AiInsights() {
 
       <div className="space-y-3">
         {insights.map((insight) => (
-          <div key={insight.id} className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+          <div key={insight.id} className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
             <div className="flex items-start gap-3">
               <span className="text-2xl">{insight.icon}</span>
               <div className="flex-1">

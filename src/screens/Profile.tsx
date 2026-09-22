@@ -48,7 +48,7 @@ function MenuRow({ label, screen, icon: Icon, color }: MenuItem) {
     <button
       onClick={() => pushScreen(screen)}
       aria-label={label}
-      className="w-full flex items-center gap-3 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-3.5 shadow-[var(--shadow-card)] text-left hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98]"
+      className="w-full flex items-center gap-3 card-3d rounded-2xl p-3.5 shadow-[var(--shadow-card)] text-left hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98]"
     >
       <span className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${color}`}>
         <Icon className="w-5 h-5" />
@@ -70,7 +70,7 @@ export default function Profile() {
       <h1 className="text-3xl font-serif text-rose-900 dark:text-rose-300">Profile</h1>
 
       {/* Profile Card */}
-      <div className="relative overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)] text-center">
+      <div className="relative overflow-hidden card-3d rounded-2xl shadow-[var(--shadow-card)] text-center">
         <div className="h-24 bg-gradient-to-r from-rose-500 to-violet-500" aria-hidden="true" />
         <div className="px-6 pb-6 -mt-12">
           <div className="w-24 h-24 rounded-full bg-white dark:bg-slate-900 p-1 mx-auto mb-3 shadow-lg">
@@ -86,7 +86,7 @@ export default function Profile() {
       </div>
 
       {/* Stats */}
-      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3">Stats</h3>
         <div className="space-y-2.5">
           {[
@@ -112,7 +112,7 @@ export default function Profile() {
         <button
           onClick={() => pushScreen('settings')}
           aria-label="Action"
-          className="w-full flex items-center gap-3 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-3.5 shadow-[var(--shadow-card)] text-left hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98]"
+          className="w-full flex items-center gap-3 card-3d rounded-2xl p-3.5 shadow-[var(--shadow-card)] text-left hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98]"
         >
           <span className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-700/30 text-slate-600 dark:text-slate-300 flex items-center justify-center shrink-0">
             <Settings className="w-5 h-5" />
@@ -123,7 +123,7 @@ export default function Profile() {
         <button
           onClick={() => pushScreen('journal')}
           aria-label="Action"
-          className="w-full flex items-center gap-3 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-3.5 shadow-[var(--shadow-card)] text-left hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98]"
+          className="w-full flex items-center gap-3 card-3d rounded-2xl p-3.5 shadow-[var(--shadow-card)] text-left hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98]"
         >
           <span className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
             <BookOpen className="w-5 h-5" />

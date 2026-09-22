@@ -83,7 +83,7 @@ export default function FoodSearch() {
 
       {/* Selected Food */}
       {selected && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] space-y-3">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-bold text-slate-800">{selected.name}</h3>
@@ -131,7 +131,7 @@ export default function FoodSearch() {
           {query ? 'Results' : 'Recent'}
         </h2>
         {results.length === 0 ? (
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-6 shadow-[var(--shadow-card)] text-center">
+          <div className="card-3d rounded-2xl p-6 shadow-[var(--shadow-card)] text-center">
             <Apple className="w-10 h-10 text-slate-300 mx-auto mb-2" />
             <p className="text-sm text-slate-400">No foods found</p>
           </div>
@@ -142,7 +142,7 @@ export default function FoodSearch() {
                 key={food.id}
                 onClick={() => setSelected(food)}
                 aria-label="Action"
-                className="w-full bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-3 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
+                className="w-full card-3d rounded-2xl p-3 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
               >
                 <div className="flex items-center justify-between">
                   <div>

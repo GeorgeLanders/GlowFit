@@ -39,7 +39,7 @@ export default function Nutrition() {
       </div>
 
       {/* Calorie Summary */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-6 shadow-[var(--shadow-card)] text-center">
+      <div className="card-3d rounded-2xl p-6 shadow-[var(--shadow-card)] text-center">
         <Apple className="w-8 h-8 text-emerald-400 mx-auto mb-2" />
         <p className="text-3xl font-bold text-slate-800">{totalCal}</p>
         <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mt-1">calories today</p>
@@ -62,7 +62,7 @@ export default function Nutrition() {
       <button
         onClick={() => pushScreen('food-search')}
         aria-label="Action"
-        className="w-full flex items-center gap-3 bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
+        className="w-full flex items-center gap-3 card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
       >
         <Search className="w-5 h-5 text-emerald-500" />
         <span className="text-sm font-bold text-slate-700">Search Foods</span>
@@ -70,14 +70,14 @@ export default function Nutrition() {
 
       {/* Today's Meals */}
       {todayLogs.length === 0 ? (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-8 shadow-[var(--shadow-card)] text-center">
+        <div className="card-3d rounded-2xl p-8 shadow-[var(--shadow-card)] text-center">
           <p className="text-slate-500 font-medium">No meals logged today</p>
           <p className="text-xs text-slate-400 mt-1">Tap "Add Food" to log your first meal</p>
         </div>
       ) : (
         <div className="space-y-2">
           {todayLogs.map((log) => (
-            <div key={log.id} className="bg-white/70 backdrop-blur-sm rounded-xl border border-white/40 p-3 shadow-[var(--shadow-card)] flex items-center justify-between">
+            <div key={log.id} className="card-3d rounded-xl p-3 shadow-[var(--shadow-card)] flex items-center justify-between">
               <div>
                 <p className="font-medium text-slate-700 text-sm">{log.food.name}</p>
                 <p className="text-xs text-slate-400 capitalize">{log.meal}</p>

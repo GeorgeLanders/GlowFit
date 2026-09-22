@@ -149,7 +149,7 @@ export function MealPlanner() {
       </div>
 
       {/* Calorie Progress */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <div className="flex justify-between text-xs mb-2">
           <span className="text-slate-500 font-medium">{dayTotals.cal} / {calorieTarget} cal</span>
           <span className="text-slate-400">{Math.round(progressPct)}%</span>
@@ -173,7 +173,7 @@ export function MealPlanner() {
         const totals = meal ? calcMealTotals(meal) : { totalCalories: 0, protein: 0, carbs: 0, fat: 0 };
 
         return (
-          <div key={mt.key} className={`bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 shadow-[var(--shadow-card)] overflow-hidden border-l-4 ${mt.color}`}>
+          <div key={mt.key} className={`card-3d rounded-2xl shadow-[var(--shadow-card)] overflow-hidden border-l-4 ${mt.color}`}>
             <div className="px-4 pt-4 pb-2 flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-slate-800 text-sm">{mt.label}</h3>

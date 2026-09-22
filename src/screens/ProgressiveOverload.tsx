@@ -38,7 +38,7 @@ export default function ProgressiveOverload() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -48,7 +48,7 @@ export default function ProgressiveOverload() {
       </div>
 
       {/* Exercise Selector */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] relative">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] relative">
         <p className="text-sm font-medium text-slate-600 mb-2">Select Exercise</p>
         <button onClick={() => setShowDropdown(!showDropdown)} aria-label="Select exercise" aria-expanded={showDropdown} className="w-full p-3 rounded-xl border border-slate-200 text-left flex items-center justify-between">
           <span className={selectedExercise ? 'text-slate-800' : 'text-slate-400'}>{selectedExercise || 'Choose an exercise...'}</span>
@@ -85,7 +85,7 @@ export default function ProgressiveOverload() {
 
           {/* Volume Chart */}
           {totalVolume.length > 0 && (
-            <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+            <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
               <h3 className="font-medium text-slate-800 mb-3">Volume Progression</h3>
               <div className="flex items-end gap-1 h-32">
                 {totalVolume.slice(-10).map((point, i) => {
@@ -103,7 +103,7 @@ export default function ProgressiveOverload() {
           )}
 
           {/* Recent Sets */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+          <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
             <h3 className="font-medium text-slate-800 mb-3">Recent Sessions</h3>
             <div className="space-y-2">
               {progressionData.slice(-5).reverse().map((set, i) => (

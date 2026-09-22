@@ -29,12 +29,12 @@ export default function BottomNav() {
               aria-current={isActive ? 'page' : undefined}
               className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-2xl transition-all duration-200 ${
                 isActive
-                  ? 'text-rose-600 dark:text-rose-400 scale-105'
+                  ? 'text-rose-700 dark:text-rose-200 scale-105'
                   : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
               }`}
             >
               <div className={`p-1.5 rounded-xl transition-all ${
-                isActive ? 'bg-rose-50 dark:bg-rose-900/30' : ''
+                isActive ? 'gloss iridescent text-white shadow-lg shadow-fuchsia-600/40' : ''
               }`}>
                 <Icon className="w-5 h-5" strokeWidth={isActive ? 2.5 : 2} />
               </div>

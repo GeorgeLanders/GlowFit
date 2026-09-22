@@ -357,7 +357,7 @@ export function AiCoach() {
       )}
 
       {/* Input Bar */}
-      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)] flex items-center gap-2 p-2">
+      <div className="card-3d rounded-2xl shadow-[var(--shadow-card)] flex items-center gap-2 p-2">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}

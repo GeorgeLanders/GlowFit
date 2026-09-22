@@ -54,7 +54,7 @@ export default function BodyComposition() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -81,7 +81,7 @@ export default function BodyComposition() {
 
       {/* Current Measurements */}
       {latest && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <h3 className="font-medium text-slate-800 mb-3">Latest Measurements</h3>
           <div className="space-y-2">
             {[
@@ -108,7 +108,7 @@ export default function BodyComposition() {
 
       {/* Log Form */}
       {showLog && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-3">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
           <p className="text-sm font-medium text-slate-600">Enter measurements (cm)</p>
           {[
             { label: 'Waist', value: waist, set: setWaist },
@@ -126,7 +126,7 @@ export default function BodyComposition() {
 
       {/* Measurement History */}
       {measurements.length > 1 && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <h3 className="font-medium text-slate-800 mb-3">History</h3>
           <div className="space-y-2 max-h-48 overflow-y-auto">
             {[...measurements].reverse().slice(0, 10).map((m) => (

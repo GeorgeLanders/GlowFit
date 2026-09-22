@@ -34,7 +34,7 @@ export default function SleepWellness() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-2">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
                   <ArrowLeft className="w-5 h-5 text-slate-600" />
                 </button>
         <div className="flex items-center gap-2">
@@ -45,12 +45,12 @@ export default function SleepWellness() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] text-center">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] text-center">
           <Moon className="w-5 h-5 text-indigo-400 mx-auto mb-1" />
           <p className="text-2xl font-bold text-slate-800">{avgHours}h</p>
           <p className="text-xs text-slate-400">Avg Sleep</p>
         </div>
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] text-center">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] text-center">
           <Star className="w-5 h-5 text-amber-400 mx-auto mb-1" />
           <p className="text-2xl font-bold text-slate-800">{avgQuality}</p>
           <p className="text-xs text-slate-400">Avg Quality</p>
@@ -58,7 +58,7 @@ export default function SleepWellness() {
       </div>
 
       {/* Log Sleep */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <button onClick={() => setIsExpanded(!isExpanded)} aria-label={isExpanded ? "Collapse sleep log form" : "Expand sleep log form"} className="w-full flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Plus className="w-5 h-5 text-indigo-500" />
@@ -106,7 +106,7 @@ export default function SleepWellness() {
 
       {/* Recent Logs */}
       {logs.length > 0 && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <div className="flex items-center justify-between mb-3">
             <p className="text-sm font-medium text-slate-600">Sleep History</p>
             <p className="text-xs text-slate-400">{logs.length} nights</p>

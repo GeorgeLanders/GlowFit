@@ -69,7 +69,7 @@ export default function Nourishment() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-2">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -117,7 +117,7 @@ export default function Nourishment() {
       </button>
 
       {/* Recipe Suggestions */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <p className="text-sm font-medium text-slate-600 mb-3">Quick Add Recipes</p>
         <div className="space-y-2">
           {RECIPES.map((r, i) => (
@@ -137,7 +137,7 @@ export default function Nourishment() {
       {mealGroups.some(g => g.items.length > 0) && (
         <div className="space-y-3">
           {mealGroups.filter(g => g.items.length > 0).map((group, gi) => (
-            <div key={gi} className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+            <div key={gi} className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
               <div className="flex justify-between items-center mb-2">
                 <p className="text-sm font-medium text-slate-600">{group.meal}</p>
                 <p className="text-xs text-slate-400">{group.total} cal</p>

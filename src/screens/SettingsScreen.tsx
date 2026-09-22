@@ -129,13 +129,13 @@ export default function SettingsScreen() {
 
 
       {/* Appearance */}
-      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3">Appearance</h3>
         <DarkModeToggle />
       </div>
 
       {/* Notifications */}
-      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3">Notifications</h3>
         <button
           onClick={async () => {
@@ -150,7 +150,7 @@ export default function SettingsScreen() {
       </div>
 
       {/* Health Sync */}
-      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3">Health Sync</h3>
         {healthSupport == null ? (
           <p className="text-xs text-slate-400">Checking device support…</p>
@@ -202,7 +202,7 @@ export default function SettingsScreen() {
 
       {/* Security */}
       {biometricInfo.available && (
-        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-4 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3">Security</h3>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -235,7 +235,7 @@ export default function SettingsScreen() {
       )}
 
       {/* Profile */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] space-y-4">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-4">
         <div className="flex items-center gap-2 mb-2">
           <User className="w-4 h-4 text-rose-500" />
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400">Profile</h3>
@@ -305,7 +305,7 @@ export default function SettingsScreen() {
       </div>
 
       {/* Data */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] space-y-3">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
         <div className="flex items-center gap-2 mb-2">
           <Info className="w-4 h-4 text-slate-400" />
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400">Data</h3>

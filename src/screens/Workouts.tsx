@@ -45,7 +45,7 @@ export default function Workouts() {
       ) : (
         <div className="space-y-3">
           {workouts.slice(0, 10).map((w) => (
-            <div key={w.id} className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+            <div key={w.id} className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-bold text-slate-800">{w.name}</h3>

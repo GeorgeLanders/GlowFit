@@ -40,7 +40,7 @@ export default function RecoveryScreen() {
       </div>
 
       {/* Tips */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Recommendations</h3>
         <div className="space-y-2">
           {tips[intensity].map((tip) => (
@@ -53,7 +53,7 @@ export default function RecoveryScreen() {
       </div>
 
       {/* Muscle Group Check */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Soreness Check</h3>
         <div className="grid grid-cols-2 gap-2">
           {muscleGroups.map((group) => (

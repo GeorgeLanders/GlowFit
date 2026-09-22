@@ -58,7 +58,7 @@ export default function WorkoutTimer() {
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Timer Display */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-3xl border border-white/40 p-8 shadow-[var(--shadow-card)] flex flex-col items-center">
+      <div className="card-3d rounded-3xl p-8 shadow-[var(--shadow-card)] flex flex-col items-center">
         <Dumbbell className="w-8 h-8 text-rose-300 mb-4" />
         <div className="text-6xl font-mono font-bold text-slate-800 tracking-wider mb-2">
           {formatTime(elapsed)}
@@ -111,7 +111,7 @@ export default function WorkoutTimer() {
 
       {/* Laps */}
       {laps.length > 0 && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Laps</h3>
           <div className="space-y-2">
             {laps.map((lapTime, i) => {
@@ -133,7 +133,7 @@ export default function WorkoutTimer() {
 
       {/* Save */}
       {elapsed >= 10 && !running && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] space-y-3">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
           <input
             value={workoutName}
             onChange={(e) => setWorkoutName(e.target.value)}

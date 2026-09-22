@@ -258,7 +258,7 @@ function CompareView({ before, after, onExit }: CompareViewProps) {
       {/* Side-by-side */}
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1">
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-2 shadow-[var(--shadow-card)]">
+          <div className="card-3d rounded-2xl p-2 shadow-[var(--shadow-card)]">
             {before[activeView] ? (
               <img
                 src={before[activeView]}
@@ -276,7 +276,7 @@ function CompareView({ before, after, onExit }: CompareViewProps) {
           </p>
         </div>
         <div className="space-y-1">
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-2 shadow-[var(--shadow-card)]">
+          <div className="card-3d rounded-2xl p-2 shadow-[var(--shadow-card)]">
             {after[activeView] ? (
               <img
                 src={after[activeView]}
@@ -297,7 +297,7 @@ function CompareView({ before, after, onExit }: CompareViewProps) {
 
       {/* Notes */}
       {(before.notes || after.notes) && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] space-y-2">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-2">
           {before.notes && (
             <div>
               <p className="text-[10px] text-slate-400 font-bold uppercase">
@@ -455,7 +455,7 @@ export function ProgressPhotos() {
 
       {/* Add Photos Form */}
       {showForm && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] space-y-4">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-4">
           <div>
             <label className="text-xs text-slate-500 mb-1 block">Date</label>
             <input
@@ -568,7 +568,7 @@ export function ProgressPhotos() {
       ) : (
         /* Empty State */
         !showForm && (
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-8 shadow-[var(--shadow-card)] text-center">
+          <div className="card-3d rounded-2xl p-8 shadow-[var(--shadow-card)] text-center">
             <Camera className="w-12 h-12 text-rose-300 mx-auto mb-3" />
             <p className="text-slate-500 font-medium">No progress photos yet</p>
             <p className="text-xs text-slate-400 mt-1">

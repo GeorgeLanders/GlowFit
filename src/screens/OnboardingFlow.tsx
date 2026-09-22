@@ -75,7 +75,7 @@ function convertInput(value: string, factor: number): string {
 // ─── Glassmorphism Styles ────────────────────────────────────────
 
 const glassCard =
-  'bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 shadow-[var(--shadow-card)]';
+  'card-3d rounded-2xl shadow-[var(--shadow-card)]';
 
 // ─── Helper: TDEE Calculation (Mifflin-St Jeor) ──────────────────
 

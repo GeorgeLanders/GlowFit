@@ -30,7 +30,7 @@ export default function HabitTracker() {
       </div>
 
       {showForm && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] space-y-3">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
           <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Habit name" className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm" />
           <div className="flex gap-2">{COLORS.map((c) => <button key={c} onClick={() => setColor(c)} aria-label={`Select color ${c}`} aria-pressed={color === c} className={`w-8 h-8 rounded-full transition-all ${color === c ? 'ring-2 ring-offset-2 ring-slate-400' : ''}`} style={{ backgroundColor: c }} />)}</div>
           <button onClick={save} aria-label="Save habit" className="w-full bg-emerald-500 text-white py-2 rounded-xl font-bold text-sm">Save</button>
@@ -44,7 +44,7 @@ export default function HabitTracker() {
           {habits.map((h) => {
             const streak = h.completedDates.filter((d) => { const diff = (new Date(today()).getTime() - new Date(d).getTime()) / 86400000; return diff >= 0 && diff < 30; }).length;
             return (
-              <div key={h.id} className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+              <div key={h.id} className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: h.color }} />

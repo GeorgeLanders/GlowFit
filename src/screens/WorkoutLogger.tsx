@@ -49,7 +49,7 @@ export default function WorkoutLogger() {
       </div>
 
       {showForm && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] space-y-3">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
           <input value={wName} onChange={(e) => setWName(e.target.value)} placeholder="Workout name" className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm" />
           <div className="flex gap-2 flex-wrap">
             {TYPES.map((t) => (
@@ -84,7 +84,7 @@ export default function WorkoutLogger() {
       ) : (
         <div className="space-y-3">
           {workouts.map((w) => (
-            <div key={w.id} className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+            <div key={w.id} className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-bold text-slate-800">{w.name}</h3>

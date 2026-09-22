@@ -197,7 +197,7 @@ export default function Dashboard() {
             whileTap={{ scale: 0.98 }}
             onClick={() => { haptics.light(); pushScreen('settings'); }}
             aria-label="Synced steps from Health Connect"
-            className="w-full bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all text-left"
+            className="w-full card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all text-left"
           >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
@@ -227,7 +227,7 @@ export default function Dashboard() {
             role="button"
             tabIndex={0}
             aria-label={`Medication due: ${dueMed.med.name}`}
-            className="w-full bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-4 shadow-[var(--shadow-card)] transition-all text-left cursor-pointer"
+            className="w-full card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] transition-all text-left cursor-pointer"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -263,7 +263,7 @@ export default function Dashboard() {
             whileTap={{ scale: 0.98 }}
             onClick={() => { haptics.light(); pushScreen('weight-tracker'); }}
             aria-label="Weight trend"
-            className="w-full bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all text-left"
+            className="w-full card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all text-left"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -309,7 +309,7 @@ export default function Dashboard() {
           whileTap={{ scale: 0.98 }}
           onClick={() => { haptics.light(); pushScreen('streak-dashboard'); }}
           aria-label="Streaks"
-          className="w-full bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all text-left"
+          className="w-full card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all text-left"
         >
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3">Streaks</h3>
           <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">

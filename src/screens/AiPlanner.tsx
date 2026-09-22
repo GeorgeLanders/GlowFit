@@ -115,7 +115,7 @@ export default function AiPlanner() {
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center gap-3 mb-2">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -163,7 +163,7 @@ export default function AiPlanner() {
         <div className="space-y-4">
           {/* Profile Summary */}
           {age > 0 && (
-            <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+            <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-violet-600 flex items-center gap-1.5"><User className="w-4 h-4" /> Your Profile</p>
@@ -187,7 +187,7 @@ export default function AiPlanner() {
           )}
 
           {/* Edit Form */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-3">
+          <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
             <p className="text-sm font-medium text-slate-600 flex items-center gap-1.5"><Activity className="w-4 h-4" /> Edit Profile</p>
             <div className="grid grid-cols-2 gap-3">
               <div>
@@ -217,7 +217,7 @@ export default function AiPlanner() {
           </div>
 
           {/* Activity Level */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+          <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
             <p className="text-sm font-medium text-slate-600 mb-3 flex items-center gap-1.5"><Flame className="w-4 h-4" /> Activity Level</p>
             <div className="space-y-2">
               {ACTIVITY_OPTIONS.map(opt => (
@@ -230,7 +230,7 @@ export default function AiPlanner() {
           </div>
 
           {/* Diet Preference */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+          <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
             <p className="text-sm font-medium text-slate-600 mb-3 flex items-center gap-1.5"><Utensils className="w-4 h-4" /> Diet Preference</p>
             <div className="grid grid-cols-3 gap-2">
               {DIET_OPTIONS.map(opt => (
@@ -267,7 +267,7 @@ export default function AiPlanner() {
       ) : plan ? (
         <div className="space-y-4">
           {/* Workout Plan */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+          <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
             <p className="text-sm font-medium text-rose-600 mb-3 flex items-center gap-1.5"><Dumbbell className="w-4 h-4" /> Workout Plan</p>
             <div className="space-y-2">
               {plan.workouts.map((w, i) => (
@@ -280,7 +280,7 @@ export default function AiPlanner() {
           </div>
 
           {/* Nutrition Plan */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+          <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
             <p className="text-sm font-medium text-emerald-600 mb-3 flex items-center gap-1.5"><Utensils className="w-4 h-4" /> Nutrition Plan</p>
             <div className="space-y-2">
               {plan.nutrition.map((n, i) => (
@@ -307,7 +307,7 @@ export default function AiPlanner() {
 
           {/* AI Plan */}
           {aiPlan && (
-            <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-indigo-200 dark:border-indigo-800/40 shadow-[var(--shadow-card)]">
+            <div className="card-3d rounded-2xl p-4 border border-indigo-200 dark:border-indigo-800/40 shadow-[var(--shadow-card)]">
               <p className="text-sm font-medium text-indigo-600 mb-3 flex items-center gap-1.5"><Zap className="w-4 h-4" /> AI-Powered Plan</p>
               <p className="text-sm text-slate-700 dark:text-slate-300 whitespace-pre-line leading-relaxed">{aiPlan}</p>
             </div>

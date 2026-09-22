@@ -17,7 +17,7 @@ export function EmptyState({
   onAction?: () => void;
 }) {
   return (
-    <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-white/40 dark:border-slate-700/40 p-8 shadow-[var(--shadow-card)] text-center">
+    <div className="card-3d rounded-2xl p-8 shadow-[var(--shadow-card)] text-center">
       <div className="text-4xl mb-3" aria-hidden="true">
         {emoji}
       </div>

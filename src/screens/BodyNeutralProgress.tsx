@@ -21,7 +21,7 @@ export default function BodyNeutralProgress() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-2">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -31,14 +31,14 @@ export default function BodyNeutralProgress() {
       </div>
 
       {/* Banner */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-white/40 shadow-[var(--shadow-card)] text-center">
+      <div className="card-3d rounded-2xl p-5 shadow-[var(--shadow-card)] text-center">
         <p className="text-4xl mb-2">🦋</p>
         <h2 className="font-serif text-lg text-rose-900 font-bold">Progress is not just numbers</h2>
         <p className="text-sm text-slate-500 mt-1">Focus on how you feel, not just measurements</p>
       </div>
 
       {/* Toggle */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <div className="flex items-center justify-between">
           <div>
             <p className="font-medium text-slate-700">Show Details</p>
@@ -55,7 +55,7 @@ export default function BodyNeutralProgress() {
         <>
           <h3 className="font-medium text-slate-700 px-1">Comparisons</h3>
           {photoPairs.map((pair, i) => (
-            <div key={i} className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+            <div key={i} className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
               <p className="text-sm font-medium text-slate-600 mb-3">Before & After</p>
               <div className="grid grid-cols-2 gap-3">
                 {pair.map((photo, j) => (
@@ -85,7 +85,7 @@ export default function BodyNeutralProgress() {
           <h3 className="font-medium text-slate-700 px-1">All Photos</h3>
           <div className="grid grid-cols-2 gap-3">
             {progressPhotos.map((photo, i) => (
-              <div key={i} className="bg-white/70 backdrop-blur-sm rounded-2xl p-3 border border-white/40 shadow-[var(--shadow-card)]">
+              <div key={i} className="card-3d rounded-2xl p-3 shadow-[var(--shadow-card)]">
                 <div className="aspect-[3/4] bg-slate-100 rounded-xl overflow-hidden">
                   {getImg(photo) ? (
                     <img src={getImg(photo)} alt={`Progress ${i + 1}`} className="w-full h-full object-cover" />
@@ -102,7 +102,7 @@ export default function BodyNeutralProgress() {
           </div>
         </>
       ) : (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 border border-white/40 shadow-[var(--shadow-card)] text-center">
+        <div className="card-3d rounded-2xl p-8 shadow-[var(--shadow-card)] text-center">
           <p className="text-4xl mb-3">📸</p>
           <h3 className="font-medium text-slate-700">No progress photos yet</h3>
           <p className="text-sm text-slate-400 mt-1">Add photos from the Progress tab to track your visual journey</p>

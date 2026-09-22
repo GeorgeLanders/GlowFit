@@ -129,7 +129,7 @@ export default function AgentChat() {
         {messages.length === 0 ? (
           <div className="space-y-4">
             {/* Welcome */}
-            <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-white/40 shadow-[var(--shadow-card)] text-center">
+            <div className="card-3d rounded-2xl p-5 shadow-[var(--shadow-card)] text-center">
               <div className="text-4xl mb-3">🏋️‍♀️</div>
               <h2 className="font-serif text-lg text-rose-900 font-bold mb-1">Your AI Coach</h2>
               <p className="text-sm text-slate-500">Ask me anything about fitness, nutrition, or recovery</p>
@@ -187,7 +187,7 @@ export default function AgentChat() {
 
       {/* Input */}
       <div className="p-3 border-t border-slate-100">
-        <div className="flex items-center gap-2 bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 shadow-[var(--shadow-card)] px-3 py-2">
+        <div className="flex items-center gap-2 card-3d rounded-2xl shadow-[var(--shadow-card)] px-3 py-2">
           <input
             value={input}
             onChange={e => setInput(e.target.value)}

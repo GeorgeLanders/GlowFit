@@ -147,7 +147,7 @@ export default function FoodPhotoJournal() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -205,7 +205,7 @@ export default function FoodPhotoJournal() {
 
       {/* Add Form */}
       {showAdd && !reviewing && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-3">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
           {photoUrl ? (
             <div className="relative">
               <img src={photoUrl} alt="Food" className="w-full h-32 object-cover rounded-xl" />
@@ -265,7 +265,7 @@ export default function FoodPhotoJournal() {
 
       {/* Review Confirm */}
       {showAdd && reviewing && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-3">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
           <p className="text-sm font-medium text-slate-600">Confirm this entry before saving</p>
           {photoUrl && <img src={photoUrl} alt={foodName || 'Food'} className="w-full h-32 object-cover rounded-xl" />}
           <div className="space-y-1.5 text-sm">
@@ -286,7 +286,7 @@ export default function FoodPhotoJournal() {
       {/* Entries Grid */}
       <div className="space-y-3">
         {filtered.map(entry => (
-          <div key={entry.id} className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+          <div key={entry.id} className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
             <div className="flex items-start gap-3">
               <div className="w-16 h-16 bg-slate-100 rounded-xl flex items-center justify-center overflow-hidden">
                 {entry.imageUrl ? (

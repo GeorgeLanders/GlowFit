@@ -27,7 +27,7 @@ export default function WeightTracker() {
       <h1 className="text-3xl font-serif text-rose-900">Weight</h1>
 
       {/* Quick Entry */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <div className="flex gap-2">
           <input type="number" step="0.1" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder="Today's weight (kg)" className="flex-1 px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm" />
           <button onClick={save} aria-label="Log weight entry" className="bg-rose-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-rose-600 active:scale-95">Log</button>
@@ -36,12 +36,12 @@ export default function WeightTracker() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] text-center">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] text-center">
           <TrendingUp className="w-5 h-5 text-rose-400 mx-auto mb-1" />
           <p className="text-xl font-bold text-slate-800">{latest?.weight ?? '—'} <span className="text-xs text-slate-400">kg</span></p>
           <p className="text-xs text-slate-400">Current</p>
         </div>
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] text-center">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] text-center">
           <Target className="w-5 h-5 text-violet-400 mx-auto mb-1" />
           <p className="text-xl font-bold text-slate-800">{bmi}</p>
           <p className="text-xs text-slate-400">BMI</p>
@@ -50,7 +50,7 @@ export default function WeightTracker() {
 
       {/* Goal Progress */}
       {profile.goalWeight > 0 && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <div className="flex justify-between text-xs text-slate-500 mb-1">
             <span>Goal: {profile.goalWeight} kg</span>
             <span>{Math.round(goalPct)}%</span>
@@ -63,7 +63,7 @@ export default function WeightTracker() {
 
       {/* Chart */}
       {chartData.length > 1 && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Trend</h3>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={chartData}>

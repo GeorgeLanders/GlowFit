@@ -96,7 +96,7 @@ export default function WorkoutTemplates() {
         <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3 px-1">Presets</h2>
         <div className="space-y-3">
           {PRESETS.map((t) => (
-            <div key={t.id} className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+            <div key={t.id} className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
               <div className="flex items-center justify-between mb-2">
                 <div>
                   <h3 className="font-bold text-slate-800">{t.name}</h3>
@@ -128,7 +128,7 @@ export default function WorkoutTemplates() {
           <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3 px-1">Custom</h2>
           <div className="space-y-3">
             {workoutTemplates.map((t) => (
-              <div key={t.id} className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+              <div key={t.id} className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="font-bold text-slate-800">{t.name}</h3>
@@ -145,7 +145,7 @@ export default function WorkoutTemplates() {
       <button
         onClick={() => pushScreen('workout-logger')}
         aria-label="Action"
-        className="w-full flex items-center justify-between bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98]"
+        className="w-full flex items-center justify-between card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98]"
       >
         <div className="flex items-center gap-3">
           <BookOpen className="w-5 h-5 text-violet-500" />

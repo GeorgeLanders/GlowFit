@@ -86,7 +86,7 @@ export default function FastingTracker() {
       <h1 className="text-3xl font-serif text-rose-900">Fasting</h1>
 
       {/* Active fast / Start */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-5 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-5 shadow-[var(--shadow-card)]">
         {activeFast ? (
           <div className="flex flex-col items-center">
             <div className="relative w-44 h-44">
@@ -130,7 +130,7 @@ export default function FastingTracker() {
       </div>
 
       {/* Settings */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] space-y-3">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
         <p className="text-sm font-medium text-slate-600">Fasting window</p>
         <div className="flex gap-2 flex-wrap">
           {PRESETS.map((h) => (
@@ -165,7 +165,7 @@ export default function FastingTracker() {
 
       {/* History */}
       {history.length > 0 && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <p className="text-sm font-medium text-slate-600 mb-2">Recent fasts</p>
           <div className="space-y-2">
             {history.map((log) => {

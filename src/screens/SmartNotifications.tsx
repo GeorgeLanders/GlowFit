@@ -29,7 +29,7 @@ export default function SmartNotifications() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
                   <ArrowLeft className="w-5 h-5 text-slate-600" />
                 </button>
         <div className="flex items-center gap-2">
@@ -38,14 +38,14 @@ export default function SmartNotifications() {
         </div>
       </div>
 
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <p className="text-sm text-slate-500 mb-1">Notifications Enabled</p>
         <p className="text-2xl font-bold text-slate-800">{settings.filter(s => s.enabled).length}/{settings.length}</p>
       </div>
 
       <div className="space-y-2">
         {settings.map((setting) => (
-          <div key={setting.id} className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+          <div key={setting.id} className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
             <div className="flex items-center gap-3">
               <div className={setting.color}>{setting.icon}</div>
               <div className="flex-1">

@@ -94,7 +94,7 @@ export default function SosGrounding() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-2">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -132,7 +132,7 @@ export default function SosGrounding() {
       {/* Grounding Steps */}
       <div className="space-y-3">
         {steps.map((step, i) => (
-          <div key={i} className={`bg-white/70 backdrop-blur-sm rounded-2xl p-4 border shadow-[var(--shadow-card)] transition-all ${i === currentStep ? 'border-rose-400 shadow-md' : 'border-white/40'}`}>
+          <div key={i} className={`card-3d rounded-2xl p-4 border shadow-[var(--shadow-card)] transition-all ${i === currentStep ? 'border-rose-400 shadow-md' : 'border-white/40'}`}>
             <button onClick={() => setCurrentStep(i)} aria-label={step.title} className="w-full text-left">
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${i === currentStep ? 'bg-rose-100 text-rose-500' : 'bg-slate-100 text-slate-400'}`}>

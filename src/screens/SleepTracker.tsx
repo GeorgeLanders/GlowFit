@@ -47,7 +47,7 @@ export default function SleepTracker() {
       <h1 className="text-3xl font-serif text-rose-900">Sleep</h1>
 
       {/* Log Form */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] space-y-3">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="text-xs font-bold text-slate-400 mb-1 block">Bedtime</label>
@@ -77,7 +77,7 @@ export default function SleepTracker() {
 
       {/* Today */}
       {todayLog && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] flex items-center gap-3">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] flex items-center gap-3">
           <Moon className="w-5 h-5 text-violet-400" />
           <div>
             <p className="text-sm font-bold text-slate-800">{todayLog.bedTime} → {todayLog.wakeTime}</p>
@@ -87,7 +87,7 @@ export default function SleepTracker() {
       )}
 
       {/* Chart */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">This Week</h3>
         <ResponsiveContainer width="100%" height={150}>
           <BarChart data={weekData}>

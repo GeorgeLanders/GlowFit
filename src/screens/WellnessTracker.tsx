@@ -49,7 +49,7 @@ export default function WellnessTracker() {
     <div className="space-y-6 animate-fade-in">
       <h1 className="text-3xl font-serif text-rose-900">Wellness</h1>
 
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] space-y-4">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-4">
         <ScalePicker label="Mood" value={mood} onChange={setMood} icon={Smile} color="text-rose-500" />
         <ScalePicker label="Energy" value={energy} onChange={setEnergy} icon={Zap} color="text-amber-500" />
         <ScalePicker label="Stress" value={stress} onChange={setStress} icon={Cloud} color="text-blue-500" />
@@ -58,7 +58,7 @@ export default function WellnessTracker() {
       </div>
 
       {todayLog && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] flex items-center gap-4">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] flex items-center gap-4">
           <Heart className="w-5 h-5 text-rose-400" />
           <div className="flex gap-4 text-sm">
             <span>Mood {EMOJIS[todayLog.mood - 1]}</span>
@@ -69,7 +69,7 @@ export default function WellnessTracker() {
       )}
 
       {weekData.some((d) => d.mood > 0) && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">This Week</h3>
           <ResponsiveContainer width="100%" height={150}>
             <LineChart data={weekData}>

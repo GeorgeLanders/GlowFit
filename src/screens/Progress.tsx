@@ -15,7 +15,7 @@ export default function Progress() {
       <button
         onClick={() => pushScreen('weight-tracker')}
         aria-label="Action"
-        className="w-full bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
+        className="w-full card-3d rounded-2xl p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
       >
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400">Weight Trend</h3>
@@ -38,7 +38,7 @@ export default function Progress() {
       <button
         onClick={() => pushScreen('body-measurements')}
         aria-label="Action"
-        className="w-full bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
+        className="w-full card-3d rounded-2xl p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
       >
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400">Measurements</h3>
@@ -63,7 +63,7 @@ export default function Progress() {
       <button
         onClick={() => pushScreen('progress-photos')}
         aria-label="Action"
-        className="w-full bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
+        className="w-full card-3d rounded-2xl p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all active:scale-[0.98] text-left"
       >
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400">Photos</h3>

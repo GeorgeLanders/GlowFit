@@ -18,7 +18,7 @@ export function AnimatedCard({ children, haptic = true, delay = 0, onClick, ...p
         if (haptic) haptics.light();
         onClick?.(e);
       }}
-      className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] border border-white/40 dark:border-slate-700/40 rounded-3xl transition-shadow duration-300"
+      className="card-3d rounded-3xl hover:-translate-y-0.5 transition-transform duration-300"
       {...props}
     >
       {children}

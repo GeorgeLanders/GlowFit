@@ -28,7 +28,7 @@ export default function WaterTracker() {
       <h1 className="text-3xl font-serif text-rose-900">Water</h1>
 
       {/* Progress Ring */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-8 shadow-[var(--shadow-card)] flex flex-col items-center">
+      <div className="card-3d rounded-2xl p-8 shadow-[var(--shadow-card)] flex flex-col items-center">
         <div className="relative w-40 h-40">
           <svg className="w-40 h-40 -rotate-90" viewBox="0 0 160 160">
             <circle cx="80" cy="80" r="70" fill="none" stroke="#e2e8f0" strokeWidth="12" />
@@ -50,7 +50,7 @@ export default function WaterTracker() {
 
       {/* Today's Log */}
       {todayLogs.length > 0 && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-2">Today</h3>
           <div className="space-y-1">
             {todayLogs.map((l) => (
@@ -64,7 +64,7 @@ export default function WaterTracker() {
       )}
 
       {/* Weekly Chart */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">This Week</h3>
         <ResponsiveContainer width="100%" height={150}>
           <BarChart data={weekData}>

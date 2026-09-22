@@ -17,7 +17,7 @@ function SummaryCard({ icon: Icon, label, value, unit, color }: {
   icon: React.ElementType; label: string; value: string | number; unit?: string; color: string;
 }) {
   return (
-    <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+    <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
       <div className="flex items-center gap-3">
         <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${color}`}>
           <Icon className="w-4 h-4 text-white" />
@@ -91,7 +91,7 @@ export default function Trends() {
       </div>
 
       {/* Weight Chart */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <div className="flex items-center gap-2 mb-3">
           <Activity className="w-4 h-4 text-rose-500" />
           <h3 className="text-sm font-bold text-slate-700">Weight Trend</h3>
@@ -112,7 +112,7 @@ export default function Trends() {
       </div>
 
       {/* Calories Chart */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <div className="flex items-center gap-2 mb-3">
           <Flame className="w-4 h-4 text-amber-500" />
           <h3 className="text-sm font-bold text-slate-700">Daily Calories</h3>
@@ -133,7 +133,7 @@ export default function Trends() {
       </div>
 
       {/* Water Chart */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <div className="flex items-center gap-2 mb-3">
           <Droplets className="w-4 h-4 text-blue-500" />
           <h3 className="text-sm font-bold text-slate-700">Daily Water Intake</h3>

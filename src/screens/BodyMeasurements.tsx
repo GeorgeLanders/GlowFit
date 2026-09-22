@@ -60,7 +60,7 @@ export default function BodyMeasurements() {
 
       {/* Current Measurements */}
       {latest && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Latest</h3>
           <div className="grid grid-cols-2 gap-3">
             {[
@@ -85,7 +85,7 @@ export default function BodyMeasurements() {
 
       {/* Chart */}
       {chartData.length > 1 && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Trend</h3>
           <ResponsiveContainer width="100%" height={180}>
             <BarChart data={chartData}>
@@ -101,7 +101,7 @@ export default function BodyMeasurements() {
 
       {/* Log Form */}
       {showForm && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] space-y-3">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
           {[
             { label: 'Waist (cm)', value: waist, set: setWaist },
             { label: 'Hips (cm)', value: hips, set: setHips },
@@ -122,7 +122,7 @@ export default function BodyMeasurements() {
 
       {/* History */}
       {measurements.length > 0 && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">History</h3>
           <div className="space-y-2">
             {measurements.slice(0, 10).map((m) => (
@@ -136,7 +136,7 @@ export default function BodyMeasurements() {
       )}
 
       {measurements.length === 0 && !showForm && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-8 shadow-[var(--shadow-card)] text-center">
+        <div className="card-3d rounded-2xl p-8 shadow-[var(--shadow-card)] text-center">
           <Ruler className="w-12 h-12 text-rose-300 mx-auto mb-3" />
           <p className="text-slate-500 font-medium">No measurements yet</p>
           <p className="text-xs text-slate-400 mt-1">Track your body changes over time</p>

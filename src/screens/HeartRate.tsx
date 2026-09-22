@@ -47,7 +47,7 @@ export default function HeartRate() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -75,7 +75,7 @@ export default function HeartRate() {
       )}
 
       {/* Average */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <div className="flex items-center gap-3">
           <Activity className="w-5 h-5 text-rose-500" />
           <div>
@@ -87,7 +87,7 @@ export default function HeartRate() {
 
       {/* Trend Chart */}
       {entries.length > 1 && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <h3 className="font-medium text-slate-800 mb-3">Resting HR Trend</h3>
           <div className="flex items-end gap-2 h-24">
             {entries.map((entry, i) => {
@@ -114,7 +114,7 @@ export default function HeartRate() {
 
       {/* Add Form */}
       {showAdd && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)] space-y-3">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
           <input type="number" placeholder="Resting BPM" value={resting} onChange={e => setResting(e.target.value)} className="w-full p-3 rounded-xl border border-slate-200 text-slate-800" />
           <input type="number" placeholder="Active/Peak BPM" value={active} onChange={e => setActive(e.target.value)} className="w-full p-3 rounded-xl border border-slate-200 text-slate-800" />
           <button onClick={addEntry} aria-label="Save heart rate reading" className="w-full py-3 rounded-xl bg-emerald-500 text-white font-semibold active:scale-95 transition-all">Save Reading</button>
@@ -122,7 +122,7 @@ export default function HeartRate() {
       )}
 
       {/* History */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <h3 className="font-medium text-slate-800 mb-3">History</h3>
         <div className="space-y-2">
           {[...entries].reverse().map(entry => (

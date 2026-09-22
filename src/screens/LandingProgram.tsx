@@ -61,7 +61,7 @@ export default function LandingProgram() {
           </p>
         </div>
 
-        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)] space-y-3">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-3">
           <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
             Which medication did you stop?
             <select value={med} onChange={(e) => setMed(e.target.value)}
@@ -125,7 +125,7 @@ export default function LandingProgram() {
         </div>
       </motion.div>
 
-      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <div className="flex items-center gap-2 mb-2">
           <Scale className="w-4 h-4 text-violet-500" />
           <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100">Your stability band</h3>
@@ -147,7 +147,7 @@ export default function LandingProgram() {
       </div>
 
       {phase !== 'autonomy' && (
-      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)]">
+      <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
         <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 mb-2">{phase === 'rebuild' ? 'Rebuild focus' : 'This week: three anchors'}</h3>
         <div className="space-y-2">
           {heroActions.map((a, i) => (
@@ -161,7 +161,7 @@ export default function LandingProgram() {
       )}
 
       {phase === 'rebuild' && (
-        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)]">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
           <div className="flex items-center gap-2 mb-2">
             <Flame className="w-4 h-4 text-orange-500" />
             <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100">Your maintenance number</h3>
@@ -192,7 +192,7 @@ export default function LandingProgram() {
       {phase === 'autonomy' && (
         <>
           {/* Cadence + status card */}
-          <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-white/40 dark:border-slate-700/40 shadow-[var(--shadow-card)]">
+          <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
             <div className="flex items-center gap-2 mb-2">
               <CalendarCheck className="w-4 h-4 text-violet-500" />
               <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100">

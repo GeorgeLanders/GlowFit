@@ -78,7 +78,7 @@ export default function ExerciseBrowser() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={popScreen} aria-label="Go back" className="p-2 rounded-xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-[var(--shadow-card)]">
+        <button onClick={popScreen} aria-label="Go back" className="card-3d rounded-xl p-2 shadow-[var(--shadow-card)]">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div className="flex items-center gap-2">
@@ -106,7 +106,7 @@ export default function ExerciseBrowser() {
 
       <div className="space-y-2">
         {filtered.map(ex => (
-          <div key={ex.id} className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 shadow-[var(--shadow-card)] overflow-hidden">
+          <div key={ex.id} className="card-3d rounded-2xl shadow-[var(--shadow-card)] overflow-hidden">
             <button onClick={() => setExpanded(expanded === ex.id ? null : ex.id)} aria-label={expanded === ex.id ? `Collapse ${ex.name}` : `Expand ${ex.name}`} className="w-full p-4 flex items-center gap-3 text-left">
               <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center">
                 <Dumbbell className="w-5 h-5 text-rose-500" />

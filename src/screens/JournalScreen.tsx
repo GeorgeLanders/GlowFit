@@ -50,7 +50,7 @@ export default function JournalScreen() {
 
       {/* New Entry Form */}
       {showForm && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)] space-y-4">
+        <div className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)] space-y-4">
           <p className="text-xs text-slate-400 italic">"{randomPrompt}"</p>
 
           <textarea
@@ -95,7 +95,7 @@ export default function JournalScreen() {
           {journalEntries.map((entry) => {
             const isExpanded = expandedId === entry.id;
             return (
-              <div key={entry.id} className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-4 shadow-[var(--shadow-card)]">
+              <div key={entry.id} className="card-3d rounded-2xl p-4 shadow-[var(--shadow-card)]">
                 <button
                   onClick={() => setExpandedId(isExpanded ? null : entry.id)}
                   aria-label="Action"

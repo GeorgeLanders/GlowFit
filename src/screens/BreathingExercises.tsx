@@ -93,7 +93,7 @@ export default function BreathingExercises() {
       <h1 className="text-3xl font-serif text-rose-900">Breathe</h1>
 
       {/* Breathing Circle */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 p-8 shadow-[var(--shadow-card)] flex flex-col items-center">
+      <div className="card-3d rounded-2xl p-8 shadow-[var(--shadow-card)] flex flex-col items-center">
         {selected && isActive ? (
           <>
             <div
@@ -130,7 +130,7 @@ export default function BreathingExercises() {
             key={p.name}
             onClick={() => { setSelected(p); reset(); }}
             aria-label={`Select ${p.name} breathing pattern`}
-            className={`w-full text-left bg-white/70 backdrop-blur-sm rounded-2xl border p-4 shadow-[var(--shadow-card)] transition-all ${
+            className={`w-full text-left card-3d rounded-2xl border p-4 shadow-[var(--shadow-card)] transition-all ${
               selected?.name === p.name ? 'border-rose-300 ring-2 ring-rose-200' : 'border-white/40'
             }`}
           >
