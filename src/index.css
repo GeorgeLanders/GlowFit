@@ -137,6 +137,29 @@ html:not(.dark) .text-rose-400 {
 .dark ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); }
 
 /* ═══════════════════════════════════════════════════════════════════
+   Typography
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Playfair Display is a high-contrast display serif. Until the fonts were
+   actually bundled it was rendering as the Georgia fallback, which is much
+   wider and lower-contrast. Now that it loads for real it needs slightly
+   tighter tracking and line-height, or 58 headings read loose and untidy.
+   Unlayered, so it layers cleanly on top of the font-serif utility without
+   fighting it (the utility only sets font-family). */
+.font-serif {
+  letter-spacing: -0.015em;
+  line-height: 1.18;
+}
+
+/* Stat values update as the user logs food and water. Proportional digits make
+   those numbers visibly jitter sideways on every change, so lock the metrics
+   to fixed-width figures. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    Premium surface system — iridescent gradients, gloss, depth
    Gives the "dimensional / holographic" look without a 3D engine:
    layered gradients + specular highlights + directional colored shadow.

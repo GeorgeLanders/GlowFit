@@ -69,7 +69,7 @@ function NavCard({ icon: Icon, label, value, unit, color, screen, index }: {
         </div>
         <div>
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-300">{label}</p>
-          <p className="text-lg font-bold text-slate-800 dark:text-white">
+          <p className="text-lg font-bold text-slate-800 dark:text-white tnum">
             {value}{unit && <span className="text-xs font-normal text-slate-400 dark:text-slate-400 ml-1">{unit}</span>}
           </p>
         </div>
