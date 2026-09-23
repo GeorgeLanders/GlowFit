@@ -18,13 +18,13 @@ export default function Nutrition() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-serif text-rose-900">Nutrition</h1>
-        <div className="flex gap-2">
+      <div className="flex items-center justify-between gap-3">
+        <h1 className="text-2xl font-serif text-rose-900 min-w-0 truncate">Nutrition</h1>
+        <div className="flex gap-2 shrink-0">
           <button
             onClick={() => pushScreen('meal-planner')}
             aria-label="Action"
-            className="flex items-center gap-1.5 bg-orange-500 text-white px-3 py-2 rounded-xl text-sm font-bold hover:bg-orange-600 transition-colors active:scale-95"
+            className="flex items-center gap-1.5 bg-amber-500 text-white px-3 py-2 rounded-xl text-sm font-bold hover:bg-amber-600 transition-colors active:scale-95"
           >
             <UtensilsCrossed className="w-4 h-4" /> Meals
           </button>
