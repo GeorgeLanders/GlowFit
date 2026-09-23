@@ -199,6 +199,16 @@ async function main() {
   await render(featureHtml(theme, path.join(rawDir, '1-dashboard.png')),
     path.join(OUT, `feature-graphic-${theme}.png`), 1024, 500);
 
+  // Play Console's upload slot expects feature-graphic.png (1024x500), not the
+  // themed filenames. Dark is the store listing graphic; light stays as a variant.
+  if (theme === 'dark') {
+    fs.copyFileSync(
+      path.join(OUT, 'feature-graphic-dark.png'),
+      path.join(OUT, 'feature-graphic.png'),
+    );
+    console.log('store-assets/feature-graphic.png');
+  }
+
   await browser.close();
 }
 
