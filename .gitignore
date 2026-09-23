@@ -37,3 +37,10 @@ keystore.properties
 # Build artifacts - regenerable, never commit
 *.apk
 *.aab
+
+# store-assets/raw-* are the unedited captures produced by capture-screenshots.cjs
+# (it needs a local dist/ build, which is ignored too). They are inputs to
+# build-store-assets.cjs only, so the framed screenshots and feature graphics in
+# store-assets/phone/ and store-assets/feature-graphic-*.png are what is tracked.
+store-assets/raw-dark/
+store-assets/raw-light/
