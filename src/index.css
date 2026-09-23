@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+/* The app toggles a .dark class on <html> (see useDarkMode), but Tailwind v4's
+   built-in dark: variant keys off prefers-color-scheme instead. Without this,
+   all 272 dark: utilities in the codebase ignore the in-app theme toggle: the
+   hand-written .dark rules and the CSS variables would go dark while every
+   dark:text-* / dark:bg-* / dark:border-* stayed light. Picking Dark while the
+   OS was light produced a half-applied theme, and it also meant the toggle did
+   not fully work in either direction. Binding the variant to the class makes
+   the class the single source of truth, which is what useDarkMode already does.
+   Must come after the Tailwind import. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ═══════════════════════════════════════════════════════════════════
    GlowFit Design Tokens — Lavender & Hot Pink Glass Theme
    Matches GlowFit Website (glowfit.pages.dev / glowfit.html)
@@ -133,6 +144,21 @@
    cards, where it is effectively invisible, so step it up to rose-500. */
 html:not(.dark) .text-rose-400 {
   color: var(--color-rose-500);
+}
+
+/* About 300 elements across the app set a light-mode-only text colour with no
+   dark: counterpart — slate-800 is #1e293b and rose-900 is #4c1d95, both all
+   but invisible on the dark page. Mapping them in dark mode here is deliberate
+   over hand-editing 300 call sites across 57 screens. Verified that every
+   dark:text-* value already paired with these classes is a neutral
+   slate-100/200/300 or rose-200/300, so nothing deliberately coloured is lost. */
+.dark .text-slate-600,
+.dark .text-slate-700,
+.dark .text-slate-800 {
+  color: #e2e8f0;
+}
+.dark .text-rose-900 {
+  color: var(--color-rose-300);
 }
 .dark ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); }
 
