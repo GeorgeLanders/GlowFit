@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!--
+      Backup and device-to-device transfer are deliberately OFF. Health data
+      (GLP-1 dosing, weight, nutrition, sleep, progress photos) lives in
+      app-private storage, and the WebView's localStorage - which holds the
+      zustand store - would otherwise ride along into Google Drive or onto a new
+      phone. The privacy policy claims this data stays on the device.
+
+      All three attributes are required, not just allowBackup: from API 31
+      allowBackup="false" disables cloud backup but on some OEM devices does not
+      disable device-to-device transfer, and fullBackupContent rules never affect
+      D2D at all. dataExtractionRules covers API 31+, fullBackupContent covers
+      API 30 and below. See res/xml/data_extraction_rules.xml for the details.
+    -->
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
+        android:fullBackupContent="@xml/backup_rules"
+        android:dataExtractionRules="@xml/data_extraction_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Backup and transfer rules for Android 12 (API 31) and above.
+  Referenced by android:dataExtractionRules in AndroidManifest.xml.
+
+  GlowFit keeps GLP-1 dosing, weight, nutrition, sleep and progress photos in
+  app-private storage. That is the most sensitive data the app holds, it never
+  leaves the device by design, and the privacy policy says so. Every domain is
+  therefore excluded from both channels: cloud backup to Google Drive, and
+  device-to-device transfer.
+
+  allowBackup="false" on its own is NOT enough here. It disables cloud backup for
+  apps targeting API 31+, but Google's docs are explicit that on some OEM devices
+  it does not disable device-to-device transfer, and that legacy fullBackupContent
+  rules never affect D2D at all. So both files exist: this one covers API 31+, and
+  backup_rules.xml covers API 30 and below (minSdk here is 26).
+
+  Every domain is listed at its root because include and exclude each require a
+  path. <cross-platform-transfer> (iOS, new in Android 16 QPR2) is deliberately
+  absent: there is no iOS build, so nothing should ever transfer.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="root" path="." />
+        <exclude domain="file" path="." />
+        <exclude domain="database" path="." />
+        <exclude domain="sharedpref" path="." />
+        <exclude domain="external" path="." />
+        <exclude domain="device_root" path="." />
+        <exclude domain="device_file" path="." />
+        <exclude domain="device_database" path="." />
+        <exclude domain="device_sharedpref" path="." />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="root" path="." />
+        <exclude domain="file" path="." />
+        <exclude domain="database" path="." />
+        <exclude domain="sharedpref" path="." />
+        <exclude domain="external" path="." />
+        <exclude domain="device_root" path="." />
+        <exclude domain="device_file" path="." />
+        <exclude domain="device_database" path="." />
+        <exclude domain="device_sharedpref" path="." />
+    </device-transfer>
+</data-extraction-rules>
