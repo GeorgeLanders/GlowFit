@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Permissions must come before <application>: lint's ManifestOrder check
+         flags <uses-permission> tags that appear after it. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <!--
       Backup and device-to-device transfer are deliberately OFF. Health data
       (GLP-1 dosing, weight, nutrition, sleep, progress photos) lives in
@@ -14,13 +18,18 @@
       D2D at all. dataExtractionRules covers API 31+, fullBackupContent covers
       API 30 and below. See res/xml/data_extraction_rules.xml for the details.
     -->
+    <!-- No android:roundIcon here. It only applies to launchers on API 25 and below,
+         and minSdk is 26. On 26+ the launcher takes the adaptive icon from
+         @mipmap/ic_launcher and applies its own mask, so ic_launcher_round was
+         unreachable - and the PNGs were byte-identical to ic_launcher.png anyway
+         (lint: IconLauncherShape x5, IconDuplicates x5). The files are deleted
+         rather than kept in sync, since nothing can reach them. -->
     <application
         android:allowBackup="false"
         android:fullBackupContent="@xml/backup_rules"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -49,8 +58,4 @@
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
     </application>
-
-    <!-- Permissions -->
-
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

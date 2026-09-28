@@ -3,5 +3,9 @@
     <string name="app_name">GlowFit</string>
     <string name="title_activity_main">GlowFit</string>
     <string name="package_name">com.georgelanders.glowfit</string>
-    <string name="custom_url_scheme">com.georgelanders.glowfit</string>
+    <!-- custom_url_scheme was Capacitor boilerplate for deep links and nothing
+         references it (lint: UnusedResources), so it is gone. package_name is
+         also unused at runtime - build.gradle's applicationId is authoritative -
+         but it is kept deliberately because MainActivity.java names it as one of
+         the values to keep in sync across the four package declarations. -->
 </resources>
