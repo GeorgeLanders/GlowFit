@@ -115,14 +115,18 @@ const categoryColors: Record<string, string> = {
 
 export default function MemoryInsights() {
   const popScreen = useGlowFitStore((s) => s.popScreen);
-  const store = useGlowFitStore();
   const [insights, setInsights] = useState<MemoryInsight[]>([]);
   const [generating, setGenerating] = useState(true);
 
+  // Runs once on mount to fake a short "analysing" pass. It reads the store via
+  // getState() at fire time rather than capturing it in the closure, which keeps
+  // the empty dependency list honest and drops the full-store subscription this
+  // screen never otherwise used - that subscription re-rendered the component on
+  // every unrelated store change.
   useEffect(() => {
     setGenerating(true);
     const timer = setTimeout(() => {
-      setInsights(generateInsights(store));
+      setInsights(generateInsights(useGlowFitStore.getState()));
       setGenerating(false);
     }, 1500);
     return () => clearTimeout(timer);

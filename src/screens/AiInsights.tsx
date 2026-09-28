@@ -117,22 +117,31 @@ function generateInsights(state: any): Insight[] {
 }
 
 export default function AiInsights() {
-  const store = useGlowFitStore();
+  // Subscribe to just the slices the insight generator reads. The previous version
+  // took the whole store and passed it in, so the effect's dependency list named
+  // the five slices but the hook linter could not verify that - and the
+  // whole-store subscription also re-rendered this screen on unrelated state
+  // changes such as the active tab.
+  const workouts = useGlowFitStore((s) => s.workouts);
+  const waterLogs = useGlowFitStore((s) => s.waterLogs);
+  const calorieLogs = useGlowFitStore((s) => s.calorieLogs);
+  const sleepLogs = useGlowFitStore((s) => s.sleepLogs);
+  const weightLogs = useGlowFitStore((s) => s.weightLogs);
   const popScreen = useGlowFitStore((s) => s.popScreen);
   const [insights, setInsights] = useState<Insight[]>([]);
   const [aiInsight, setAiInsight] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
 
   useEffect(() => {
-    setInsights(generateInsights(store));
-  }, [store.workouts, store.waterLogs, store.calorieLogs, store.sleepLogs, store.weightLogs]);
+    setInsights(generateInsights({ workouts, waterLogs, calorieLogs, sleepLogs, weightLogs }));
+  }, [workouts, waterLogs, calorieLogs, sleepLogs, weightLogs]);
 
   const generateAiInsight = async () => {
     haptics.medium();
     setAiLoading(true);
     track('ai_insights_generate');
     try {
-      const summary = `Workouts this week: ${store.workouts.length}, Water: ${store.waterLogs.reduce((s: number, w: any) => s + w.amountMl, 0)}ml, Calories logged: ${store.calorieLogs.length}, Sleep entries: ${store.sleepLogs.length}, Weight entries: ${store.weightLogs.length}`;
+      const summary = `Workouts this week: ${workouts.length}, Water: ${waterLogs.reduce((s: number, w: any) => s + w.amountMl, 0)}ml, Calories logged: ${calorieLogs.length}, Sleep entries: ${sleepLogs.length}, Weight entries: ${weightLogs.length}`;
       const aiConfig = useGlowFitStore.getState().aiConfig;
       const content = await chatCompletion([
         { role: 'system', content: 'You are a fitness data analyst. Given the user\'s recent activity data, provide 2-3 personalized, actionable insights in 2-3 short paragraphs. Be encouraging and specific.' },
