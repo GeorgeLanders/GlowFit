@@ -1,7 +1,13 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.glowfit.app',
+  // NOTE: this must stay in sync with `applicationId` + `namespace` in
+  // android/app/build.gradle and `package_name` in res/values/strings.xml.
+  // It was originally com.glowfit.app, which is permanently owned by another
+  // developer on Google Play ("GlowFit: Makeup & Style AI", Málaga, ES), so
+  // Play Console rejected the upload with "package name is already in use".
+  // Play package names are global and can never be reclaimed.
+  appId: 'com.georgelanders.glowfit',
   appName: 'GlowFit',
   webDir: 'dist',
   server: {

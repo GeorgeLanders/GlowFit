@@ -1,8 +1,16 @@
 # GlowFit — Google Play Closed Testing & Store Readiness Audit
 
 Last updated: September 28, 2026
-App: **GlowFit** (`com.glowfit.app`)
+App: **GlowFit** (`com.georgelanders.glowfit`)
 Target: Google Play Closed Testing Track (Alpha) & Production Access (12 testers for 14 continuous days)
+
+> **Package name changed 2026-09-28.** The app was built as `com.glowfit.app`,
+> which Google Play Console rejected with *"This package name is already in use."*
+> That ID is permanently owned by another developer — **GlowFit: Makeup & Style
+> AI** by Sorin Constantin Ciornei (Málaga, Spain). Play package names are
+> global and are never released, so a new ID was required. All references
+> (`capacitor.config.ts`, `android/app/build.gradle`, `res/values/strings.xml`,
+> `MainActivity.java`) now use `com.georgelanders.glowfit`.
 
 ---
 

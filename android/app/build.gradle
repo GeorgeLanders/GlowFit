@@ -1,10 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "com.glowfit.app"
+    namespace = "com.georgelanders.glowfit"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.glowfit.app"
+        // Must match `appId` in capacitor.config.ts and `package_name` in
+        // res/values/strings.xml. Was com.glowfit.app, which another developer
+        // permanently owns on Play; Play rejected the name as already in use.
+        applicationId "com.georgelanders.glowfit"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

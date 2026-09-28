@@ -21,6 +21,9 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.getcapacitor.app", appContext.getPackageName());
+        // Must match `applicationId` in android/app/build.gradle. This assertion
+        // read "com.getcapacitor.app" (stale template value) and would have failed
+        // against any real build of this app.
+        assertEquals("com.georgelanders.glowfit", appContext.getPackageName());
     }
 }

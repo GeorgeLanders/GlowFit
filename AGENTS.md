@@ -1,6 +1,14 @@
 # AGENTS.md — GlowFit
 
-Capacitor + React 19 + Vite 8 + Tailwind v4 + Zustand app (`com.glowfit.app`). Web build in `dist/`, Android shell in `android/`, backend in `cloudflare-worker/`.
+Capacitor + React 19 + Vite 8 + Tailwind v4 + Zustand app (`com.georgelanders.glowfit`). Web build in `dist/`, Android shell in `android/`, backend in `cloudflare-worker/`.
+
+> The package name was `com.glowfit.app` until 2026-09-28. Google Play rejected it:
+> that ID is permanently owned by another developer ("GlowFit: Makeup & Style AI",
+> Sorin Constantin Ciornei, ES). Play package names are global and never released,
+> so the ID had to change. `appId` (capacitor.config.ts), `applicationId` +
+> `namespace` (android/app/build.gradle), `package_name` (res/values/strings.xml),
+> and `MainActivity.java`'s package must all move together.
+
 
 ## Commands
 
