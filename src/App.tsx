@@ -9,6 +9,7 @@ import { track } from './lib/analytics';
 import BottomNav from './components/BottomNav';
 import { OfflineBanner } from './components/OfflineBanner';
 import { QuickAddFab } from './components/QuickAddFab';
+import { BrandHeader } from './components/BrandHeader';
 
 // Main tab screens
 import Dashboard from './screens/Dashboard';
@@ -257,6 +258,7 @@ function AppContent() {
           transition={pageTransition}
           className="max-w-lg mx-auto px-4 pb-20 pt-4"
         >
+          <BrandHeader />
           {MAIN_SCREENS[activeTab] ?? <Dashboard />}
         </motion.main>
       </AnimatePresence>

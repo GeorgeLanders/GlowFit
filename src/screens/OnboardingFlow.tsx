@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { useGlowFitStore } from '../lib/store';
 import type { Profile } from '../types';
+import { BrandMark } from '../components/BrandMark';
 
 // ─── Constants ────────────────────────────────────────────────────
 
@@ -281,13 +282,15 @@ export function OnboardingFlow({
   function renderWelcome() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
-        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-200 to-pink-300 flex items-center justify-center mb-8 shadow-lg">
-          <Sparkles className="w-12 h-12 text-white" />
-        </div>
+        <BrandMark className="w-24 h-24 mb-8 drop-shadow-[0_10px_30px_rgba(206,136,247,0.45)]" />
         <h1 className="text-5xl font-bold text-rose-900 mb-3 tracking-tight">
           GlowFit
         </h1>
-        <p className="text-lg text-rose-700/80 mb-12 max-w-sm">
+        {/* text-rose-700 (#7C3AED) has no dark-mode remap in index.css, so on the
+            dark welcome gradient it measured 2.4:1; rose-300/80 lifts it to 6.9:1
+            while staying a step below the rose-900 title. The light-mode /80 was
+            also short at 3.7:1, so light uses full-opacity rose-700 (5.2:1). */}
+        <p className="text-lg text-rose-700 dark:text-rose-300/80 mb-12 max-w-sm">
           Your personalized fitness companion
         </p>
         <button
@@ -766,7 +769,7 @@ export function OnboardingFlow({
   // ── Main Render ───────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50/70 via-pink-50/60 to-rose-50/70">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50/70 via-pink-50/60 to-rose-50/70 dark:from-violet-950/40 dark:via-rose-950/30 dark:to-rose-950/40">
       {/* Header: Back (flow, never overlaps content) + step dots */}
       {step > 0 && (
         <div className="flex items-center px-5 pt-12 pb-4">
