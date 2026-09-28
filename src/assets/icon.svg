@@ -1,53 +1,85 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- GlowFit launcher icon — mark only, no wordmark (Play/PWA rule: icons
+       must not contain text). Colors from src/index.css: cyan #28D9F1,
+       lavender #CE88F7, pink #F569B8, magenta #C026D3, violet #7C3AED,
+       dark #1A102F. Replaces the old lotus icon. -->
   <defs>
-    <linearGradient id="lbg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0B1B2A"/>
-      <stop offset="1" stop-color="#060D16"/>
+    <linearGradient id="tileBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#241543"/>
+      <stop offset="0.55" stop-color="#1A102F"/>
+      <stop offset="1" stop-color="#100A1F"/>
     </linearGradient>
-    <linearGradient id="lring" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#22D3EE"/>
-      <stop offset="0.55" stop-color="#818CF8"/>
-      <stop offset="1" stop-color="#A855F2"/>
-    </linearGradient>
-    <linearGradient id="gCenter" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0" stop-color="#2DD4BF"/>
-      <stop offset="1" stop-color="#38BDF8"/>
-    </linearGradient>
-    <linearGradient id="gInner" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0" stop-color="#4ADE80"/>
-      <stop offset="1" stop-color="#2DD4BF"/>
-    </linearGradient>
-    <linearGradient id="gOuter" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0" stop-color="#A3E635"/>
-      <stop offset="1" stop-color="#4ADE80"/>
-    </linearGradient>
-    <radialGradient id="lhalo" cx="0.5" cy="0.55" r="0.55">
-      <stop offset="0" stop-color="#22D3EE" stop-opacity="0.22"/>
-      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.62">
+      <stop offset="0" stop-color="#CE88F7" stop-opacity="0.30"/>
+      <stop offset="0.55" stop-color="#7C3AED" stop-opacity="0.13"/>
+      <stop offset="1" stop-color="#7C3AED" stop-opacity="0"/>
     </radialGradient>
-    <filter id="lringGlow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="7" result="b"/>
-      <feMerge>
-        <feMergeNode in="b"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
+    <linearGradient id="orbit" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#28D9F1"/>
+      <stop offset="0.45" stop-color="#CE88F7"/>
+      <stop offset="0.75" stop-color="#C026D3"/>
+      <stop offset="1" stop-color="#F569B8"/>
+    </linearGradient>
+    <linearGradient id="blade" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#28D9F1"/>
+      <stop offset="0.6" stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#C026D3"/>
+    </linearGradient>
+    <linearGradient id="leg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C026D3"/>
+      <stop offset="1" stop-color="#F569B8"/>
+    </linearGradient>
+    <linearGradient id="headG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8AF0FF"/>
+      <stop offset="1" stop-color="#28D9F1"/>
+    </linearGradient>
+    <linearGradient id="starG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.5" stop-color="#8AF0FF"/>
+      <stop offset="1" stop-color="#F569B8"/>
+    </linearGradient>
+    <filter id="neon" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <path id="petal" d="M 0 0 C -42 -60, -42 -140, 0 -190 C 42 -140, 42 -60, 0 0 Z"/>
+    <filter id="neonSoft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <path id="star" d="M0,-24 L5.72,-7.91 L22.81,-7.41 L9.29,3.02 L14.10,19.35 L0,9.76 L-14.10,19.35 L-9.29,3.02 L-22.81,-7.41 L-5.72,-7.91 Z"/>
+
+    <!-- The mark itself, shared by tile icon and adaptive foreground -->
+    <g id="mark">
+      <path d="M 366.9 189.6 A 118 118 0 1 1 296.3 120.1"
+            fill="none" stroke="url(#orbit)" stroke-width="15" stroke-linecap="round"
+            filter="url(#neon)"/>
+      <circle cx="247" cy="155" r="15" fill="url(#headG)" filter="url(#neonSoft)"/>
+      <g filter="url(#neonSoft)">
+        <path d="M 232 178 C 218 235, 242 292, 292 326 C 266 288, 252 243, 262 182 Z"
+              fill="url(#blade)"/>
+        <path d="M 244 246 C 228 276, 214 300, 202 320 C 226 314, 246 290, 258 264 Z"
+              fill="url(#leg)"/>
+      </g>
+      <path d="M 268 232 C 292 212, 316 184, 336 152"
+            fill="none" stroke="url(#orbit)" stroke-width="9" stroke-linecap="round"
+            filter="url(#neonSoft)"/>
+      <g transform="translate(344 122) scale(1.05)" filter="url(#neon)">
+        <use href="#star" fill="url(#starG)"/>
+        <use href="#star" fill="none" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="1.5"/>
+      </g>
+    </g>
   </defs>
 
-  <!-- Background -->
-  <rect width="512" height="512" rx="112" fill="url(#lbg)"/>
-  <rect width="512" height="512" rx="112" fill="url(#lhalo)"/>
+  <!-- Tile -->
+  <rect width="512" height="512" rx="112" fill="url(#tileBg)"/>
+  <rect width="512" height="512" rx="112" fill="url(#halo)"/>
+  <rect x="1.5" y="1.5" width="509" height="509" rx="110.5" fill="none"
+        stroke="#CE88F7" stroke-opacity="0.35" stroke-width="3"/>
+  <rect x="7" y="7" width="498" height="498" rx="106" fill="none"
+        stroke="#28D9F1" stroke-opacity="0.14" stroke-width="2"/>
 
-  <!-- Neon ring -->
-  <circle cx="256" cy="256" r="196" fill="none" stroke="url(#lring)" stroke-width="12" filter="url(#lringGlow)"/>
-
-  <!-- Lotus -->
-  <g transform="translate(256,372)">
-    <use href="#petal" transform="rotate(-64) scale(0.85)" fill="url(#gOuter)"/>
-    <use href="#petal" transform="rotate(64) scale(0.85)" fill="url(#gOuter)"/>
-    <use href="#petal" transform="rotate(-32)" fill="url(#gInner)"/>
-    <use href="#petal" transform="rotate(32)" fill="url(#gInner)"/>
-    <use href="#petal" fill="url(#gCenter)"/>
+  <!-- Mark: scaled 1.25 about (256,230) then shifted +26y to sit centered -->
+  <g transform="translate(0,26) translate(256,230) scale(1.25) translate(-256,-230)">
+    <use href="#mark"/>
   </g>
 </svg>

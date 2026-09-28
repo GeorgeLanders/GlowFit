@@ -15,12 +15,36 @@ async function githubFetch(path, env, options = {}) {
   return res;
 }
 
+// base64 -> raw bytes. NEVER hand a decoded *string* to Response(): it gets
+// UTF-8-encoded, inflating every byte >= 0x80 (PNG magic 0x89 became 0xC2 0x89,
+// which destroyed the signature and made every photo undecodable).
+function base64ToBytes(b64) {
+  const bin = atob(b64.replace(/\s+/g, '')); // GitHub wraps base64 in newlines
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes;
+}
+
 async function getFile(userId, type, filename, env) {
   const path = `${userId}/${type}/${filename}`;
   const res = await githubFetch(`/repos/${GITHUB_REPO}/contents/${path}`, env);
   if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`GitHub contents ${res.status} for ${path}`);
   const data = await res.json();
-  return { ...data, content: atob(data.content), path: data.path };
+  if (Array.isArray(data)) return null; // a directory, not a file
+
+  // The contents API only embeds `content` up to 1 MB. Files of 1-100 MB come
+  // back as content: "" / encoding: "none", and atob("") would silently serve a
+  // 0-byte photo with HTTP 200. The blob API always returns base64 (up to 100MB).
+  let b64 = data.content;
+  if (!b64 && data.size > 0) {
+    if (!data.sha) throw new Error(`GitHub returned neither content nor sha for ${path}`);
+    const blobRes = await githubFetch(`/repos/${GITHUB_REPO}/git/blobs/${data.sha}`, env);
+    if (!blobRes.ok) throw new Error(`GitHub blob ${blobRes.status} for ${path}`);
+    b64 = (await blobRes.json()).content;
+  }
+
+  return { content: base64ToBytes(b64 || ''), path: data.path };
 }
 
 async function saveFile(userId, type, filename, base64Data, env, message) {
@@ -86,8 +110,24 @@ export default {
       'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-User-Id',
     };
     
-    // Auth: require API key for write operations (upload, delete, sync push, cache set)
-    const userId = request.headers.get('X-User-Id') || 'default';
+    // Identity: every request must carry the caller's own per-install ID. There
+    // is deliberately NO fallback. This previously defaulted to the literal
+    // string 'default', which put every install on earth in one storage
+    // partition — one caller could list and read another's progress photos.
+    // A missing or malformed ID is now rejected rather than silently shared.
+    const rawUserId = (request.headers.get('X-User-Id') || '').trim();
+    const DEVICE_ID_PATTERN = /^[A-Za-z0-9_-]{8,64}$/;
+    const userId =
+      DEVICE_ID_PATTERN.test(rawUserId) && rawUserId !== 'default' ? rawUserId : '';
+    const isHealthCheck = url.pathname === '/api/health';
+
+    if (!userId && !isHealthCheck) {
+      return new Response(JSON.stringify({ error: 'Missing or invalid X-User-Id header' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     const authHeader = request.headers.get('Authorization');
     const apiKey = env.API_KEY; // Set via wrangler secret put API_KEY
 
