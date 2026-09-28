@@ -49,13 +49,40 @@ All binaries and store assets are compiled and ready on your local workstation:
 
 ### App Name (max 30 characters)
 ```text
-GlowFit - AI Fitness & Health
+GlowFit: GLP-1 Muscle Guard
 ```
+(27 characters — fits with room to spare.)
+
+> Console tip: the App name box reported "30 / 30" for a title that is only 29
+> characters ("GlowFit - AI Fitness & Health"). That means a stray trailing space
+> is sitting in the box. Clear the field and retype, or Play may store the title
+> with invisible padding.
+
+**Why the title changed on 2026-09-28.** It was `GlowFit - AI Fitness & Health`.
+Play allows two apps to share a display name, but the Impersonation policy bans
+titles "so similar to those of existing products or services that users may be
+misled." A third-party developer already ships **GlowFit: Makeup & Style AI**
+(Málaga, ES), and the `GlowFit` name is further crowded by `glowfit.app` (a
+different dev again) and iOS apps of the same name. Adding a functional
+descriptor does three things:
+
+- It reads unmistakably as a different product from a makeup app.
+- It front-loads the two search terms buyers actually type (`GLP-1`, `muscle`).
+- It costs nothing. The store title is editable at any time and is not tied to
+  the permanent package name.
+
+**The launcher label stays `GlowFit`** (`app_name` in
+`android/app/src/main/res/values/strings.xml`). That mismatch is deliberate and
+standard practice - Android truncates long launcher labels, and Play titles
+exist to be searched. Spotify, Netflix and others ship short launcher names
+with long store titles. Do not "fix" it.
 
 ### Short Description (max 80 characters)
 ```text
 GLP-1 fitness companion that protects your muscle - on and after the medication.
 ```
+(Exactly 80 of 80 characters - it fits, but with zero margin. If Console refuses
+it, fall back to `GLP-1 fitness companion that protects your muscle.` - 50 chars.)
 
 ### Full Description (max 4000 characters)
 ```text
