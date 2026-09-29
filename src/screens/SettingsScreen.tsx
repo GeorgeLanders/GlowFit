@@ -6,6 +6,7 @@ import { notifications } from '../lib/notifications';
 import { haptics } from '../lib/haptics';
 import { biometric } from '../lib/biometric';
 import { track } from '../lib/analytics';
+import { photos } from '../lib/api';
 import { isHealthSupported, requestHealthAccess, checkHealthAccess, syncTodayHealth, sleepTimesToday, openHealthConnectSettings, type HealthSyncSummary } from '../lib/health-connect';
 
 const ACTIVITY_LEVELS = ['sedentary', 'light', 'moderate', 'active', 'very_active'] as const;
@@ -23,6 +24,7 @@ export default function SettingsScreen() {
   const [goal, setGoal] = useState(profile.goal);
   const [gender, setGender] = useState(profile.gender);
   const [saved, setSaved] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [biometricInfo, setBiometricInfo] = useState<{ available: boolean; strong: boolean; type: string }>({ available: false, strong: false, type: 'None' });
   const [biometricEnabled, setBiometricEnabled] = useState(false);
   const [healthSupport, setHealthSupport] = useState<{ available: boolean; reason?: string } | null>(null);
@@ -104,11 +106,52 @@ export default function SettingsScreen() {
     setTimeout(() => setSaved(false), 2000);
   };
 
-  const clearAllData = () => {
-    if (window.confirm('Are you sure? This will delete ALL your data.')) {
-      localStorage.clear();
-      window.location.reload();
+  // The device ID is what the backend keys every upload to, and it lives in
+  // localStorage (see lib/device-id.ts). Wiping local storage first would orphan
+  // the uploaded photos in R2 permanently, so the server-side copies have to be
+  // deleted before the wipe. `failed` stays null when the backend is unreachable,
+  // which is not the same thing as "everything was deleted".
+  const clearAllData = async () => {
+    if (!window.confirm(
+      'Delete ALL your data?\n\nThis removes the data on this device and the progress photos and food photos stored on our servers. This cannot be undone.'
+    )) return;
+
+    setDeleting(true);
+    haptics.medium();
+
+    let failed: number | null = null;
+    try {
+      const [progress, food] = await Promise.all([
+        photos.list('progress'),
+        photos.list('food'),
+      ]);
+      const results = await Promise.all(
+        [...progress, ...food].map((p) =>
+          photos.remove(p.key).then(() => true).catch(() => false)
+        )
+      );
+      failed = results.filter((ok) => !ok).length;
+    } catch {
+      failed = null;
     }
+
+    if (failed !== 0) {
+      const detail = failed === null
+        ? 'We could not reach our servers to delete your stored photos.'
+        : `We could not delete ${failed} of your stored photos.`;
+      const proceed = window.confirm(
+        `${detail}\n\nYou can still erase the data on this device, but the server-side copies may remain. Email glowfit.app@gmail.com and we will remove them.\n\nErase this device anyway?`
+      );
+      if (!proceed) {
+        haptics.light();
+        setDeleting(false);
+        return;
+      }
+    }
+
+    haptics.success();
+    localStorage.clear();
+    window.location.reload();
   };
 
   return (
@@ -312,12 +355,15 @@ export default function SettingsScreen() {
         </div>
         <button
           onClick={clearAllData}
-          aria-label="Action"
-          className="w-full flex items-center justify-center gap-2 bg-red-50 text-red-500 py-3 rounded-xl font-bold text-sm hover:bg-red-100 active:scale-[0.98] transition-all"
+          disabled={deleting}
+          aria-label="Delete all data including stored photos"
+          className="w-full flex items-center justify-center gap-2 bg-red-50 text-red-500 py-3 rounded-xl font-bold text-sm hover:bg-red-100 active:scale-[0.98] transition-all disabled:opacity-50"
         >
-          <Trash2 className="w-4 h-4" /> Delete All Data
+          <Trash2 className="w-4 h-4" /> {deleting ? 'Deleting…' : 'Delete All Data'}
         </button>
-        <p className="text-xs text-slate-400 text-center">All data is stored locally on your device</p>
+        <p className="text-xs text-slate-400 text-center">
+          Health and fitness data stays on this device. Photos you save are stored on our servers until you delete them here.
+        </p>
       </div>
     </div>
   );
